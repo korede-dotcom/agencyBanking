@@ -1,0 +1,187 @@
+.modal, .overlay{
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+}
+
+.overlay{
+    background-color: rgba(49, 49, 49, 0.3);
+    z-index: 1000;
+    transition: linear .3s;
+}
+
+.contain{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.479);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.modal-content{
+    position: absolute;
+    background-color: white;
+    width: 60rem;
+    height: fit-content;
+    top: -30%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    padding: 3rem;
+    border-radius: .5rem;
+    color: black;
+}
+.modal-content-sec1{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-content-payment-method-input-div aside{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #868fa0;
+}
+.modal-content-payment-method-input-div aside input{
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: .8rem;
+}
+.modal-content-payment-method-input-div aside button{
+    position: relative;
+   cursor: pointer;
+   border: none;
+   outline: none;
+   background-color: white;
+   font-size: .9rem;
+   /* font-weight: 800; */
+}
+.modal-content-payment-method-dropdown-content{
+    width: 100%;
+    padding: .8rem;
+}
+.modal-content-payment-method-dropdown-content:hover{
+    background-color: rgba(6, 6, 248, 0.2);
+    cursor: pointer;
+}
+.modal-content-payment-method-dropdown{
+    border: #868fa0 1px solid;
+    background-color: white;
+    position: absolute;
+    width: 90%;
+    border-radius: 0 0 .4rem .4rem;
+    user-select: none;
+}
+
+.modal-content-payment-method-input-div2{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5rem;
+}
+.sub-modal-content-payment-method-input-div2{
+    width: 48%;
+}
+.sub-modal-content-payment-method-input-div2 input{
+    width: 100%;
+    padding: .7rem;
+    font-size: .8rem;
+    border-radius: .4rem;
+    border: #868fa0 1px solid ;
+}
+.modal-content-payment-method-submit button{
+    width: 100%;
+    padding: .7rem;
+    border: none;
+    background-color: #1b59f8;
+    color: white;
+    font-weight: 500;
+    margin-top: 2rem;
+    border-radius: .3rem;
+}
+.modal-content-payment-method label{
+    padding-bottom: .5rem;
+    font-weight: 600;
+}
+
+.modal-content-sec1 button{
+    border: none;
+    background-color: white;
+    font-weight: 700;
+}
+
+.body-active-modal{
+    overflow-y: hidden;
+}
+
+.modal-content-add-agent{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.sub-modal-content-add-agent{
+    width: 48%;
+    padding-top: 1.2rem;
+    color: black;
+}
+.sub-modal-content-add-agent label{
+    color: black;
+}
+.sub-modal-content-add-agent input{
+    width: 100%;
+    padding: .7rem;
+    border-radius: .4rem;
+    border: #868fa0 1px solid;
+    outline: none;
+}
+
+.sub-modal-content-add-agent input::placeholder{
+    color: #cacccf;
+    font-size: .7rem;
+}
+.sub-modal-content-add-agent button{
+    width: 100%;
+    background-color: #1b59f8;
+    border: none;
+    color: white;
+    padding: .7rem;
+    border-radius: .4rem;
+    font-size: 1rem;
+    font-weight: 600;
+}
+.sub-eachagent-myservice-body-addnew button{
+    border: none;
+    background-color: white;
+}
+
+.modal-content1{
+    position: absolute;
+    width: 21.6%;
+    top: 14%;
+    bottom: 0;
+    left: 18%;
+    right: 0;
+    background-color: white;
+    height: fit-content;
+    border-radius: .4rem;
+    padding: .7rem;
+}
+.modal-content22{
+    position: absolute;
+    width: 22%;
+    top: 14%;
+    bottom: 0;
+    left: 40%;
+    right: 0;
+    background-color: white;
+    height: fit-content;
+    border-radius: .4rem;
+    padding: .7rem ;
+}

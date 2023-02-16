@@ -1,0 +1,50 @@
+.sub-sidenav-section1 p{
+    margin: 0;
+    padding-left: .8rem;
+}
+.sub-sidenav-section1 div{
+    font-size: 1.1rem;
+    display: flex;
+}
+.sub-sidenav-section1{
+    display: flex;
+    margin-right: .5rem;
+    border-radius: 0 .4rem .4rem 0;
+    align-items: center;
+    justify-content: start;
+    color: #868fa0;
+    margin-bottom: .5rem;
+    padding: .5rem 0;
+    padding-left: .8rem;
+    cursor: pointer;
+    font-size: .8rem;
+    font-weight: 500;
+    border-left: .3rem solid white;
+}
+.skk{
+    border-left: #1b59f8 5px solid;
+    color: #1b59f8;
+    background-color: rgba(27, 89, 248, 0.1);
+
+}
+.sidenav{
+    width: 19%;
+    background-color: white;
+    padding-top: 6rem;
+    height: fit-content;
+    position: sticky;
+    top: 0;
+}
+.sidenav-section1{
+    padding-bottom: 4rem;
+    border-bottom: 1px solid #868fa0;
+}
+
+.sub-logout h6{
+    font-size:.9rem
+}
+
+/* nav a .active{
+    background-color: blue;
+} */
+
