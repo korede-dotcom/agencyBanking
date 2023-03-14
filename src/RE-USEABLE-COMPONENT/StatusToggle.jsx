@@ -1,18 +1,20 @@
 import React from "react";
-import { BsToggle2On, BsToggle2Off } from "react-icons/bs";
+// import { BsToggle2On, BsToggle2Off } from "react-icons/bs";
+import ToggleOff from "./pictures/toggleOff.svg";
+import ToggleOn from "./pictures/toggleOn.svg";
 
 function StatusToggle({ type }) {
   return (
     <>
       {type === "active" && (
         <button style={style1}>
-          <BsToggle2On />
+          <img src={ToggleOn} alt="" style={img} />
         </button>
       )}
 
       {type === "in-active" && (
         <button style={style2}>
-          <BsToggle2Off />
+          <img src={ToggleOff} alt="" style={img} />
         </button>
       )}
     </>
@@ -21,18 +23,22 @@ function StatusToggle({ type }) {
 
 export default StatusToggle;
 
+const img = {
+  width: "100%",
+};
+
 const style1 = {
-  color: "#6c96ff",
-  fontSize: "1.8rem",
+  alignItems: "start",
+  width: "35px",
   display: "flex",
   background: "none",
   border: "none",
 };
 
 const style2 = {
-  color: "#c4c4c4",
-  fontSize: "1.8rem",
+  width: "35px",
   display: "flex",
   background: "none",
   border: "none",
+  alignItems: "start",
 };

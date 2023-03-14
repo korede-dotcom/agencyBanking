@@ -3,46 +3,34 @@
 import "../index.css";
 import "./reporting.css";
 import SideNavbar from "./SideNavbar";
-// import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
-import { TbSelector } from "react-icons/tb";
 
 //pictures
-// import ProfilePicture from "../picture/pics1.jpg";
 import Table from "../Table/Table";
 import { MdFilterList } from "react-icons/md";
 import { HiOutlineDownload } from "react-icons/hi";
 import DashBoardData from "../Table/DashBoardData";
 import Navbar from "../RE-USEABLE-COMPONENT/Navbar";
-
-// import Aos from "aos";
-// import "aos/dist/aos.css";
-// import Modal from "./Modal";
+import ColumnSorting from "../RE-USEABLE-COMPONENT/ColumnSorting";
 
 const Reporting = () => {
-  //   const [isOpen, setIsOpen] = useState(false);
-
-  //   useEffect(() => {
-  //     Aos.init({ duration: 300 });
-  //   }, []);
-
   const columns = [
-    { field: "AGENT NAME", icon: <TbSelector />, header: "AGENT NAME" },
+    { field: "AGENT NAME", icon: <ColumnSorting />, header: "AGENT NAME" },
     { field: "AGENT ID", header: "AGENT ID" },
     {
       field: "RESPONSE MESSAGE",
-      icon: <TbSelector />,
+      icon: <ColumnSorting />,
       header: "RESPONSE MESSAGE",
     },
-    { field: "RESP CODE", icon: <TbSelector />, header: "RESP CODE" },
-    { field: "TRANS. TYPE", icon: <TbSelector />, header: "TRANS. TYPE" },
-    { field: "AMOUNT", icon: <TbSelector />, header: "AMOUNT" },
+    { field: "RESP CODE", icon: <ColumnSorting />, header: "RESP CODE" },
+    { field: "TRANS. TYPE", icon: <ColumnSorting />, header: "TRANS. TYPE" },
+    { field: "AMOUNT", icon: <ColumnSorting />, header: "AMOUNT" },
     { field: "EARNINGS", header: "EARNINGS" },
-    { field: "DATE", icon: <TbSelector />, header: "DATE" },
+    { field: "DATE", icon: <ColumnSorting />, header: "DATE" },
     { field: "STATUS", header: "STATUS" },
     {
       field: "TRANSACTION REF.  ",
-      icon: <TbSelector />,
+      icon: <ColumnSorting />,
       header: "TRANSACTION REF. ",
     },
   ];

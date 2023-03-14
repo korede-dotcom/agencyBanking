@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from "react";
 import Aos from "aos";
 import "aos/dist/aos.css";
+import axios from "axios";
 
-import "../index.css";
+// import "../index.css";
 import "./modal.css";
 import SideNavbar from "./SideNavbar";
-// import { Link } from "react-router-dom";
 import Modal from "./Modal";
-
-import { TbSelector } from "react-icons/tb";
-import { FaEye } from "react-icons/fa";
-import { AiOutlineDown } from "react-icons/ai";
+import { FaEye, FaTimes } from "react-icons/fa";
+// import { AiOutlineDown } from "react-icons/ai";
+import { ImUpload } from "react-icons/im";
+import { GiCheckMark } from "react-icons/gi";
 
 //pictures
-// import ProfilePicture from "../picture/pics1.jpg";
-import Payment from "../picture/payment.png";
+import Payment from "../picture/payment.svg";
 import BlueChart from "../picture/Vector.png";
 import Table from "../Table/Table";
 import data from "../Table/data";
@@ -22,6 +21,15 @@ import Selector from "../Libary/Select";
 import MasterCard from "../picture/Mastercard-Logo 1.png";
 import FeaturedIcon from "../picture/Featured icon.png";
 import Navbar from "../RE-USEABLE-COMPONENT/Navbar";
+import PasswordInput from "../REGISTER/passwordinput";
+import {
+  StyledModalBackground,
+  StyledModalContent,
+} from "../STYLED-COMPONENT/StyledModal";
+import { BsEyeSlashFill } from "react-icons/bs";
+import ColumnSorting from "../RE-USEABLE-COMPONENT/ColumnSorting";
+import Label from "../RE-USEABLE-COMPONENT/Label";
+import CancelBtn from "../RE-USEABLE-COMPONENT/CancelBtn";
 
 const MyAccount = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,19 +39,28 @@ const MyAccount = () => {
   const [cardAdded, setCardAdded] = useState(false);
   const [cardAdded1, setCardAdded1] = useState(false);
   const [cardAdded2, setCardAdded2] = useState(false);
+  const [wallet, setWallet] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [logo, setLogo] = useState(false);
 
-  useEffect(() => {
-    Aos.init({ duration: 300 });
-  }, []);
+  const [showBalance, setShowBalance] = useState(false);
+  const [currencySymbol, setCurrencySymbol] = useState();
 
-  // const [init, setInit] = useState(1);
   const columns = [
-    { field: "Agent Name", icon: <TbSelector />, header: "Agent Name" },
+    { field: "Agent Name", icon: <ColumnSorting />, header: "Agent Name" },
     { field: "Agent ID", header: "Agent ID" },
-    { field: "phone", icon: <TbSelector />, header: "Phone Number" },
-    { field: "Business Name", icon: <TbSelector />, header: "Business Name" },
-    { field: "Email Address", icon: <TbSelector />, header: "Email Address" },
-    { field: "states", icon: <TbSelector />, header: "States" },
+    { field: "phone", icon: <ColumnSorting />, header: "Phone Number" },
+    {
+      field: "Business Name",
+      icon: <ColumnSorting />,
+      header: "Business Name",
+    },
+    {
+      field: "Email Address",
+      icon: <ColumnSorting />,
+      header: "Email Address",
+    },
+    { field: "states", icon: <ColumnSorting />, header: "States" },
     { field: "status", header: "Status" },
   ];
 
@@ -57,6 +74,37 @@ const MyAccount = () => {
     { value: "MultipleAll", label: "Multiple (All)" },
   ];
 
+  const walletEyeHandler = () => {
+    setShowBalance(!showBalance);
+  };
+
+  let userDetails = JSON.parse(localStorage.getItem("userDetails"));
+
+  const configWallet = {
+    headers: {
+      Authorization: `bearer ${userDetails?.data?.token}`,
+    },
+  };
+
+  const fetchWalet = async () => {
+    await axios
+      .get(`${process.env.REACT_APP_HTTP_ROUTER}/wallet/balance`, configWallet)
+      .then((res) => {
+        setWallet(res.data.data.balance.wallet);
+        setTotal(res.data.data.total_agent);
+        setCurrencySymbol(res.data.data.currency.symbol);
+      })
+      .catch((err) => {
+        console.log(err.res.data);
+      });
+  };
+
+  useEffect(() => {
+    Aos.init({ duration: 300 });
+    fetchWalet();
+    // fetchTotalAgent();
+  }, []);
+
   return (
     <main className="d-flex">
       <SideNavbar />
@@ -67,51 +115,7 @@ const MyAccount = () => {
           input="show"
           placeholder="Search Terminal ID, Agent or Agent Managers"
         />
-        {/* <nav className="top-nav navbar">
-          <div className="left-top-nav ">
-            <h4>My Account</h4>
-          </div>
-          <div className="input-top-nav d-flex">
-            <div>
-              <FaSearch />
-            </div>
-            <input
-              type="text"
-              name=""
-              id=""
-              placeholder="Search Terminal ID, Agent or Agent managers"
-            />
-          </div>
 
-          <div className="right-top-nav-div d-flex">
-            <div className="notification">
-              <p>.</p>
-              <div>
-                <FaBell />
-              </div>
-            </div>
-            <Link
-              to="/profile"
-              className="text-dark"
-              style={{ textDecoration: "none" }}
-            >
-              <div className="profile d-flex align-items-center">
-                <div className="profile-img">
-                  <img src={ProfilePicture} alt="" />
-                </div>
-                <div className="profile-name ">
-                  <div>
-                    Okorie Emmanuel{" "}
-                    <span>
-                      <FaArrowDown />
-                    </span>
-                  </div>
-                  <p>Super Agent</p>
-                </div>
-              </div>
-            </Link>
-          </div>
-        </nav> */}
         <div className="body--content">
           <section className="my-account-section">
             <div className="main-account">
@@ -125,9 +129,19 @@ const MyAccount = () => {
                   <div>5321 **** **** 4567</div>
                 </div>
                 <div className="sub2-main-account-aside2">
-                  <h4 className="m-0 fw-bold">#500,000,783</h4>
-                  <div className="ms-3 fs-3">
-                    <FaEye />
+                  <h4
+                    className="m-0 fw-bold"
+                    style={{ transition: ".3s linear" }}
+                  >
+                    <span className="pe-1">{currencySymbol}</span>{" "}
+                    {showBalance ? wallet : "**** ****"}
+                  </h4>
+                  <div
+                    onClick={walletEyeHandler}
+                    className="ms-3 fs-3 d-flex "
+                    style={{ cursor: "pointer", transition: ".2s linear" }}
+                  >
+                    {showBalance ? <BsEyeSlashFill /> : <FaEye />}
                   </div>
                 </div>
               </div>
@@ -140,33 +154,30 @@ const MyAccount = () => {
                 </button>
 
                 <Modal open={addCard}>
-                  <div
-                    className="overlay"
-                    // onClick={() => {
-                    //   setIsOpen(false);
-                    //   // setIsDropped(!isDropped);
-                    // }}
-                    // style={{ textAlign: "center" }}
-                  >
-                    <div
-                      className="container bg-white mt-4 text-dark"
+                  <StyledModalBackground>
+                    <StyledModalContent
+                      data-aos="slide-down"
+                      width="50%"
                       style={{
-                        padding: "3rem 4rem",
-                        borderRadius: ".9rem",
-                        width: "50%",
                         display: "flex",
                         justifyContent: "center",
+                        alignItems: "center",
+                        flexDirection: "column",
+                        padding: ".7rem 0",
                       }}
-                      data-aos="slide-down"
                     >
                       <div className="new-card-main">
-                        <div className="new-card-button">
+                        <div className="new-card-button text-end">
                           <button onClick={() => setAddCard(false)}>
                             Close
                           </button>
                         </div>
                         <div className="new-card-number">
-                          <label htmlFor="cardNumber">Card Number</label>
+                          <Label
+                            text="Card Number"
+                            type="require"
+                            htmlFor="cardNumber"
+                          />
                           <div className="new-card-number-input-div">
                             <input
                               type="text"
@@ -178,38 +189,39 @@ const MyAccount = () => {
                             </div>
                           </div>
                         </div>
-                        <aside className="d-flex justify-content-between align-items-center">
-                          <div className="new-card-expiration">
-                            <label htmlFor="expiration">Expiration</label>
-                            <div>
-                              <input
-                                type="text"
-                                id="expiration"
-                                placeholder="MM/YY"
-                              />
-                            </div>
+                        <div className=" new-card-number-input-div1 ">
+                          <div className="new-card-expiration1">
+                            <Label
+                              text="Expiration"
+                              type="require"
+                              htmlFor="expiration"
+                            />
+                            <input
+                              type="text"
+                              id="expiration"
+                              placeholder="MM/YY"
+                            />
                           </div>
 
-                          <div className="new-card-CVC">
-                            <label htmlFor="CVC">CVC</label>
+                          <div className="new-card-expiration1">
+                            <Label text="CVC" type="require" htmlFor="CVC" />
                             <div>
                               <input type="text" id="CVC" placeholder="CVC" />
                             </div>
                           </div>
-                        </aside>
+                        </div>
 
                         <div className="new-card-country">
-                          <label htmlFor="country">Country</label>
-                          <div className="new-card-country-input-div">
-                            <input
-                              type="text"
-                              id="country"
-                              placeholder="Nigeria"
-                            />
-                            <div>
-                              <AiOutlineDown />
-                            </div>
-                          </div>
+                          <Label
+                            text="Country"
+                            type="require"
+                            htmlFor="country"
+                          />
+                          <Selector
+                            placeholder="Nigeria"
+                            id="country"
+                            padding=".4rem 0"
+                          />
                         </div>
 
                         <div className="new-card-paragraph">
@@ -231,28 +243,23 @@ const MyAccount = () => {
                           </button>
                         </div>
                       </div>
-                    </div>
-                  </div>
+                    </StyledModalContent>
+                  </StyledModalBackground>
                 </Modal>
 
                 <Modal open={cardAdded}>
-                  <div
-                    className="overlay"
+                  <StyledModalBackground
                     onClick={() => {
                       setCardAdded(false);
                     }}
                   >
-                    <div
-                      className="container bg-white text-dark"
-                      style={{
-                        padding: "1rem",
-                        borderRadius: ".4rem",
-                        width: "30%",
-                        marginTop: "10rem",
-                      }}
-                      data-aos="zoom-up"
+                    <StyledModalContent
+                      confirm="confirm"
+                      width="30%"
+                      padding="1rem"
+                      data-aos="slide-down"
                     >
-                      <div className="modal-content-n mb-3">
+                      <div className="modal-content-n mb-3 text-start">
                         <div>
                           <img src={FeaturedIcon} alt="" />
                         </div>
@@ -262,8 +269,8 @@ const MyAccount = () => {
                         <h4>Card Added</h4>
                         <p>Your Card Details has been successfully Added.</p>
                       </div>
-                    </div>
-                  </div>
+                    </StyledModalContent>
+                  </StyledModalBackground>
                 </Modal>
                 <div className="over">
                   <button
@@ -274,20 +281,10 @@ const MyAccount = () => {
                     Fund Wallet
                   </button>
                   <Modal open={isOpen}>
-                    <div
-                      className="overlay "
-                      // onClick={() => {
-                      //   setIsOpen(false);
-                      //   // setIsDropped(!isDropped);
-                      // }}
-                    >
-                      <div
-                        className="container bg-white mt-5 text-dark"
-                        style={{
-                          padding: "3rem 5rem",
-                          borderRadius: ".4rem",
-                          width: "80%",
-                        }}
+                    <StyledModalBackground>
+                      <StyledModalContent
+                        width="65%"
+                        padding="4rem"
                         data-aos="slide-down"
                       >
                         <div className="modal-content-sec1 d-flex pb-3 fw-bold">
@@ -297,39 +294,55 @@ const MyAccount = () => {
                               setIsOpen(false);
                             }}
                           >
-                            X
+                            <CancelBtn />
                           </button>
                         </div>
 
                         <div className="modal-content-payment-method">
-                          <label htmlFor="payment">Payment Method</label>
+                          <Label
+                            text="Payment Method"
+                            type="require"
+                            htmlFor="payment"
+                          />
                           <Selector
                             placeholder="Select Your Payment Method"
                             data={options}
                             isSearch={true}
+                            padding=".9rem .5rem"
                           />
 
                           <div className="modal-content-payment-method-input-div2">
                             <div className="sub-modal-content-payment-method-input-div2">
-                              <label htmlFor="amount">Amount</label>
-                              <input
-                                type="text"
+                              <Label
+                                text="Amount"
+                                type="require"
+                                htmlFor="amount"
+                              />
+
+                              <PasswordInput
+                                which="normalInput"
                                 placeholder="Enter Amount"
-                                id=""
+                                id="amount"
+                                className="py-4"
                               />
                             </div>
 
                             <div className="sub-modal-content-payment-method-input-div2">
-                              <label htmlFor="amount">Narration</label>
-                              <input
-                                type="text"
+                              <Label
+                                text="Narration"
+                                type="normal"
+                                htmlFor="Narration"
+                              />
+                              <PasswordInput
+                                which="normalInput"
                                 placeholder="Enter Description (optional)"
-                                id=""
+                                id="Narration"
+                                className="py-4"
                               />
                             </div>
                           </div>
 
-                          <div className="modal-content-payment-method-submit">
+                          <div className="modal-content-payment-method-submit ">
                             <button
                               onClick={() => {
                                 setIsOpen(false);
@@ -340,25 +353,19 @@ const MyAccount = () => {
                             </button>
                           </div>
                         </div>
-                      </div>
-                    </div>
+                      </StyledModalContent>
+                    </StyledModalBackground>
                   </Modal>
 
                   <Modal open={cardAdded1}>
-                    <div
-                      className="overlay"
+                    <StyledModalBackground
                       onClick={() => {
                         setCardAdded1(false);
                       }}
                     >
-                      <div
-                        className="container bg-white text-dark"
-                        style={{
-                          padding: "1rem",
-                          borderRadius: ".4rem",
-                          width: "30%",
-                          marginTop: "10rem",
-                        }}
+                      <StyledModalContent
+                        width="30%"
+                        padding="1rem"
                         data-aos="zoom-up"
                       >
                         <div className="modal-content-n mb-3">
@@ -371,8 +378,8 @@ const MyAccount = () => {
                           <h4>Card Added</h4>
                           <p>Your Card Details has been successfully Added.</p>
                         </div>
-                      </div>
-                    </div>
+                      </StyledModalContent>
+                    </StyledModalBackground>
                   </Modal>
                 </div>
               </div>
@@ -382,7 +389,7 @@ const MyAccount = () => {
               <div className="total-onboard-agent-aside1">
                 <div className="sub1-total-onboard-agent-aside1">
                   <p>Total Onboard Agent</p>
-                  <h1>4,231</h1>
+                  <h1>{total}</h1>
                 </div>
                 <div className="sub2-main-account-aside1">
                   <img src={Payment} alt="" />
@@ -403,19 +410,10 @@ const MyAccount = () => {
                   Fund Agent's Wallet
                 </button>
                 <Modal open={goOpen}>
-                  <div
-                    className="overlay  d-flex justify-content-center align-items-center flex-direction-column"
-                    // onClick={() => {
-                    //   setGoOpen(false);
-                    // }}
-                  >
-                    <div
-                      className="container bg-white text-dark"
-                      style={{
-                        padding: "3rem 4rem",
-                        borderRadius: ".4rem",
-                        width: "80%",
-                      }}
+                  <StyledModalBackground>
+                    <StyledModalContent
+                      width="65%"
+                      padding="2.6rem 4rem"
                       data-aos="slide-down"
                     >
                       <div className="modal-content-sec1 d-flex pb-3 fw-bold">
@@ -425,35 +423,80 @@ const MyAccount = () => {
                             setGoOpen(false);
                           }}
                         >
-                          X
+                          <CancelBtn />
                         </button>
                       </div>
 
                       <div className="modal-content-payment-method">
-                        <label htmlFor="payment">Payment Method</label>
+                        <Label
+                          text="Payment Method"
+                          type="require"
+                          htmlFor="payment"
+                        />
                         <div className="modal-content-payment-method-input-div">
                           <Selector
                             placeholder="Select Your Payment Method"
                             data={options1}
+                            padding=".9rem .3rem"
                           />
                         </div>
 
                         <div className="modal-content-payment-method-input-div2">
                           <div className="sub-modal-content-payment-method-input-div2">
-                            <label htmlFor="amount">Amount</label>
-                            <input
-                              type="text"
+                            <Label
+                              text="Amount"
+                              type="require"
+                              htmlFor="amount"
+                            />
+
+                            <PasswordInput
+                              which="normalInput"
                               placeholder="Enter Amount"
-                              id=""
+                              id="amount"
+                              className="py-4"
                             />
                           </div>
 
                           <div className="sub-modal-content-payment-method-input-div2">
-                            <label htmlFor="amount">Narration</label>
-                            <input
-                              type="text"
+                            <Label
+                              text="Narration"
+                              type="normal"
+                              htmlFor="Narration"
+                            />
+
+                            <PasswordInput
+                              which="normalInput"
                               placeholder="Enter Description (optional)"
-                              id=""
+                              id="Narration"
+                              className="py-4"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="sub-modal-content-add1 mt-3">
+                          <Label
+                            text="Bulk Upload"
+                            type="normal"
+                            htmlFor="image"
+                          />
+                          <div className="fileInput1">
+                            <span className="uploads">
+                              <ImUpload />{" "}
+                              <span>Upload Multiple Agent Files</span>
+                            </span>
+                            <input
+                              type="file"
+                              placeholder="Select and Upload an Image"
+                              id="image"
+                              name="logo"
+                              onChange={(e) => {
+                                setLogo((prev) => {
+                                  return {
+                                    ...prev,
+                                    logo: e.target.files[0],
+                                  };
+                                });
+                              }}
                             />
                           </div>
                         </div>
@@ -469,25 +512,19 @@ const MyAccount = () => {
                           </button>
                         </div>
                       </div>
-                    </div>
-                  </div>
+                    </StyledModalContent>
+                  </StyledModalBackground>
                 </Modal>
 
                 <Modal open={cardAdded2}>
-                  <div
-                    className="overlay"
+                  <StyledModalBackground
                     onClick={() => {
                       setCardAdded2(false);
                     }}
                   >
-                    <div
-                      className="container bg-white text-dark"
-                      style={{
-                        padding: "1rem",
-                        borderRadius: ".4rem",
-                        width: "30%",
-                        marginTop: "10rem",
-                      }}
+                    <StyledModalContent
+                      width="30"
+                      padding="1rem"
                       data-aos="zoom-up"
                     >
                       <div className="modal-content-n mb-3">
@@ -500,8 +537,8 @@ const MyAccount = () => {
                         <h4>Card Added</h4>
                         <p>Your Card Details has been successfully Added.</p>
                       </div>
-                    </div>
-                  </div>
+                    </StyledModalContent>
+                  </StyledModalBackground>
                 </Modal>
               </div>
             </div>

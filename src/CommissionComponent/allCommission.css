@@ -3,3 +3,27 @@
     padding: 1rem;
     border-top: 1px solid #ccc;
 }
+
+.img-divs{
+    width: 115px;
+}
+
+.img-divs img{
+    width: 100%;
+}
+
+.elec-pictures {
+   display: flex;
+   justify-content: space-between;
+   flex-wrap: wrap;
+}
+
+.sub-elec-img{
+    margin-top: 2rem;
+    width: 24%;
+}
+
+.sub-elec-img img{
+    width: 100%;
+    height: 200px;
+}

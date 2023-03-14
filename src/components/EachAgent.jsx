@@ -4,38 +4,135 @@ import "../index.css";
 import "./eachagent.css";
 import "./modal.css";
 import SideNavbar from "./SideNavbar";
-import { Link } from "react-router-dom";
+import axios from "axios";
 
 import { AiOutlineDown } from "react-icons/ai";
 import { BsArrowLeft } from "react-icons/bs";
-import {
-  FaArrowDown,
-  FaArrowLeft,
-  FaArrowRight,
-  FaBell,
-  FaSearch,
-  FaTimes,
-} from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight, FaTimes } from "react-icons/fa";
+import { RiArrowUpSFill } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import Aos from "aos";
 import "aos/dist/aos.css";
+import Navbar from "../RE-USEABLE-COMPONENT/Navbar";
 
 //pictures
-import ProfilePicture from "../picture/pics1.jpg";
 import BlueChart from "../picture/Vector.png";
 import RedChart from "../picture/Vector (1).png";
 import FeaturedIcon from "../picture/Featured icon.png";
 import FeaturedIcon2 from "../picture/FeaturedIcon2.png";
 import Modal from "./Modal";
 import ToggleBtn from "../RE-USEABLE-COMPONENT/ToggleBtn";
+import {
+  StyledModalBackground,
+  StyledModalContent,
+  StyledSubmit,
+} from "../STYLED-COMPONENT/StyledModal";
+import ColumnSorting from "../RE-USEABLE-COMPONENT/ColumnSorting";
+import Label from "../RE-USEABLE-COMPONENT/Label";
+import Selector from "../Libary/Select";
 
 const EachAgent = ({ userAgentDetails }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [Open, setOpen] = useState(false);
   const [cardAdded, setCardAdded] = useState(false);
   const [cardAdded2, setCardAdded2] = useState(false);
+  const [timeFrames2, setTimeFrames2] = useState(
+    localStorage.getItem("timeFrames2") || "All"
+  );
+  const [DailyLimit, setDailyLimit] = useState(0);
+  const [DailySending, setDailySending] = useState(0);
+
+  const [daily, setDaily] = useState(false);
+  const [CurrencySymbol, setCurrencySymbol] = useState();
+  const handlePercentage = (e) => {
+    // setTransaction(e.target.value);
+  };
+  const [readyonly, setReadyonly] = useState(true);
+  const [allAgent, setAllAgent] = useState("");
+  const [setCommission, setSetCommission] = useState({
+    setCommission: "Set New Limit",
+    saveCommission: "Save New Limit",
+  });
+
+  const [eachManager, setEachManager] = useState({
+    wallet: 0,
+    commission: 0,
+    CurrencySymbol: "",
+  });
+
+  const handleEdit = () => {
+    setReadyonly(false);
+  };
+
+  const handleDone = () => {
+    setReadyonly(true);
+  };
+  let userDetails = JSON.parse(localStorage.getItem("userDetails"));
+
+  const config = {
+    headers: {
+      Authorization: `bearer ${userDetails?.data?.token}`,
+    },
+  };
+  const manager_id = JSON.parse(localStorage?.getItem("managerId"));
+  const agent_id = JSON.parse(localStorage?.getItem("agentId"));
+  // console.log(agent_id);
+
+  // console.log(manager_id);
+  const fetchManagers = async () => {
+    await axios
+      .get(
+        `${process.env.REACT_APP_HTTP_ROUTER}/user/manager/details?id=${manager_id}`,
+        config
+      )
+      .then((res) => {
+        // console.log(res.data);
+        setAllAgent(res.data.manager);
+        setEachManager({
+          wallet: res?.data?.data?.balance?.wallet,
+          commission: res?.data?.data?.balance?.commission,
+          CurrencySymbol: res.data?.data?.currency?.symbol,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // console.log(allAgent);
+  };
+
+  const fetchAgentss = async () => {
+    await axios
+      .get(
+        `${process.env.REACT_APP_HTTP_ROUTER}/user/agents/details?id=${agent_id}`,
+        config
+      )
+      .then((res) => {
+        console.log(res.data);
+        setAllAgent(res.data.agent);
+        setEachManager({
+          wallet: res?.data?.data?.balance?.wallet,
+          commission: res?.data?.data?.balance?.commission,
+          CurrencySymbol: res.data?.data?.currency?.symbol,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // console.log(allAgent);
+  };
+
+  let timeFrameModal2 = [
+    { name: "Alphabetically", value: "Alphabetically", id: 1 },
+    { name: "Most Used Services", value: "Most Used Services", id: 2 },
+    { name: "Latest Services", value: "Latest Services", id: 3 },
+    { name: "Rarely Used Services", value: "Rarely Used Services", id: 4 },
+  ];
 
   useEffect(() => {
     Aos.init({ duration: 300 });
+    localStorage.setItem("timeFrame2", timeFrames2);
+    fetchManagers();
+    fetchAgentss();
   }, []);
 
   const navigate = useNavigate();
@@ -45,51 +142,11 @@ const EachAgent = ({ userAgentDetails }) => {
       <SideNavbar />
 
       <section className="section1 ">
-        <nav className="top-nav navbar">
-          <div className="left-top-nav ">
-            <h4>Agent Management</h4>
-          </div>
-          <div className="input-top-nav d-flex">
-            <div>
-              <FaSearch />
-            </div>
-            <input
-              type="text"
-              name=""
-              id=""
-              placeholder="Search Terminal ID, Agent or Agent managers"
-            />
-          </div>
-
-          <div className="right-top-nav-div d-flex">
-            <div className="notification">
-              <p>.</p>
-              <div>
-                <FaBell />
-              </div>
-            </div>
-            <Link
-              to="/profile"
-              className="text-dark"
-              style={{ textDecoration: "none" }}
-            >
-              <div className="profile d-flex align-items-center">
-                <div className="profile-img">
-                  <img src={ProfilePicture} alt="" />
-                </div>
-                <div className="profile-name ">
-                  <div>
-                    Okorie Emmanuel{" "}
-                    <span>
-                      <FaArrowDown />
-                    </span>
-                  </div>
-                  <p>Super Agent</p>
-                </div>
-              </div>
-            </Link>
-          </div>
-        </nav>
+        <Navbar
+          text="Dashboard"
+          input="show"
+          placeholder="Search Terminal ID, Agent and Agent Managers"
+        />
 
         <div className="back-section">
           <button
@@ -120,7 +177,9 @@ const EachAgent = ({ userAgentDetails }) => {
               <div className="sub-sec2-div1">
                 <div className="trans">
                   <p>Wallet Balance</p>
-                  <h4 className="pt-2 ">#100,000.00</h4>
+                  <h4 className="pt-2">
+                    {eachManager.CurrencySymbol} {eachManager.wallet}
+                  </h4>
                 </div>
               </div>
               <aside>
@@ -136,7 +195,9 @@ const EachAgent = ({ userAgentDetails }) => {
               <div className="sub-sec2-div1">
                 <div className="trans">
                   <p>Commission</p>
-                  <h4 className="pt-2 ">80,131.00</h4>
+                  <h4 className="pt-2 ">
+                    {eachManager.CurrencySymbol} {eachManager.commission}
+                  </h4>
                 </div>
               </div>
               <aside>
@@ -181,27 +242,191 @@ const EachAgent = ({ userAgentDetails }) => {
             </div>
           </div>
 
-          <section className="eachagent-myservice mt-3">
-            <div className="d-flex justify-content-between align-items-center">
-              <div className="eachagent-myservice-header d-flex">
-                <h5>My Service</h5>
-                <select name="ServiceFilter" id="" className="ms-5">
-                  <option value="Alphabetically">Alphabetically</option>
-                  <option value="MostUsedService">Most Used Service</option>
-                  <option value="LatestService">Latest Service</option>
-                  <option value="RarelyUsedService">Rarely Used Service</option>
-                </select>
-              </div>
-              <div
-                className="pe-3"
-                style={{
-                  color: "#1b59f8",
-                  fontSize: ".85rem",
-                  fontWeight: "600",
-                }}
+          <button
+            className="btnLimit"
+            onClick={() => {
+              setDaily(true);
+            }}
+          >
+            Set Transaction Limit
+          </button>
+          <Modal open={daily}>
+            <StyledModalBackground>
+              <StyledModalContent
+                data-aos="slide-down"
+                width="70%"
+                padding="3rem"
               >
-                Set New Service Charges
-              </div>
+                <div className="modal-content-sec1 d-flex pb-3 fw-bold">
+                  <h4>Update Daily Transaction Limit</h4>
+                  <button
+                    onClick={() => {
+                      setDaily(false);
+                    }}
+                  >
+                    <span className="fs-4">
+                      <FaTimes />
+                    </span>
+                  </button>
+                </div>
+
+                <div className="modal-content-payment-method">
+                  <Label
+                    text="Select Transaction Limit Type"
+                    type="require"
+                    htmlFor="LimitType"
+                  />
+                  <Selector
+                    placeholder="Sending (Per Transaction)"
+                    id="LimitType"
+                    // data={options}
+                    isSearch={true}
+                    padding=".8rem 0"
+                  />
+
+                  <div className="modal-content-payment-method-input-div2">
+                    <div className="sub-modal-content-payment-method-input-div2">
+                      <Label
+                        text="Present Transaction Limit"
+                        type="normal"
+                        htmlFor="amount"
+                      />
+
+                      <div style={billeridDiv}>
+                        <div style={inputDivAll}>
+                          {CurrencySymbol}
+                          <input
+                            type="number"
+                            value={DailySending}
+                            id="SetNewTransaction"
+                            style={inputD}
+                            readOnly
+                            onChange={handlePercentage}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div style={billerid}>
+                      <Label
+                        text="Set New Transaction Limit"
+                        type="require"
+                        htmlFor="SetNewTransaction"
+                      />
+                      <div style={billeridDiv}>
+                        <div style={inputDivAll}>
+                          {CurrencySymbol}
+                          <input
+                            type="number"
+                            defaultValue={DailyLimit}
+                            id="SetNewTransaction"
+                            style={inputD}
+                            readOnly={readyonly}
+                            onChange={handlePercentage}
+                          />
+                        </div>
+
+                        {readyonly ? (
+                          <p
+                            className="m-0"
+                            style={edit}
+                            onClick={() => {
+                              handleEdit();
+                            }}
+                          >
+                            {setCommission.setCommission}
+                          </p>
+                        ) : (
+                          <p
+                            className="m-0"
+                            style={edit}
+                            onClick={() => {
+                              handleDone();
+                            }}
+                          >
+                            {setCommission.saveCommission}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-4">
+                    <StyledSubmit
+                      done="done"
+                      padding="1.05rem 0"
+                      onClick={() => {
+                        setDaily(false);
+                        // setCardAdded1(true);
+                      }}
+                    >
+                      Proceed
+                    </StyledSubmit>
+                  </div>
+                </div>
+              </StyledModalContent>
+            </StyledModalBackground>
+          </Modal>
+
+          <section className="eachagent-myservice mt-3">
+            <div className="eachagent-myservice-header ">
+              <h5>My Service</h5>
+              <section className="most-used-service">
+                <button
+                  className="myServiceBtn"
+                  onClick={() => {
+                    setOpen(true);
+                  }}
+                >
+                  <div>Most Used Services</div>
+                  <ColumnSorting />
+                </button>
+                <Modal open={Open}>
+                  <div className="overlay">
+                    <div className="conti">
+                      <div className="d-flex forLine justify-content-between">
+                        <div className=" timef">
+                          <p className="m-0">Sort by: </p>
+                          <div> {timeFrames2}</div>
+                        </div>
+
+                        <button
+                          onClick={() => setOpen(false)}
+                          className="upicon"
+                        >
+                          <RiArrowUpSFill />
+                        </button>
+                      </div>
+
+                      <div className="timeframe-btn-div">
+                        {timeFrameModal2.map((timeFrame) => {
+                          return (
+                            <div className="timeframe2-btn" key={timeFrame.id}>
+                              <button
+                                onClick={(e) =>
+                                  setTimeFrames2(e.target.textContent)
+                                }
+                                style={{
+                                  background: `${
+                                    timeFrames2 === timeFrame.name
+                                      ? "#f2f7ff"
+                                      : ""
+                                  }`,
+                                  fontWeight: `${
+                                    timeFrames2 === timeFrame.name ? "600" : ""
+                                  }`,
+                                }}
+                              >
+                                {timeFrame.name}
+                              </button>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                </Modal>
+              </section>
             </div>
 
             <div className="eachagent-myservice-body d-flex justify-content-between">
@@ -261,11 +486,11 @@ const EachAgent = ({ userAgentDetails }) => {
                 </button>
 
                 <Modal open={isOpen}>
-                  <div className="overlay">
-                    <div
-                      className="container bg-white mt-5 text-dark w-50"
-                      style={{ padding: "3rem 4rem", borderRadius: ".4rem" }}
+                  <StyledModalBackground>
+                    <StyledModalContent
                       data-aos="slide-down"
+                      width="50%"
+                      padding="3rem"
                     >
                       <div className="modal-content-sec1 d-flex pb-3 fw-bold">
                         <h4>My Service</h4>
@@ -283,46 +508,6 @@ const EachAgent = ({ userAgentDetails }) => {
                               className="form-check-input"
                             />
                             <label htmlFor="DSTV">DSTV</label>
-                          </div>
-                          <div className="sub-modal-content-sec1-body-form">
-                            <input
-                              type="checkbox"
-                              id="Airtime"
-                              className="form-check-input"
-                            />
-                            <label htmlFor="Airtime">Airtime</label>
-                          </div>
-                          <div className="sub-modal-content-sec1-body-form">
-                            <input
-                              type="checkbox"
-                              id="GOTV"
-                              className="form-check-input"
-                            />
-                            <label htmlFor="GOTV">GOTV</label>
-                          </div>
-                          <div className="sub-modal-content-sec1-body-form">
-                            <input
-                              type="checkbox"
-                              id="Electricity"
-                              className="form-check-input"
-                            />
-                            <label htmlFor="Electricity">Electricity</label>
-                          </div>
-                          <div className="sub-modal-content-sec1-body-form">
-                            <input
-                              type="checkbox"
-                              id="FIRS"
-                              className="form-check-input"
-                            />
-                            <label htmlFor="FIRS">FIRS</label>
-                          </div>
-                          <div className="sub-modal-content-sec1-body-form">
-                            <input
-                              type="checkbox"
-                              id="FRSC"
-                              className="form-check-input"
-                            />
-                            <label htmlFor="FRSC">FRSC</label>
                           </div>
                         </div>
 
@@ -453,25 +638,20 @@ const EachAgent = ({ userAgentDetails }) => {
                           </div>
                         </div>
                       </div> */}
-                    </div>
-                  </div>
+                    </StyledModalContent>
+                  </StyledModalBackground>
                 </Modal>
 
                 <Modal open={cardAdded}>
-                  <div className="overlay">
-                    <div
-                      className="container bg-white text-dark"
-                      style={{
-                        padding: "1rem",
-                        borderRadius: ".4rem",
-                        width: "30%",
-                        marginTop: "10rem",
-                      }}
-                      data-aos="zoom-up"
+                  <StyledModalBackground>
+                    <StyledModalContent
+                      data-aos="slide-up"
+                      width="26%"
+                      padding="1rem"
                     >
                       <div className=" ">
                         <div className="d-flex justify-content-between">
-                          <div /* style={{ width: "50%" }} */>
+                          <div>
                             <img
                               style={{ width: "80%" }}
                               src={FeaturedIcon2}
@@ -541,26 +721,20 @@ const EachAgent = ({ userAgentDetails }) => {
                           Confirm
                         </button>
                       </div>
-                    </div>
-                  </div>
+                    </StyledModalContent>
+                  </StyledModalBackground>
                 </Modal>
 
                 <Modal open={cardAdded2}>
-                  <div
-                    className="overlay"
+                  <StyledModalBackground
                     onClick={() => {
                       setCardAdded2(false);
                     }}
                   >
-                    <div
-                      className="container bg-white text-dark"
-                      style={{
-                        padding: "1rem",
-                        borderRadius: ".4rem",
-                        width: "30%",
-                        marginTop: "10rem",
-                      }}
+                    <StyledModalContent
                       data-aos="zoom-up"
+                      width="24%"
+                      padding="1rem"
                     >
                       <div className="modal-content-n mb-3">
                         <div>
@@ -572,17 +746,11 @@ const EachAgent = ({ userAgentDetails }) => {
                         <h4>Card Added</h4>
                         <p>Your Card Details has been successfully Added.</p>
                       </div>
-                    </div>
-                  </div>
+                    </StyledModalContent>
+                  </StyledModalBackground>
                 </Modal>
               </div>
             </div>
-
-            <Link to="/ViewAllService" style={{ textDecoration: "none" }}>
-              <div className="eachagent-myservice-footer text-end">
-                <div>View All Service</div>
-              </div>
-            </Link>
           </section>
 
           <div className="footer">
@@ -647,3 +815,36 @@ const EachAgent = ({ userAgentDetails }) => {
 };
 
 export default EachAgent;
+
+const edit = {
+  cursor: "pointer",
+  fontSize: "1rem",
+  fontWeight: "600",
+  color: "#1b59f8",
+};
+
+const inputDivAll = {
+  display: "flex",
+  alignItems: "center",
+  width: "55%",
+};
+
+const inputD = {
+  width: "100%",
+  padding: "1.35rem 0",
+  border: "none",
+  outline: "none",
+  color: "rgba(0,0,0,0.8)",
+  fontSize: ".91rem",
+};
+const billerid = {
+  width: "50%",
+};
+const billeridDiv = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  border: "1.5px solid #ccc",
+  padding: "0 .8rem",
+  borderRadius: ".4rem",
+};

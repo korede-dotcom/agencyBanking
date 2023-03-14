@@ -11,11 +11,12 @@ const SignIn = () => {
 
   const handlerInput = (e) => {
     setEmail(e.target.value);
+    console.log(email);
   };
 
   const handlerSubmit = (e) => {
+    console.log(email, "email");
     e.preventDefault();
-    // console.log(email, password);
   };
   return (
     <>
@@ -43,13 +44,18 @@ const SignIn = () => {
                       type="email"
                       placeholder="Enter Your Email Address"
                       id="signInemail"
+                      value={email}
                       handlerInput={handlerInput}
                     />
                   </div>
                 </div>
 
                 <Link to="/passwordSent">
-                  <button type="submit" className="sbtn">
+                  <button
+                    // onClick={handlerSubmit}
+                    type="submit"
+                    className="sbtn"
+                  >
                     Register
                   </button>
                 </Link>

@@ -1,4 +1,4 @@
-.modal, .overlay{
+ .modal, .overlay{
     width: 100vw;
     height: 100vh;
     top: 0;
@@ -13,7 +13,6 @@
     z-index: 1000;
     transition: linear .3s;
 }
-
 .contain{
     position: fixed;
     width: 100%;
@@ -35,7 +34,7 @@
     padding: 3rem;
     border-radius: .5rem;
     color: black;
-}
+} 
 .modal-content-sec1{
     display: flex;
     justify-content: space-between;
@@ -91,24 +90,21 @@
 }
 .sub-modal-content-payment-method-input-div2 input{
     width: 100%;
-    padding: .7rem;
+    padding: .5rem;
     font-size: .8rem;
     border-radius: .4rem;
     border: #868fa0 1px solid ;
 }
 .modal-content-payment-method-submit button{
     width: 100%;
-    padding: .7rem;
+    padding: 1.1rem 0;
     border: none;
+    font-size: 1.2rem;
     background-color: #1b59f8;
     color: white;
-    font-weight: 500;
-    margin-top: 2rem;
-    border-radius: .3rem;
-}
-.modal-content-payment-method label{
-    padding-bottom: .5rem;
     font-weight: 600;
+    margin-top: 3rem;
+    border-radius: .3rem;
 }
 
 .modal-content-sec1 button{
@@ -131,30 +127,44 @@
     padding-top: 1.2rem;
     color: black;
 }
-.sub-modal-content-add-agent label{
-    color: black;
-}
-.sub-modal-content-add-agent input{
+.sub-modal-content-add-agent input, .sub-modal-content-add-agent2 input{
     width: 100%;
-    padding: .7rem;
+    padding: .95rem .7rem;
     border-radius: .4rem;
     border: #868fa0 1px solid;
     outline: none;
+    color: rgba(0, 0, 0, 0.75);
+    font-weight: 600;
+    text-decoration: none;
+}
+/* input[type=number] {
+    -moz-appearance: textfield;
+} */
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
 }
 
-.sub-modal-content-add-agent input::placeholder{
-    color: #cacccf;
-    font-size: .7rem;
+.sub-modal-content-add-agent input::placeholder, .sub-modal-content-add-agent2 input::placeholder{
+    color: rgba(0, 0, 0, 0.57);
+    font-size: .8rem;
+    font-weight: 500;
 }
-.sub-modal-content-add-agent button{
+.sub-modal-content-add-agent button, .sub-modal-content-add-agent2 button{
     width: 100%;
     background-color: #1b59f8;
     border: none;
     color: white;
-    padding: .7rem;
+    padding: 1.06rem 0;
     border-radius: .4rem;
     font-size: 1rem;
     font-weight: 600;
+}
+
+
+.sub-modal-content-add-agent2 {
+    width: 32%;
+    padding-top: 1.2rem;
+    color: black;
 }
 .sub-eachagent-myservice-body-addnew button{
     border: none;
@@ -184,4 +194,180 @@
     height: fit-content;
     border-radius: .4rem;
     padding: .7rem ;
+}
+
+
+
+.new-card-main{
+    background-color: #edf3ff;
+    padding: 2rem;
+    margin: 2rem 0;
+    width: 70%;
+    border-radius: .8rem;
+    box-shadow: 0px 0px 6px rgba(0,0,0,0.3);
+}
+
+.new-card-number-input-div{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border: 1px solid #ccc;
+    background-color: white;
+    padding: 0 .7rem;
+    border-radius: .5rem;
+}
+.new-card-number-input-div input{
+    border: none;
+    outline: none;
+    padding: .8rem 0;
+    width: 100%;
+}
+
+.new-card-expiration1 input{
+    border: 1px solid #ccc;
+    padding: .8rem;
+    border-radius: .5rem;
+    width: 100%;
+}
+
+.new-card-expiration1{
+    width: 45%;
+}
+.new-card-number-input-div1{
+    margin: 1rem 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.new-card-country-input-div{
+    display: flex;
+    background-color: white;
+    border:#ccc 1px solid;
+    border-radius: .5rem;
+    align-items: center;
+    padding: 0 .8rem
+}
+.new-card-country-input-div input{
+    width: 98%;
+    padding: .8rem 0;
+    border-radius: .5rem;
+    border: none;
+    outline: none;
+}
+.new-card-button button{
+    background-color: transparent;
+    padding: .1rem 1.2rem;
+    border: 1px solid rgba(0, 0, 0,0.7);
+    border-radius: .3rem;
+}
+
+.new-card-paragraph {
+    width: 85%;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: .94rem;
+    padding: 1rem 0;
+}
+
+.new-card-add-card-botton{
+    text-align: center;
+}
+.new-card-add-card-botton button{
+    background-color: #1b59f8;
+    border: none;
+    outline: none;
+    color: #fff;
+    width: 50%;
+    text-align: center;
+    padding: .7rem 0;
+    border-radius: .5rem;
+    font-weight: 600;
+}
+
+.section-myservice{
+    overflow: scroll;
+    max-height: 30rem;
+    
+}
+.my-services-add-service h5{
+    color: rgba(0, 0, 0,0.6);
+    font-weight: 700;
+}
+
+.my-services-add-service p{
+    color: rgba(0, 0, 0,0.45);
+    font-weight: 500;
+    font-size: .95rem;
+    padding: .6rem 0;
+}
+
+.my-services-add-service label{
+    color: #1b59f8;
+    font-weight: 500;
+    font-size: .95rem;
+}
+
+.fileInput{
+    border: 1px solid rgba(0,0,0,0.5);
+    font-weight: 500;
+    position: relative;
+    padding: 1.85rem .3rem;
+    border-radius: .4rem;
+    margin: auto;
+}
+.fileInput1{
+    font-weight: 500;
+    border: 1px solid rgba(0,0,0,0.3);
+    font-size: .8rem;
+    position: relative;
+    padding: .8rem .3rem;
+    border-radius: .2rem;
+    width: 30%;
+    text-align: center;
+    background-color: #ccc;
+}
+
+.fileInput:hover{
+    transition: linear .2s;
+    background-color: #e8eefe;
+    border: 1px solid rgb(79, 79, 248);
+}
+.fileInput .upload, .fileInput1 .upload{
+    font-size: .86rem;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+.upload:hover{
+    font-size: 2rem;
+}
+
+.upload span{
+    margin-left: 2rem;
+}
+
+.fileInput input, .fileInput1 input{
+    border: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    /* background-color: red; */
+    cursor: pointer;
+}
+
+.fileInput1 input{
+    padding: .62rem 0;
+}
+
+.modal-content-card-added h4{
+    font-size: 1.2rem;
+}
+
+.modal-content-card-added p{
+    font-size: .8rem;
 }

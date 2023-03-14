@@ -31,12 +31,13 @@ const Radial = () => {
     ];
 
     return (
-            <RadialBarChart width={200} height={200} cx="50%" cy="50%" innerRadius="20%" outerRadius="95%" barSize={10} data={Rdata}>
+            <RadialBarChart radius={10} width={200} height={200} cx="50%" cy="50%" innerRadius="20%" outerRadius="95%" barSize={10} data={Rdata}>
                 <RadialBar
                     minAngle={15}
                     background
                     clockWise
                     dataKey="uv"
+                    
                     // vertical : true horizontal : true
                     // orientation={horizontal}
                 />

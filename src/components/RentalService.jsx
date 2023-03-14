@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react";
-
 import "../index.css";
 import SideNavbar from "./SideNavbar";
-// import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
-import { TbSelector } from "react-icons/tb";
 
 //pictures
-// import ProfilePicture from "../picture/pics1.jpg";
 import Table from "../Table/Table";
 import RentalData from "../Table/RentalData";
 
@@ -15,6 +11,14 @@ import Aos from "aos";
 import "aos/dist/aos.css";
 import Modal from "./Modal";
 import Navbar from "../RE-USEABLE-COMPONENT/Navbar";
+import {
+  StyledModalBackground,
+  StyledModalContent,
+} from "../STYLED-COMPONENT/StyledModal";
+import ColumnSorting from "../RE-USEABLE-COMPONENT/ColumnSorting";
+import Label from "../RE-USEABLE-COMPONENT/Label";
+import Selector from "../Libary/Select";
+import CancelBtn from "../RE-USEABLE-COMPONENT/CancelBtn";
 
 const RentalService = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,14 +28,18 @@ const RentalService = () => {
   }, []);
 
   const columns = [
-    { field: "ASSIGNED AGENT", icon: <TbSelector />, header: "ASSIGNED AGENT" },
+    {
+      field: "ASSIGNED AGENT",
+      icon: <ColumnSorting />,
+      header: "ASSIGNED AGENT",
+    },
     { field: "TERMINAL ID", header: "TERMINAL ID" },
     {
       field: "TERMINAL LOCATION",
-      icon: <TbSelector />,
+      icon: <ColumnSorting />,
       header: "TERMINAL LOCATION",
     },
-    { field: "CHARGES", icon: <TbSelector />, header: "CHARGES" },
+    { field: "CHARGES", icon: <ColumnSorting />, header: "CHARGES" },
     { field: "STATUS", header: "STATUS" },
 
     {
@@ -62,52 +70,6 @@ const RentalService = () => {
           input="show"
           placeholder="Search Terminal ID, Agent or Agent Managers"
         />
-        {/* <nav className="top-nav navbar">
-          <div className="left-top-nav ">
-            <h4>Rental Charges</h4>
-          </div>
-
-          <div className="input-top-nav d-flex">
-            <div>
-              <FaSearch />
-            </div>
-            <input
-              type="text"
-              name=""
-              id=""
-              placeholder="Search Terminal ID, Agent or Agent managers"
-            />
-          </div>
-
-          <div className="right-top-nav-div d-flex">
-            <div className="notification">
-              <p>.</p>
-              <div>
-                <FaBell />
-              </div>
-            </div>
-            <Link
-              to="/profile"
-              className="text-dark"
-              style={{ textDecoration: "none" }}
-            >
-              <div className="profile d-flex align-items-center">
-                <div className="profile-img">
-                  <img src={ProfilePicture} alt="" />
-                </div>
-                <div className="profile-name ">
-                  <div>
-                    Okorie Emmanuel{" "}
-                    <span>
-                      <FaArrowDown />
-                    </span>
-                  </div>
-                  <p>Super Agent</p>
-                </div>
-              </div>
-            </Link>
-          </div>
-        </nav> */}
         <div className="body--content">
           <div className="footer">
             <div className="nav-footer">
@@ -144,17 +106,11 @@ const RentalService = () => {
                 </button>
 
                 <Modal open={isOpen}>
-                  <div
-                    className="overlay"
-                    // onClick={() => {
-                    //   setIsOpen(false);
-                    //   // setIsDropped(!isDropped);
-                    // }}
-                  >
-                    <div
-                      className="container bg-white mt-3"
-                      style={{ padding: "2rem 4rem", borderRadius: ".4rem" }}
+                  <StyledModalBackground>
+                    <StyledModalContent
                       data-aos="slide-down"
+                      width="70%"
+                      padding="3rem"
                     >
                       <h4 className="add-new-terminal-sub1 d-flex justify-content-between px-4">
                         <p>Add New Service</p>
@@ -163,14 +119,18 @@ const RentalService = () => {
                           onClick={() => setIsOpen(false)}
                           style={{ border: "none", background: "white" }}
                         >
-                          X
+                          <CancelBtn />
                         </button>
                       </h4>
 
                       <div className="add-new-terminal-input ">
                         <div className="add-new-terminal ">
                           <div className="add-new-terminal-input1 ">
-                            <label htmlFor="ServiceName">Service Name</label>
+                            <Label
+                              text="Service Name"
+                              type="require"
+                              htmlFor="ServiceName"
+                            />
                             <input
                               type="text"
                               id="ServiceName"
@@ -178,7 +138,11 @@ const RentalService = () => {
                             />
                           </div>
                           <div className="add-new-terminal-input1 ">
-                            <label htmlFor="ServiceID">Service ID</label>
+                            <Label
+                              text="Service ID"
+                              type="require"
+                              htmlFor="ServiceID"
+                            />
                             <input
                               type="text"
                               id="ServiceID"
@@ -189,7 +153,11 @@ const RentalService = () => {
 
                         <div className="add-new-terminal ">
                           <div className="add-new-terminal-input11 ">
-                            <label htmlFor="ServicePrice">Pricing</label>
+                            <Label
+                              text="Pricing"
+                              type="require"
+                              htmlFor="ServicePrice"
+                            />
                             <div>
                               <input
                                 type="text"
@@ -206,21 +174,23 @@ const RentalService = () => {
 
                         <div className="add-new-terminal">
                           <div className="add-new-terminal-input1 ">
-                            <label htmlFor="PrimaryProvider">
-                              Primary Provider
-                            </label>
-                            <input
-                              type="text"
+                            <Label
+                              text="Primary Provider"
+                              type="require"
+                              htmlFor="PrimaryProvider"
+                            />
+                            <Selector
                               id="PrimaryProvider"
                               placeholder="Select your default provider"
                             />
                           </div>
                           <div className="add-new-terminal-input1 ">
-                            <label htmlFor="secondaryprovider">
-                              secondary provider (optional)
-                            </label>
-                            <input
-                              type="text"
+                            <Label
+                              text="Secondary Provider (optional)"
+                              type="normal"
+                              htmlFor="secondaryprovider"
+                            />
+                            <Selector
                               id="secondaryprovider"
                               placeholder="Select your secondary provider"
                             />
@@ -228,14 +198,6 @@ const RentalService = () => {
                         </div>
 
                         <div className="add-new-terminal ">
-                          {/* <div className="add-new-terminal-input1 ">
-                            <label htmlFor="FullName">Assign Agent</label>
-                            <input
-                              type="text"
-                              id="FullName"
-                              placeholder="Select an existing Agent to terminal (optional"
-                            />
-                          </div> */}
                           <div className="add-new-terminal-input11  q">
                             <button onClick={() => setIsOpen(true)}>
                               Submit
@@ -274,8 +236,8 @@ const RentalService = () => {
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
+                    </StyledModalContent>
+                  </StyledModalBackground>
                 </Modal>
               </div>
             </div>

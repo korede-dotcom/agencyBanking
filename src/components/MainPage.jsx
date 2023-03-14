@@ -1,14 +1,14 @@
 import "./MainPage.css";
 import "./modal2.css";
 import "./modal.css";
+import axios from "axios";
 
 import React, { useState } from "react";
 import SideNavbar from "./SideNavbar";
 
-import { FaArrowRight, FaSearch } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 
 import { AiOutlineRight } from "react-icons/ai";
-import { TbSelector } from "react-icons/tb";
 
 import {
   RiArrowDownSFill,
@@ -19,14 +19,14 @@ import {
 //pictures
 import RedChart from "../picture/Vector (1).png";
 import BlueChart from "../picture/Vector.png";
-import BlueTick from "../picture/blueTick.png";
-import Cancel from "../picture/cancel.png";
-import Chart from "../picture/chart.png";
-import Family from "../picture/family.png";
-import Laptop from "../picture/laptop.png";
-import Paid from "../picture/gg1.png";
-import Payment from "../picture/payment.png";
-import POS from "../picture/pos.png";
+import BlueTick from "../picture/BlueTick.svg";
+import Cancel from "../picture/Cancel.svg";
+import Chart from "../picture/chart.svg";
+import Family from "../picture/family.svg";
+import Laptop from "../picture/Laptop.svg";
+import Paid from "../picture/paid.svg";
+import Payment from "../picture/payment.svg";
+import POS from "../picture/pos.svg";
 // import SmallGraph from "../picture/Small Graph.png";
 
 //Charts
@@ -42,6 +42,7 @@ import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import AreaChart2 from "../chart/AreaChart2";
 import AreaChart3 from "../chart/Areachart3";
 import Navbar from "../RE-USEABLE-COMPONENT/Navbar";
+import ColumnSorting from "../RE-USEABLE-COMPONENT/ColumnSorting";
 // import "./table.css";
 
 const Dashboard = () => {
@@ -51,10 +52,6 @@ const Dashboard = () => {
   const [timeFrames, setTimeFrames] = useState(
     localStorage.getItem("timeFrame") || "All"
   );
-  useEffect(() => {
-    localStorage.setItem("timeFrame", timeFrames);
-  }, [timeFrames]);
-  console.log(timeFrames);
 
   let timeFrameModal = [
     { name: "Last 7 Days", value: "Last 7 Days", id: 1 },
@@ -70,34 +67,64 @@ const Dashboard = () => {
   ];
 
   const columns = [
-    { field: "AGENT NAME", icon: <TbSelector />, header: "AGENT NAME" },
+    { field: "AGENT NAME", icon: <ColumnSorting />, header: "AGENT NAME" },
     { field: "AGENT ID", header: "AGENT ID" },
     {
       field: "RESPONSE MESSAGE",
-      icon: <TbSelector />,
+      icon: <ColumnSorting />,
       header: "RESPONSE MESSAGE",
     },
-    { field: "RESP CODE", icon: <TbSelector />, header: "RESP CODE" },
-    { field: "TRANS. TYPE", icon: <TbSelector />, header: "TRANS. TYPE" },
-    { field: "AMOUNT", icon: <TbSelector />, header: "AMOUNT" },
+    { field: "RESP CODE", icon: <ColumnSorting />, header: "RESP CODE" },
+    { field: "TRANS. TYPE", icon: <ColumnSorting />, header: "TRANS. TYPE" },
+    { field: "AMOUNT", icon: <ColumnSorting />, header: "AMOUNT" },
     { field: "EARNINGS", header: "EARNINGS" },
-    { field: "DATE", icon: <TbSelector />, header: "DATE" },
+    { field: "DATE", icon: <ColumnSorting />, header: "DATE" },
     { field: "STATUS", header: "STATUS" },
     {
       field: "TRANSACTION REF.  ",
-      icon: <TbSelector />,
+      icon: <ColumnSorting />,
       header: "TRANSACTION REF. ",
     },
   ];
 
   const [currentPage, setCurrentPage] = useState(1);
   const [postPerPage, setPostPerPage] = useState(10);
+  const [TotalTransaction, setTotalTransaction] = useState(0);
+  const [TotalCommission, setTotalCommission] = useState(0);
+  const [totalAgentManager, setTotalAgentManager] = useState(0);
+  const [TotalAgents, setTotalAgents] = useState(0);
 
   const secondSlice = currentPage * postPerPage;
   const firstSlice = secondSlice - postPerPage;
   const formattedData = DashBoardData.slice(firstSlice, secondSlice);
   const dataLength = DashBoardData.length;
-  const datag = dataLength / postPerPage;
+  // const datag = dataLength / postPerPage;
+
+  let userDetails = JSON.parse(localStorage.getItem("userDetails"));
+
+  const configDashboard = {
+    headers: {
+      Authorization: `bearer ${userDetails?.data?.token}`,
+    },
+  };
+
+  const fetchDashboard = async () => {
+    await axios
+      .get(`${process.env.REACT_APP_HTTP_ROUTER}/dashboard`, configDashboard)
+      .then((res) => {
+        setTotalTransaction(res?.data?.data?.balance.wallet);
+        setTotalAgentManager(res?.data?.data?.total_manager);
+        setTotalAgents(res?.data?.data?.total_agent);
+        setTotalCommission(res?.data?.data?.balance?.commission);
+      })
+      .catch((err) => {
+        console.log(err.res.data);
+      });
+  };
+  useEffect(() => {
+    localStorage.setItem("timeFrame", timeFrames);
+    fetchDashboard();
+  }, []);
 
   return (
     <main className="d-flex">
@@ -109,51 +136,6 @@ const Dashboard = () => {
           input="show"
           placeholder="Search Terminal ID, Agent and Agent Managers"
         />
-        {/* <nav className="top-nav navbar">
-          <div className="left-top-nav ">
-            <h4>Dashboard</h4>
-          </div>
-          <div className="input-top-nav d-flex">
-            <div>
-              <FaSearch />
-            </div>
-            <input
-              type="text"
-              name=""
-              id=""
-              placeholder="Search Terminal ID, Agent or Agent managers"
-            />
-          </div>
-
-          <div className="right-top-nav-div d-flex">
-            <div className="notification">
-              <p>.</p>
-              <div>
-                <FaBell />
-              </div>
-            </div>
-            <Link
-              to="/profile"
-              className="text-dark"
-              style={{ textDecoration: "none" }}
-            >
-              <div className="profile d-flex align-items-center">
-                <div className="profile-img">
-                  <img src={ProfilePicture} alt="" />
-                </div>
-                <div className="profile-name ">
-                  <div>
-                    Okorie Emmanuel{" "}
-                    <span>
-                      <AiOutlineDown />
-                    </span>
-                  </div>
-                  <p>Super Agent</p>
-                </div>
-              </div>
-            </Link>
-          </div>
-        </nav> */}
 
         <div className="main-body container-fluid p-4">
           <div className="row sec1">
@@ -283,7 +265,10 @@ const Dashboard = () => {
               <div className="sub-sec2-div1">
                 <div className="trans">
                   <p>Total Transaction (Naira)</p>
-                  <h4>#5,000,000,783</h4>
+                  <h4>
+                    <span> &#x20A6;</span>
+                    {TotalTransaction}
+                  </h4>
                 </div>
                 <div className="fImg">
                   <img src={Chart} alt="" />
@@ -302,7 +287,10 @@ const Dashboard = () => {
               <div className="sub-sec2-div1">
                 <div className="trans">
                   <p>Total Earning/Commission</p>
-                  <h4>#80,131,139</h4>
+                  <h4>
+                    <span> &#x20A6;</span>
+                    {TotalCommission}
+                  </h4>
                 </div>
                 <div className="fImg">
                   <img src={BlueTick} alt="" />
@@ -361,7 +349,7 @@ const Dashboard = () => {
               <div className="sub-sec2-div1">
                 <div className="trans">
                   <p>Total Number Agent Managers</p>
-                  <h4>1,123</h4>
+                  <h4>{totalAgentManager}</h4>
                 </div>
                 <div className="fImg">
                   <img src={Laptop} alt="" />
@@ -380,7 +368,7 @@ const Dashboard = () => {
               <div className="sub-sec2-div1">
                 <div className="trans">
                   <p>Total Number Of Agents</p>
-                  <h4>4,231</h4>
+                  <h4>{TotalAgents}</h4>
                 </div>
                 <div className="fImg">
                   <img src={Payment} alt="" />
@@ -531,7 +519,7 @@ const Dashboard = () => {
                 <div>
                   <small className="pe-4">Last Week</small>
                   <span>
-                    <TbSelector />
+                    <ColumnSorting />
                   </span>
                 </div>
               </div>
@@ -571,7 +559,8 @@ const Dashboard = () => {
                 <div>
                   <small className="pe-4">Last Week</small>
                   <span>
-                    <TbSelector />
+                    <ColumnSorting />
+                    {/* <TbSelector /> */}
                   </span>
                 </div>
               </div>
@@ -608,7 +597,11 @@ const Dashboard = () => {
               </div>
               <div className="footer-pie-section text-end">
                 <div>
-                  View Full Report <FaArrowRight />
+                  View Full Report{" "}
+                  <span className="fs-5 ps-2">
+                    {" "}
+                    <BsArrowRight />
+                  </span>
                 </div>
               </div>
             </div>
@@ -627,17 +620,21 @@ const Dashboard = () => {
               color={"DashBoardData"}
             />
 
-            <div className="foot-footer bg-white">
-              <p>Showing 1 to 5 of {dataLength} entries</p>
+            {/* <div className="foot-footer bg-white">
+              <p>
+                Showing {firstSlice} to {secondSlice} of {dataLength} entries
+              </p>
               <div className="sub-foot-footer">
-                <button className="previous1">
+                <button
+                  className="previous1"
+                  onClick={() => setCurrentPage(currentPage - 1)}
+                >
                   <div>
                     <BsArrowLeft />
                   </div>
                   <span>Previous</span>
                 </button>
                 <button className="footbtn2">{currentPage}</button>
-                {/* <button className="footbtn2">{currentPage * 2}</button> */}
                 <button
                   className="next1"
                   onClick={() => setCurrentPage(currentPage + 1)}
@@ -648,7 +645,7 @@ const Dashboard = () => {
                   </div>
                 </button>
               </div>
-            </div>
+            </div> */}
             {/* <Pagination /> */}
           </div>
         </div>

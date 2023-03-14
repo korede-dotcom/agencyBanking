@@ -1,0 +1,21 @@
+.mother-div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spinner {
+    border: 5px solid #fff;
+    border-radius: 50%;
+    border-top: 5px solid #1b59f8;
+    width: 22px;
+    height: 22px;
+    margin-right: 1rem;
+    -webkit-animation: spin 1.5s linear infinite; /* Safari */
+    animation: spin 1.5s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }

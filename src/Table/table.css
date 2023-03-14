@@ -37,14 +37,7 @@ td{
 .foot-footer button{
     margin: 0 .3rem;
 }
-.foot-footer .footbtn2{
-    background-color: white;
-    border: 1px solid #ccc;
-    color: #868fa0;
-    padding: .3rem .7rem;
-    border-radius: .2rem;
-}
-.foot-footer .previous1{
+/* .foot-footer .previous1{
     background-color: white;
     border: 1px solid #ccc;
     color: #868fa0;
@@ -52,7 +45,7 @@ td{
     align-items: center;  
     padding: .3rem .7rem;
     border-radius: .2rem;
-}
+} */
 .foot-footer .next1{
     background-color: white;
     border: 1px solid #1b59f8;
@@ -62,7 +55,7 @@ td{
     padding: .3rem .7rem;
     border-radius: .2rem;
 }
-
+/* 
 .foot-footer .next1 div{
     padding-left: .5rem;
     display: flex;
@@ -70,4 +63,4 @@ td{
 .foot-footer .previous1 div{
     padding-right: .5rem;
     display: flex;
-}
+} */

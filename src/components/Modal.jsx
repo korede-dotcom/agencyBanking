@@ -1,5 +1,5 @@
 import "./modal.css";
-// import ReactDom from "react-dom";
+import ReactDom from "react-dom";
 
 const Modal = ({ open, children, type }) => {
   if (open) {
@@ -9,7 +9,10 @@ const Modal = ({ open, children, type }) => {
   }
 
   if (!open) return null;
-  return <>{children}</>;
+  return ReactDom.createPortal(
+    <>{children}</>,
+    document.getElementById("portal")
+  );
 };
 
 export default Modal;

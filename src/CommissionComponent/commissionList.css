@@ -2,7 +2,7 @@
     text-decoration: none;
     font-size: 1rem;
     font-weight: 500;
-    padding: .3rem 1rem;
+    padding: 1.5rem 1rem .5rem 1rem;
 }
 
 .navbar{
@@ -10,4 +10,8 @@
     width: 100%;
     padding: 0 1rem;
     padding-top: .5rem;
+}
+
+.jh{
+    font-size: .85rem;
 }

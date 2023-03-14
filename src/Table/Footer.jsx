@@ -1,28 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
+import { StyledPignation } from "../STYLED-COMPONENT/StyledModal";
 import "./table.css";
 
-function Footer() {
+function Footer({
+  firstNumber,
+  lastNumber,
+  TotalNumber,
+  PreBtn,
+  onClickNext,
+  pignation,
+  setpignation,
+}) {
+  // const [disable, setDiable] = useState();
+  // const page = () => {
+  //   let pageNumber = Math.ciel(17 / 10);
+  //   console.log(pageNumber);
+  // };
+  const previewHandler = () => {
+    setpignation(pignation === 1 ? pignation : pignation - 1);
+  };
+  const nextHandler = () => {
+    setpignation(pignation + 1);
+  };
+
+  // useEffect(() => {
+  //   page();
+  // });
   return (
     <>
       <div className="foot-footer bg-white">
-        <p>Showing 1 to 5 of 100 entries</p>
+        <p>
+          Showing {firstNumber} to {lastNumber} of {TotalNumber} entries
+        </p>
         <div className="sub-foot-footer">
-          <button className="previous1">
-            <div>
-              <BsArrowLeft />
-            </div>
-            <span>Previous</span>
-          </button>
-          <button className="footbtn2">1</button>
-          <button className="footbtn2">2</button>
-          <button className="footbtn2">3</button>
-          <button className="footbtn2">4</button>
-          <button className="footbtn2">...</button>
-          <button className="footbtn2">10</button>
-          <button className="next1">
-            <span>Next</span>
-            <div>
+          <StyledPignation pig="pig" onClick={previewHandler}>
+            <div style={left}>
+              <BsArrowLeft />{" "}
+            </div>{" "}
+            <span style={text}>Preview</span>{" "}
+          </StyledPignation>
+          <StyledPignation pig="pig">{pignation}</StyledPignation>
+          <button className="next1" onClick={nextHandler}>
+            <span style={text}>Next</span>
+            <div style={right}>
               <BsArrowRight />
             </div>
           </button>
@@ -33,3 +54,17 @@ function Footer() {
 }
 
 export default Footer;
+const text = {
+  display: "flex",
+};
+const left = {
+  paddingRight: ".5rem",
+  fontSize: "1rem",
+  display: "flex",
+};
+
+const right = {
+  paddingLeft: ".5rem",
+  fontSize: "1rem",
+  display: "flex",
+};

@@ -1,39 +1,146 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 import "../index.css";
 import SideNavbar from "./SideNavbar";
-// import { Link } from "react-router-dom";
-import { FaSearch } from "react-icons/fa";
-import { TbSelector } from "react-icons/tb";
+// import { FaSearch } from "react-icons/fa";
 
 import Aos from "aos";
 import "aos/dist/aos.css";
 import Modal from "./Modal";
 //pictures
-// import ProfilePicture from "../picture/pics1.jpg";
+import FeaturedIcon from "../picture/Featured icon.png";
 import Table from "../Table/Table";
 import ProviderData from "../Table/ProviderData";
 import { AiOutlinePlus } from "react-icons/ai";
 import Navbar from "../RE-USEABLE-COMPONENT/Navbar";
+import {
+  StyledModalBackground,
+  StyledModalContent,
+  StyledButtonService,
+  StyledSubmit,
+} from "../STYLED-COMPONENT/StyledModal";
+import Selector from "../Libary/Select";
+import ColumnSorting from "../RE-USEABLE-COMPONENT/ColumnSorting";
+import Label from "../RE-USEABLE-COMPONENT/Label";
+import { FaTimes } from "react-icons/fa";
+import CancelBtn from "../RE-USEABLE-COMPONENT/CancelBtn";
+import ButtonLoader from "../RE-USEABLE-COMPONENT/ButtonLoader";
+import Modal2 from "./Modal2";
 
 const ServiceManagement = () => {
   const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    Aos.init({ duration: 300 });
-  }, []);
+  const [cardAdded2, setCardAdded2] = useState(false);
+  const [newService, setNewService] = useState(false);
+  const [addNewService, setAddNewService] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [newProvider, setNewProvider] = useState([]);
+  const [ProviderId, setProviderId] = useState();
+  const [keys, setkeys] = useState("");
+  const [pname, setPname] = useState("");
+  const [pid, setPid] = useState("");
+  const [pstatus, setpstatus] = useState("primary");
+  // const [keyname, setkeyname] = useState("clientId");
+  const [providers, setProviders] = useState({
+    provider_name: "",
+    providerKey: {
+      ClientId: keys && keys,
+    },
+    provider_id: pid && pid,
+  });
+  console.log(pname);
+  console.log(pid);
+  console.log(providers);
+  const [ClientId, setClientId] = useState(false);
 
   const columns = [
-    { field: "SERVICE NAME", icon: <TbSelector />, header: "SERVICE NAME" },
+    { field: "SERVICE NAME", icon: <ColumnSorting />, header: "SERVICE NAME" },
     { field: "CATEGORY", header: "CATEGORY" },
-    { field: "PRICE", icon: <TbSelector />, header: "PRICE" },
-    { field: "PROVIDER", icon: <TbSelector />, header: "PROVIDER" },
+    { field: "PRICE", icon: <ColumnSorting />, header: "PRICE" },
+    { field: "PROVIDER", icon: <ColumnSorting />, header: "PROVIDER" },
     {
       field: "ACTIVE/DE-ACTIVE",
-      icon: <TbSelector />,
+      icon: <ColumnSorting />,
       header: "ACTIVE/DE-ACTIVE",
     },
   ];
+
+  let userDetail = JSON.parse(localStorage.getItem("userDetails"));
+
+  const config = {
+    headers: {
+      Authorization: `bearer ${userDetail?.data?.token}`,
+      // "Content-Type": "multipart/form-data",
+    },
+  };
+
+  const fetchAgents = async () => {
+    await axios
+      .get(`${process.env.REACT_APP_HTTP_ROUTER}/provider`, config)
+      .then((res) => {
+        setNewProvider(res?.data?.data?.providers);
+        setProviderId(res?.data?.data?.providers[0]?.id);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  console.log(ProviderId);
+  const sortState = newProvider.map((d) => {
+    const state = d.name;
+    return {
+      value: d.id,
+      label: d.name,
+    };
+  });
+
+  // const handleChange = (e) => {
+  //   const { value, name } = e.target;
+
+  //   setProviders((prev) => {
+  //     return { ...prev, [name]: value };
+  //   });
+  // };
+
+  const submitNewProvider = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const AddNewAgent = await axios
+      .post(
+        `${process.env.REACT_APP_HTTP_ROUTER}/provider/select`,
+        {
+          status: pstatus,
+          provider_name: pname,
+          providerKey: {
+            clientId: keys && keys,
+          },
+          provider_id: pid && pid,
+        },
+        config
+      )
+      // .then((response) => {
+      //   if (response?.data?.status === true) {
+      //     // throw new Error("something went wrong ");
+      //     loading(false);
+      //     setCardAdded2(true);
+      //     setIsOpen(false);
+      //     setTimeout(() => {
+      //       window.location.assign("/service-management");
+      //     }, 2000);
+      //   }
+      // })
+      .catch((e) => {
+        setLoading(false);
+        console.log(e);
+        // toast.error(`${e.response.data.errors[0].msg}`);
+      });
+  };
+
+  useEffect(() => {
+    Aos.init({ duration: 300 });
+    fetchAgents();
+  }, []);
   return (
     <main className="d-flex">
       <SideNavbar />
@@ -44,194 +151,306 @@ const ServiceManagement = () => {
           input="show"
           placeholder="Search Terminal ID, Agent or Agent Managers"
         />
-        {/* <nav className="top-nav navbar">
-          <div className="left-top-nav ">
-            <h4>Service Management</h4>
-          </div>
-
-          <div className="input-top-nav d-flex">
-            <div>
-              <FaSearch />
-            </div>
-            <input
-              type="text"
-              name=""
-              id=""
-              placeholder="Search Terminal ID, Agent or Agent managers"
-            />
-          </div>
-
-          <div className="right-top-nav-div d-flex">
-            <div className="notification">
-              <p>.</p>
-              <div>
-                <FaBell />
-              </div>
-            </div>
-
-            <Link
-              to="/profile"
-              className="text-dark"
-              style={{ textDecoration: "none" }}
-            >
-              <div className="profile d-flex align-items-center">
-                <div className="profile-img">
-                  <img src={ProfilePicture} alt="" />
-                </div>
-                <div className="profile-name ">
-                  <div>
-                    Okorie Emmanuel{" "}
-                    <span>
-                      <FaArrowDown />
-                    </span>
-                  </div>
-                  <p>Super Agent</p>
-                </div>
-              </div>
-            </Link>
-          </div>
-        </nav> */}
         <div className="body--content">
           <div className="footer">
             <div className="nav-footer">
               <h6>Service / Providers</h6>
               <div
                 className="d-flex justify-content-between"
-                style={{ width: "65%" }}
+                // style={{ width: "65%" }}
               >
-                <div
-                  className="input-top-nav d-flex align-items-center"
-                  style={{
-                    background: "#f8faff",
-                    border: "1px solid #00b3fe",
-                    width: "60%",
-                  }}
-                >
-                  <div style={{ color: "#868fa0" }}>
-                    <FaSearch />
-                  </div>
-                  <input
-                    type="text"
-                    name=""
-                    id=""
-                    placeholder="Search Service name, Category,Price, e.t.c"
-                    style={{ background: "#f8faff" }}
-                  />
-                </div>
-
-                <button
-                  className="main-account-aside3-btn1 "
-                  onClick={() => setIsOpen(true)}
-                  style={{ display: "flex", alignItems: "center" }}
-                >
+                <StyledButtonService onClick={() => setIsOpen(true)}>
                   <span className="pe-2">
                     <AiOutlinePlus />
                   </span>{" "}
-                  Add New Service
-                </button>
+                  Add New Provider
+                </StyledButtonService>
 
                 <Modal open={isOpen}>
-                  <div
-                    className="overlay"
-                    // onClick={() => {
-                    //   setIsOpen(false);
-                    //   // setIsDropped(!isDropped);
-                    // }}
-                  >
-                    <div
-                      className="container bg-white mt-3"
-                      style={{ padding: "2rem 4rem", borderRadius: ".4rem" }}
+                  <StyledModalBackground>
+                    <StyledModalContent
+                      width="70%"
+                      padding="2rem 3rem"
                       data-aos="slide-down"
                     >
                       <h4 className="add-new-terminal-sub1 d-flex justify-content-between px-4">
-                        <p>Add New Service</p>
+                        <p>Add New Provider</p>
 
                         <button
                           onClick={() => setIsOpen(false)}
                           style={{ border: "none", background: "white" }}
                         >
-                          X
+                          <CancelBtn />
+                        </button>
+                      </h4>
+
+                      <form action="" onSubmit={submitNewProvider}>
+                        <div className="add-new-terminal-input ">
+                          <div className="add-new-terminal mb-3">
+                            <div className="add-new-terminal-input1">
+                              <Label
+                                text="Primary Provider"
+                                type="require"
+                                htmlFor="PrimaryProvider"
+                              />
+                              <Selector
+                                id="PrimaryProvider"
+                                placeholder="Select your default provider"
+                                // value={providers.provider_name}
+                                data={sortState}
+                                selected={(e) => {
+                                  setPname(e.label);
+                                  setPid(e.value);
+                                }}
+                              />
+                            </div>
+                            <div className="add-new-terminal-input1">
+                              <Label
+                                text="secondary provider (optional)"
+                                type="normal"
+                                htmlFor="secondaryprovider"
+                              />
+
+                              <Selector
+                                id="secondaryprovider"
+                                placeholder="Select your secondary provider"
+                              />
+                            </div>
+                          </div>
+
+                          <div className="add-new-terminal ">
+                            <Modal2 emma={ClientId}>
+                              <div className="sub-modal-content-add-agent  ">
+                                <Label
+                                  text="Provider key"
+                                  type="require"
+                                  htmlFor="primaryProviderKey"
+                                />
+
+                                <input
+                                  type="text"
+                                  // width="100%"
+                                  id="primaryProviderKey"
+                                  placeholder="Enter your Provider key"
+                                  // onChange={handleChange}
+                                  name="primaryProviderKey"
+                                  value={providers.providerKey}
+                                />
+                              </div>
+                            </Modal2>
+                            {/* <div className="sub-modal-content-add-agent ">
+                              <Label
+                                text="Service ID (For Secondary Provider)"
+                                type="require"
+                                htmlFor="ServiceID"
+                              />
+                              <input
+                                type="text"
+                                id="ServiceID"
+                                placeholder="Enter Service ID"
+                                onChange={handleChange}
+                              />
+                            </div> */}
+                          </div>
+
+                          <div className="add-new-terminal ">
+                            <div className="sub-modal-content-add-agent  ">
+                              <Label
+                                text="Service ID (For Primary Provider)"
+                                type="require"
+                                htmlFor="ServiceName"
+                              />
+
+                              <input
+                                type="text"
+                                id="ServiceName"
+                                placeholder="Enter Service Name"
+                                onChange={(e) => setkeys(e.target.value)}
+                                name="primaryServiceProvider"
+                                // value={providers.primaryServiceProvider}
+                              />
+                            </div>
+                            <div className="sub-modal-content-add-agent ">
+                              <Label
+                                text="Service ID (For Secondary Provider)"
+                                type="require"
+                                htmlFor="ServiceID"
+                              />
+                              <input
+                                type="text"
+                                id="ServiceID"
+                                placeholder="Enter Service ID"
+                                // onChange={handleChange}
+                              />
+                            </div>
+                          </div>
+
+                          <div className="add-new-terminal ">
+                            <div className="add-new-terminal-input11  q">
+                              <button
+                                onClick={() => {
+                                  // setIsOpen(false);
+                                  // setCardAdded2(true);
+                                }}
+                              >
+                                {loading ? (
+                                  <ButtonLoader text="Loading..." />
+                                ) : (
+                                  "Submit"
+                                )}
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </StyledModalContent>
+                  </StyledModalBackground>
+                </Modal>
+
+                <Modal open={cardAdded2}>
+                  <StyledModalBackground
+                    onClick={() => {
+                      setCardAdded2(false);
+                    }}
+                  >
+                    <StyledModalContent
+                      data-aos="zoom-up"
+                      width="30%"
+                      padding="1rem"
+                    >
+                      <div className="modal-content-n mb-3">
+                        <div>
+                          <img src={FeaturedIcon} alt="" />
+                        </div>
+                      </div>
+
+                      <div className="modal-content-card-added text-dark">
+                        <h4>Card Added</h4>
+                        <p>Your Card Details has been successfully Added.</p>
+                      </div>
+                    </StyledModalContent>
+                  </StyledModalBackground>
+                </Modal>
+
+                <StyledButtonService
+                  new="new"
+                  onClick={() => {
+                    setNewService(true);
+                  }}
+                >
+                  <span className="pe-2">
+                    <AiOutlinePlus />
+                  </span>{" "}
+                  Add New Service
+                </StyledButtonService>
+
+                <Modal open={newService}>
+                  <StyledModalBackground>
+                    <StyledModalContent
+                      width="50%"
+                      padding="2rem 3rem"
+                      data-aos="slide-down"
+                    >
+                      <h4 className="add-new-terminal-sub1 d-flex justify-content-between px-4">
+                        <p>My Services</p>
+
+                        <button
+                          onClick={() => setNewService(false)}
+                          style={{
+                            border: "none",
+                            background: "transparent",
+                            display: "flex",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          <span className="fs-4">
+                            <FaTimes />
+                          </span>
                         </button>
                       </h4>
 
                       <div className="add-new-terminal-input ">
                         <div className="add-new-terminal ">
-                          <div className="add-new-terminal-input1 ">
-                            <label htmlFor="ServiceName">Service Name</label>
-                            <input
-                              type="text"
-                              id="ServiceName"
-                              placeholder="Enter Service Name"
-                            />
+                          <div style={btn2}>
+                            <StyledSubmit
+                              padding=".7rem 0"
+                              onClick={() => {
+                                setNewService(false);
+                                setAddNewService(true);
+                              }}
+                            >
+                              Add More Services
+                            </StyledSubmit>
                           </div>
-                          <div className="add-new-terminal-input1 ">
-                            <label htmlFor="ServiceID">Service ID</label>
-                            <input
-                              type="text"
-                              id="ServiceID"
-                              placeholder="Enter Service ID"
-                            />
-                          </div>
-                        </div>
-
-                        <div className="add-new-terminal ">
-                          <div className="add-new-terminal-input11 ">
-                            <label htmlFor="ServicePrice">Pricing</label>
-                            <div>
-                              <input
-                                type="text"
-                                id="ServicePrice"
-                                placeholder="Enter pricing for service"
-                              />
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="fs-3 fw-bold text-dark">
-                          Select Provider
-                        </div>
-
-                        <div className="add-new-terminal">
-                          <div className="add-new-terminal-input1 ">
-                            <label htmlFor="PrimaryProvider">
-                              Primary Provider
-                            </label>
-                            <input
-                              type="text"
-                              id="PrimaryProvider"
-                              placeholder="Select your default provider"
-                            />
-                          </div>
-                          <div className="add-new-terminal-input1 ">
-                            <label htmlFor="secondaryprovider">
-                              secondary provider (optional)
-                            </label>
-                            <input
-                              type="text"
-                              id="secondaryprovider"
-                              placeholder="Select your secondary provider"
-                            />
-                          </div>
-                        </div>
-
-                        <div className="add-new-terminal ">
-                          {/* <div className="add-new-terminal-input1 ">
-                            <label htmlFor="FullName">Assign Agent</label>
-                            <input
-                              type="text"
-                              id="FullName"
-                              placeholder="Select an existing Agent to terminal (optional"
-                            />
-                          </div> */}
-                          <div className="add-new-terminal-input11  q">
-                            <button onClick={() => setIsOpen(true)}>
-                              Submit
-                            </button>
+                          <div style={btn2}>
+                            <StyledSubmit
+                              done="done"
+                              padding=".7rem 0"
+                              onClick={() => {
+                                setNewService(false);
+                              }}
+                            >
+                              Done
+                            </StyledSubmit>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
+                    </StyledModalContent>
+                  </StyledModalBackground>
+                </Modal>
+
+                <Modal open={addNewService}>
+                  <StyledModalBackground>
+                    <StyledModalContent
+                      width="45%"
+                      padding="2rem 3rem"
+                      data-aos="slide-down"
+                    >
+                      <h4 className="add-new-terminal-sub1 d-flex justify-content-between px-4">
+                        <p>My Services</p>
+
+                        <button
+                          onClick={() => setAddNewService(false)}
+                          style={{
+                            border: "none",
+                            background: "white",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          X
+                        </button>
+                      </h4>
+
+                      <div className="section-myservice px-2">
+                        <div className="my-services">
+                          {/* were to display (my service data) */}
+                        </div>
+
+                        <div className="my-services-add-service">
+                          <h5>Add New Services</h5>
+                          <p>
+                            Select from the lists of Services provided below
+                          </p>
+
+                          <form action="">
+                            <label htmlFor="">Select All</label>
+                            {/* were (add new services will display) */}
+                          </form>
+                        </div>
+                      </div>
+                      <div className="add-new-terminal ">
+                        <StyledSubmit
+                          done="done"
+                          padding=".7rem 0"
+                          onClick={() => {
+                            setAddNewService(false);
+                          }}
+                        >
+                          Proceed
+                        </StyledSubmit>
+                      </div>
+                    </StyledModalContent>
+                  </StyledModalBackground>
                 </Modal>
               </div>
             </div>
@@ -250,3 +469,7 @@ const ServiceManagement = () => {
 };
 
 export default ServiceManagement;
+
+const btn2 = {
+  width: "48%",
+};

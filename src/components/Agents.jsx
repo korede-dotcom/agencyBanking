@@ -1,44 +1,132 @@
 import "../index.css";
 import SideNavbar from "./SideNavbar";
 import { Link } from "react-router-dom";
-// import Modal from "./Modal";
-// import { useState } from "react";
-import { FaSearch, FaTimes } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import React, { useEffect, useState } from "react";
 import Aos from "aos";
 import "aos/dist/aos.css";
 import Modal from "./Modal";
-import { TbSelector } from "react-icons/tb";
-// import AgentManagerData from "../Table/AgentManagerData";
 import Table from "../Table/Table";
+import axios from "axios";
 
 //pictures
-// import ProfilePicture from "../picture/pics1.jpg";
 import FeaturedIcon from "../picture/Featured icon.png";
-import FeaturedIcon2 from "../picture/FeaturedIcon2.png";
 import { AiOutlinePlus } from "react-icons/ai";
-import AgentData from "../Table/AgentData";
 import Navbar from "../RE-USEABLE-COMPONENT/Navbar";
+import Selector from "../Libary/Select";
+import {
+  StyledModalBackground,
+  StyledModalContent,
+} from "../STYLED-COMPONENT/StyledModal";
+import ColumnSorting from "../RE-USEABLE-COMPONENT/ColumnSorting";
+import Label from "../RE-USEABLE-COMPONENT/Label";
+import CancelBtn from "../RE-USEABLE-COMPONENT/CancelBtn";
+import ButtonLoader from "../RE-USEABLE-COMPONENT/ButtonLoader";
 
-const Agents = () => {
+const Agents = ({ agents, userAgentDetails1 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [cardAdded, setCardAdded] = useState(false);
   const [cardAdded2, setCardAdded2] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [userId, setUserId] = useState("");
+  const [agentd, setagentd] = useState("");
 
-  useEffect(() => {
-    Aos.init({ duration: 300 });
-  }, []);
+  const [agentInput, setAgentInput] = useState({
+    fullname: "",
+    phonenumber: "",
+    address: "",
+    email: "",
+    business_name: "",
+    localgovt: "",
+    state: "",
+    region: "",
+    agentrental_type: "",
+  });
 
   const columns = [
-    { field: "Agent Name", icon: <TbSelector />, header: "Agent Name" },
+    { field: "Agent Name", icon: <ColumnSorting />, header: "Agent Name" },
     { field: "Agent ID", header: "Agent ID" },
-    { field: "phone", icon: <TbSelector />, header: "Phone Number" },
-    { field: "Business Name", icon: <TbSelector />, header: "Business Name" },
-    { field: "Email Address", icon: <TbSelector />, header: "Email Address" },
-    { field: "states", icon: <TbSelector />, header: "States" },
+    { field: "phone", icon: <ColumnSorting />, header: "Phone Number" },
+    {
+      field: "Business Name",
+      icon: <ColumnSorting />,
+      header: "Business Name",
+    },
+    {
+      field: "Email Address",
+      icon: <ColumnSorting />,
+      header: "Email Address",
+    },
+    { field: "states", icon: <ColumnSorting />, header: "States" },
     { field: "status", header: "Status" },
   ];
+
+  const selectOption = [
+    { value: "everydaypay", label: "Every day Pay" },
+    { value: "fullydaypaid", label: "Fully Day Paid" },
+  ];
+  let userDetail = JSON.parse(localStorage.getItem("userDetails"));
+
+  const configAgent = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `bearer ${userDetail?.data?.token}`,
+    },
+  };
+
+  const FetchAgentid = () => {
+    axios
+      .get(
+        `${process.env.REACT_APP_HTTP_ROUTER}/user/agents/all?id=${userId}`,
+        configAgent
+      )
+      .then((response) => {
+        setagentd(response?.data);
+      });
+  };
+
+  const handleChange = (e) => {
+    const { value, name } = e.target;
+
+    setAgentInput((prev) => {
+      return { ...prev, [name]: value };
+    });
+  };
+
+  const submitAgent = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const AddNewAgent = await axios
+      .post(
+        `${process.env.REACT_APP_HTTP_ROUTER}/user/onboard/agent`,
+        agentInput,
+        configAgent
+      )
+      .then((response) => {
+        if (response?.data?.status === true) {
+          // throw new Error("something went wrong ");
+          loading(false);
+          setCardAdded2(true);
+          setIsOpen(false);
+          setTimeout(() => {
+            window.location.assign("/agent-Management/agents");
+          }, 2000);
+        }
+      })
+      .catch((e) => {
+        setLoading(false);
+        console.log(e);
+        toast.error(`${e.response.data.errors[0].msg}`);
+      });
+  };
+
+  useEffect(() => {
+    FetchAgentid();
+    Aos.init({ duration: 300 });
+  }, []);
 
   return (
     <main className="d-flex">
@@ -46,40 +134,6 @@ const Agents = () => {
 
       <section className="section1 ">
         <Navbar text="Agent Management" />
-        {/* <nav className="top-nav navbar">
-          <div className="left-top-nav ">
-            <h4>Agent Management</h4>
-          </div>
-
-          <div className="right-top-nav-div d-flex">
-            <div className="notification">
-              <p>.</p>
-              <div>
-                <FaBell />
-              </div>
-            </div>
-            <Link
-              to="/profile"
-              className="text-dark"
-              style={{ textDecoration: "none" }}
-            >
-              <div className="profile d-flex align-items-center">
-                <div className="profile-img">
-                  <img src={ProfilePicture} alt="" />
-                </div>
-                <div className="profile-name ">
-                  <div>
-                    Okorie Emmanuel{" "}
-                    <span>
-                      <FaArrowDown />
-                    </span>
-                  </div>
-                  <p>Super Agent</p>
-                </div>
-              </div>
-            </Link>
-          </div>
-        </nav> */}
         <div className="body--content">
           <div className="footer">
             <div className="nav-footer">
@@ -116,16 +170,10 @@ const Agents = () => {
                 </button>
 
                 <Modal open={isOpen}>
-                  <div
-                    className="overlay"
-                    onClick={() => {
-                      // setIsOpen(false);
-                      // setIsDropped(!isDropped)
-                    }}
-                  >
-                    <div
-                      className="container bg-white mt-5 text-dark"
-                      style={{ padding: "3rem 4rem", borderRadius: ".4rem" }}
+                  <StyledModalBackground>
+                    <StyledModalContent
+                      width="75%"
+                      padding="1.5rem 4rem"
                       data-aos="slide-down"
                     >
                       <div className="modal-content-sec1 d-flex pb-3 fw-bold">
@@ -133,234 +181,240 @@ const Agents = () => {
                         <button
                           onClick={() => {
                             setIsOpen(false);
-                            // setIsDropped(!isDropped)
                           }}
-                          className="fs-5"
                         >
-                          X
+                          <CancelBtn />
                         </button>
                       </div>
 
-                      <div className="modal-content-payment-method">
-                        <div className="modal-content-add-agent">
-                          <div className="sub-modal-content-add-agent">
-                            <label htmlFor="AgentFullName">
-                              Agent`s Full Name
-                            </label>
-                            <div>
-                              <input
-                                type="text"
-                                placeholder="Enter Your Business Name"
-                                id="AgentFullName"
+                      <form action="" onSubmit={submitAgent}>
+                        <div className="modal-content-payment-method">
+                          <div className="modal-content-add-agent">
+                            <div className="sub-modal-content-add-agent">
+                              <Label
+                                text="Agent`s Full Name"
+                                type="require"
+                                htmlFor="AgentFullName"
                               />
+                              <div>
+                                <input
+                                  type="text"
+                                  placeholder="Enter Your Business Name"
+                                  id="AgentFullName"
+                                  name="fullname"
+                                  value={agentInput.fullname}
+                                  onChange={handleChange}
+                                />
+                              </div>
+                            </div>
+
+                            <div className="sub-modal-content-add-agent">
+                              <Label
+                                text="Phone Number (Must be attached to your BVN)"
+                                type="require"
+                                htmlFor="PhoneNumber"
+                              />
+                              <div>
+                                <input
+                                  type="number"
+                                  placeholder="Enter your Phone Number linked to your BVN"
+                                  id="PhoneNumber"
+                                  name="phonenumber"
+                                  value={agentInput.phonenumber}
+                                  onChange={handleChange}
+                                />
+                              </div>
                             </div>
                           </div>
 
-                          <div className="sub-modal-content-add-agent">
-                            <label htmlFor="PhoneNumber">
-                              Phone Number (Must be attached to your BVN)
-                            </label>
-                            <div>
-                              <input
-                                type="text"
-                                placeholder="Enter your Phone Number linked to your BVN"
-                                id="PhoneNumber"
+                          <div className="modal-content-add-agent">
+                            <div className="sub-modal-content-add-agent">
+                              <Label
+                                text="Business Name"
+                                type="require"
+                                htmlFor="BusinessName"
                               />
+                              <div>
+                                <input
+                                  type="text"
+                                  placeholder="Enter Your Business Name"
+                                  id="BusinessName"
+                                  name="business_name"
+                                  value={agentInput.business_name}
+                                  onChange={handleChange}
+                                />
+                              </div>
                             </div>
-                          </div>
-                        </div>
 
-                        <div className="modal-content-add-agent">
-                          <div className="sub-modal-content-add-agent">
-                            <label htmlFor="BusinessName">Business Name</label>
-                            <div>
-                              <input
-                                type="text"
-                                placeholder="Enter Your Business Name"
-                                id="BusinessName"
+                            <div className="sub-modal-content-add-agent">
+                              <Label
+                                text="Business Address"
+                                type="require"
+                                htmlFor="BusinessAddress"
                               />
-                            </div>
-                          </div>
-
-                          <div className="sub-modal-content-add-agent">
-                            <label htmlFor="BusinessAddress">
-                              Business Address
-                            </label>
-                            <div>
-                              <input
-                                type="text"
-                                placeholder="Enter Your Business Address"
-                                id="BusinessAddress"
-                              />
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="modal-content-add-agent">
-                          <div className="sub-modal-content-add-agent">
-                            <label htmlFor="LocalGovernmentArea">
-                              Local Government Area
-                            </label>
-                            <div>
-                              <input
-                                type="text"
-                                placeholder="Enter your Local Government Area"
-                                id="LocalGovernmentArea"
-                              />
+                              <div>
+                                <input
+                                  type="text"
+                                  placeholder="Enter Your Business Address"
+                                  id="BusinessAddress"
+                                  name="address"
+                                  value={agentInput.address}
+                                  onChange={handleChange}
+                                />
+                              </div>
                             </div>
                           </div>
 
-                          <div className="sub-modal-content-add-agent">
-                            <label htmlFor="agentState">State</label>
-                            <div>
-                              <input
-                                type="text"
-                                placeholder="Enter your State"
-                                id="agentState"
+                          <div className="modal-content-add-agent">
+                            <div className="sub-modal-content-add-agent">
+                              <Label
+                                text="Local Government Area"
+                                type="require"
+                                htmlFor="LocalGovernmentArea"
                               />
+                              <div>
+                                <input
+                                  type="text"
+                                  placeholder="Enter your Local Government Area"
+                                  id="LocalGovernmentArea"
+                                  name="localgovt"
+                                  value={agentInput.localgovt}
+                                  onChange={handleChange}
+                                />
+                              </div>
+                            </div>
+
+                            <div className="sub-modal-content-add-agent">
+                              <Label
+                                text="State"
+                                type="require"
+                                htmlFor="agentState"
+                              />
+                              <div>
+                                <input
+                                  type="text"
+                                  placeholder="Enter your State"
+                                  id="agentState"
+                                  name="state"
+                                  value={agentInput.state}
+                                  onChange={handleChange}
+                                />
+                              </div>
                             </div>
                           </div>
-                        </div>
 
-                        <div className="modal-content-add-agent">
-                          <div className="sub-modal-content-add-agent">
-                            <label htmlFor="LocalGovernmentArea">
-                              Government Issued ID (BVN,NIN)
-                            </label>
-                            <div>
-                              <input
-                                type="text"
-                                placeholder="Enter your Government Issued ID"
-                                id="LocalGovernmentArea"
+                          <div className="modal-content-add-agent">
+                            <div className="sub-modal-content-add-agent">
+                              <Label
+                                text="Region"
+                                type="require"
+                                htmlFor="region"
                               />
+                              <div>
+                                <input
+                                  type="text"
+                                  placeholder="Region"
+                                  id="region"
+                                  name="region"
+                                  value={agentInput.region}
+                                  onChange={handleChange}
+                                />
+                              </div>
+                            </div>
+                            <div className="sub-modal-content-add-agent">
+                              <Label
+                                text="Agent Type"
+                                type="require"
+                                htmlFor="agentrental_type"
+                              />
+                              <div>
+                                <Selector
+                                  selected={(e) =>
+                                    setAgentInput((prev) => {
+                                      return {
+                                        ...prev,
+                                        agentrental_type: e.value,
+                                      };
+                                    })
+                                  }
+                                  value={agentInput.agentrental_type}
+                                  data={selectOption}
+                                />
+                              </div>
                             </div>
                           </div>
 
-                          <div className="sub-modal-content-add-agent">
-                            <label htmlFor="" style={{ color: "white" }}>
-                              .
-                            </label>
-                            <div>
-                              <button
-                                className=""
-                                onClick={() => {
-                                  setCardAdded(true);
-                                  setIsOpen(false);
-                                }}
+                          <div className="modal-content-add-agent">
+                            <div className="sub-modal-content-add-agent">
+                              <Label
+                                text="Email Address"
+                                type="require"
+                                htmlFor="email"
+                              />
+                              <div>
+                                <input
+                                  type="email"
+                                  placeholder="Enter your Email address"
+                                  id="email"
+                                  name="email"
+                                  value={agentInput.email}
+                                  onChange={handleChange}
+                                />
+                              </div>
+                            </div>
+
+                            <div className="sub-modal-content-add-agent">
+                              <label
+                                htmlFor=""
+                                style={{ color: "white", paddingTop: "10px" }}
                               >
-                                Submit
-                              </button>
+                                .
+                              </label>
+                              <div>
+                                <button
+                                  type="submit"
+                                  className=""
+                                  // onClick={() => {
+                                  //   setCardAdded2(true);
+                                  //   setIsOpen(false);
+                                  // }}
+                                >
+                                  {loading ? (
+                                    <ButtonLoader text="Loading..." />
+                                  ) : (
+                                    "Submit"
+                                  )}
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                </Modal>
-
-                <Modal open={cardAdded}>
-                  <div className="overlay">
-                    <div
-                      className="container bg-white text-dark"
-                      style={{
-                        padding: "1rem",
-                        borderRadius: ".4rem",
-                        width: "30%",
-                        marginTop: "10rem",
-                      }}
-                      data-aos="zoom-up"
-                    >
-                      <div className=" ">
-                        <div className="d-flex justify-content-between">
-                          <div /* style={{ width: "50%" }} */>
-                            <img
-                              style={{ width: "80%" }}
-                              src={FeaturedIcon2}
-                              alt=""
-                            />
-                          </div>
-                          <button
-                            style={{
-                              background: "transparent",
-                              border: "none",
-                            }}
-                            onClick={() => {
-                              setCardAdded(false);
-                            }}
-                          >
-                            <FaTimes />
-                          </button>
-                        </div>
-                      </div>
-
-                      <div className="modal-content-card-added pt-2 text-dark">
-                        <h5>Card Added</h5>
-                        <p style={{ fontSize: ".8rem" }}>
-                          Your Card Details has been successfully Added.
-                        </p>
-                      </div>
-
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                        }}
-                      >
-                        <button
-                          onClick={() => {
-                            setCardAdded(false);
-                          }}
-                          className=""
-                          style={{
-                            border: "1px solid #868fa0",
-                            background: "white",
-                            width: "45%",
-                            fontSize: ".8rem",
-                            borderRadius: ".4rem",
-                            padding: ".5rem 0",
-                          }}
-                        >
-                          Cancel
-                        </button>
-                        <button
-                          onClick={() => {
-                            setCardAdded(false);
-                            setCardAdded2(true);
-                          }}
-                          className=""
-                          style={{
-                            border: "none",
-                            background: "#1b59f8",
-                            color: "white",
-                            width: "45%",
-                            fontSize: ".8rem",
-                            borderRadius: ".4rem",
-                            padding: ".5rem 0",
-                          }}
-                        >
-                          Confirm
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+                      </form>
+                      <ToastContainer
+                        position="top-center"
+                        autoClose={900}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme="light"
+                      />
+                    </StyledModalContent>
+                  </StyledModalBackground>
                 </Modal>
 
                 <Modal open={cardAdded2}>
-                  <div
-                    className="overlay"
+                  <StyledModalBackground
                     onClick={() => {
                       setCardAdded2(false);
                     }}
                   >
-                    <div
-                      className="container bg-white text-dark"
-                      style={{
-                        padding: "1rem",
-                        borderRadius: ".4rem",
-                        width: "30%",
-                        marginTop: "10rem",
-                      }}
+                    <StyledModalContent
+                      padding="1rem"
+                      width="27%"
                       data-aos="zoom-up"
                     >
                       <div className="modal-content-n mb-3">
@@ -373,8 +427,8 @@ const Agents = () => {
                         <h4>Card Added</h4>
                         <p>Your Card Details has been successfully Added.</p>
                       </div>
-                    </div>
-                  </div>
+                    </StyledModalContent>
+                  </StyledModalBackground>
                 </Modal>
               </div>
             </div>
@@ -387,8 +441,9 @@ const Agents = () => {
             <div className="footer">
               <Table
                 columns={columns}
-                AgentData={AgentData}
+                agents={agents}
                 color={"AgentData"}
+                userAgentDetails1={(id) => setUserId(id)}
               />
             </div>
           </div>

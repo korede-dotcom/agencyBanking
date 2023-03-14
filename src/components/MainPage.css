@@ -23,17 +23,23 @@ main{
     font-size: .65rem;
 }
 .profile-name div{
-    font-size: .8rem;
+    font-size: .9rem;
     font-weight: 600;
     display: flex;
     align-items: center;
+    font-size: .92rem;
+    letter-spacing: .02rem;
 }
 .profile-name span{
-    font-size: .5rem;
-    padding-left: .5rem;
+    font-size: .6rem;
+    padding-left: .8rem;
 }
 .profile-name{
     padding-left: .5rem;
+}
+
+.profile{
+    border-left: 1px solid #868fa0;
 }
 
 .input-top-nav{
@@ -62,9 +68,6 @@ main{
     font-size: .7rem;
 
 }
-/* .top-nav{
-    background-color: white;
-} */
 .input-top-nav div{
     padding: 0 1rem;
     color: #868fa0;
@@ -73,17 +76,19 @@ main{
 .right-top-nav-div .notification{
     position: relative;
     background-color: #f5f5f5;
-    height: 2rem;
-    width: 2rem;
+    height: 2.5rem;
+    width: 2.5rem;
     border-radius: 100%;
-    margin-right: .5rem ;
+    margin-right: 1rem ;
 }
-.profile{
-    border-left: 1px solid #868fa0;
-}
+
+/* .right-top-nav-div{
+    width: 18%;
+} */
 .right-top-nav-div .notification div{
     position: absolute;
     top: 50%;
+    font-size: 1.3rem;
     left: 50%;
     color: #868fa0;
     transform: translate(-50%, -50%);
@@ -91,10 +96,10 @@ main{
 .right-top-nav-div .notification p{
     color: red;
     position: absolute;
-    top: -38px;
+    top: -52px;
     z-index: 1;
-    right: 6px;
-    font-size: 3rem;
+    right: 7px;
+    font-size: 4rem;
     margin: 0;
 }
 
@@ -138,7 +143,7 @@ main{
     color: #868fa0;
 }
 .trans h4{
-    font-weight: 700;
+    font-weight: 790;
     color: rgba(0, 0, 0, 0.7);
 }
 
@@ -147,8 +152,8 @@ main{
 }
 .sec2-div1 .fImg{
     text-align: end;
-    width: 45px;
-    height: 45px;
+    width: 50px;
+    height: 50px;
 }
 .sec2-div1 aside span{
     font-size: 10px;
@@ -285,6 +290,9 @@ main{
 .nav-pie-section div span{
     font-size: 1rem;
     cursor: pointer;
+    display: flex;
+    /* border: 1px solid white; */
+
 }
 .nav-pie-section p{
     font-size: .9rem;

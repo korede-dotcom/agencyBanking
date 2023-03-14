@@ -4,34 +4,34 @@ import { TbSelector } from "react-icons/tb";
 import { NavLink } from "react-router-dom";
 
 //pictures
-import PhoneCall from "./pictures/phone-call.png";
-import Data from "./pictures/data.png";
-import Internet from "./pictures/internet.png";
-import SmartTv from "./pictures/SmartTv.png";
-import Wifi from "./pictures/wifi.png";
-import Other from "./pictures/other.png";
+import PhoneCall from "./pictures/Phone.svg";
+import Data from "./pictures/data.svg";
+import Internet from "./pictures/internet.svg";
+import SmartTv from "./pictures/Smart Tv.svg";
+import Wifi from "./pictures/wifi.svg";
+import Other from "./pictures/other.svg";
 
 function CommissionList() {
   const data = [
     {
       name: "AIRTIME",
       url: "airtime",
-      img: { PhoneCall },
+      img: { img: PhoneCall },
       icon: <TbSelector />,
       id: 1,
     },
-    { name: "DATA", url: "Data", img: { Data }, id: 2 },
-    { name: "CABLE TV", url: "CableTV", img: { Wifi }, id: 3 },
-    { name: "ELECTRICITY", url: "Electricity", img: { SmartTv }, id: 4 },
-    { name: "INTERNET", url: "internet", img: { Internet }, id: 5 },
-    { name: "OTHERS", url: "others", img: { Other }, id: 6 },
+    { name: "DATA", url: "Data", img: { img: Data }, id: 2 },
+    { name: "CABLE TV", url: "CableTV", img: { img: Wifi }, id: 3 },
+    { name: "ELECTRICITY", url: "Electricity", img: { img: SmartTv }, id: 4 },
+    { name: "INTERNET", url: "internet", img: { img: Internet }, id: 5 },
+    { name: "OTHERS", url: "others", img: { img: Other }, id: 6 },
   ];
 
   let navstyle1 = ({ isActive }) => {
     return {
       borderBottom: isActive
-        ? ".2rem solid #1b59f8"
-        : ".2rem solid transparent",
+        ? ".13rem solid #1b59f8"
+        : ".13rem solid transparent",
       color: isActive ? "#1b59f8" : "black",
     };
   };
@@ -45,9 +45,11 @@ function CommissionList() {
             key={links?.id}
             style={navstyle1}
           >
-            <div>
-              <img src={links?.img} alt="" />
-              <p className="m-0">{links.name}</p>
+            <div className="d-flex align-items-center">
+              <div style={{ width: "25px" }}>
+                <img className="w-100" src={links?.img?.img} alt="" />
+              </div>
+              <p className="m-0 ps-2">{links.name}</p>
             </div>
           </NavLink>
         );

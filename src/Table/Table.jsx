@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 import { FaTimes } from "react-icons/fa";
 import "./table.css";
@@ -13,6 +14,13 @@ import FeaturedIcon from "../picture/Featured icon.png";
 import Footer from "./Footer";
 import StatusToggle from "../RE-USEABLE-COMPONENT/StatusToggle";
 import TableSuccess from "../RE-USEABLE-COMPONENT/TableSuccess";
+import {
+  StyledModalBackground,
+  StyledModalContent,
+} from "../STYLED-COMPONENT/StyledModal";
+// import { Label } from "recharts";
+import Selector from "../Libary/Select";
+import { BsArrowRight } from "react-icons/bs";
 
 function Table({
   data,
@@ -28,25 +36,77 @@ function Table({
   init,
   color,
   type,
-
   userAgentDetails,
+  userAgentDetails1,
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const [isOpen1, setIsOpen1] = useState(false);
+  // const [isOpen1, setIsOpen1] = useState(false);
 
-  const [isOpenChild, setIsOpenChild] = useState(false);
+  // const [isOpenChild, setIsOpenChild] = useState(false);
   const [isOpenChild1, setIsOpenChild1] = useState(false);
 
   const [cardAdded, setCardAdded] = useState(false);
   const [cardAdded2, setCardAdded2] = useState(false);
   const [createSection, setCreateSection] = useState(false);
+  const [pignation, setpignation] = useState(1);
+  const [allAgent, setAllAgent] = useState([]);
+  const [agents, setAgents] = useState([]);
+  const [rental, setRental] = useState([]);
 
   const navigate = useNavigate();
 
+  let userDetails = JSON.parse(localStorage.getItem("userDetails"));
+
+  const config = {
+    headers: {
+      Authorization: `bearer ${userDetails?.data?.token}`,
+    },
+  };
+  // console.log(userDetails?.data?.token);
+
+  const fetchManagers = async () => {
+    await axios
+      .get(`${process.env.REACT_APP_HTTP_ROUTER}/user/agentmanagers`, config)
+      .then((res) => {
+        setAllAgent(res.data.agentManger);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const fetchAgents = async () => {
+    await axios
+      .get(
+        `${process.env.REACT_APP_HTTP_ROUTER}/user/agents/all/?page=${pignation}`,
+        config
+      )
+      .then((res) => {
+        setAgents(res.data.data.getallagents);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const fetchRental = async () => {
+    await axios
+      .get(`${process.env.REACT_APP_HTTP_ROUTER}/rental/all`, config)
+      .then((res) => {
+        setRental(res.data.allRentalAgent);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   useEffect(() => {
     Aos.init({ duration: 300 });
-  }, []);
+    fetchManagers();
+    fetchAgents();
+    fetchRental();
+  }, [pignation]);
   return (
     <>
       {color === "agent" && (
@@ -152,25 +212,6 @@ function Table({
           </table>
 
           <Footer />
-
-          {/* <div className="foot-footer bg-white">
-            <p>Showing 1 to 5 of 100 entries</p>
-            <div className="sub-foot-footer">
-              <div className="previous">
-                <AiOutlineLeft />
-                Previous
-              </div>
-              <div className="n1">1</div>
-              <div className="n2">2</div>
-              <div className="n2">3</div>
-              <div className="n2">4</div>
-              <div className="n2">...</div>
-              <div className="n2">10</div>
-              <div className="next">
-                Next <AiOutlineRight />
-              </div>
-            </div>
-          </div> */}
         </div>
       )}
 
@@ -198,7 +239,7 @@ function Table({
               </tr>
             </thead>
             <tbody>
-              {AgentManagerData?.map((datum1, index) => {
+              {allAgent?.map((datum1, index) => {
                 return (
                   <tr
                     key={index}
@@ -208,9 +249,13 @@ function Table({
                       fontWeight: "500",
                       cursor: "pointer",
                     }}
-                    onClick={(id) => {
-                      userAgentDetails(id);
-                      navigate("/Agent-Management/Agents/each-agent");
+                    onClick={() => {
+                      userAgentDetails(datum1?._id);
+                      localStorage.setItem(
+                        "managerId",
+                        JSON.stringify(datum1?._id)
+                      );
+                      navigate("/Agent-Management/each-agent");
                     }}
                   >
                     <td
@@ -219,7 +264,7 @@ function Table({
                         paddingLeft: "1rem",
                       }}
                     >
-                      {datum1?.Agent_name}
+                      {datum1?.user?.name}
                     </td>
                     <td
                       style={{
@@ -227,7 +272,7 @@ function Table({
                         height: "40px",
                       }}
                     >
-                      {datum1?.Agent_ID}
+                      {datum1?.user?._id}
                     </td>
                     <td
                       style={{
@@ -235,7 +280,7 @@ function Table({
                         height: "40px",
                       }}
                     >
-                      {datum1?.Phone_Number}
+                      {datum1?.phonenumber}
                     </td>
                     <td
                       style={{
@@ -243,7 +288,7 @@ function Table({
                         height: "40px",
                       }}
                     >
-                      {datum1?.Business_Name}
+                      {datum1?.business_name}
                     </td>
                     <td
                       style={{
@@ -251,7 +296,7 @@ function Table({
                         paddingLeft: "1rem",
                       }}
                     >
-                      {datum1?.Email_Address}
+                      {datum1?.user?.email}
                     </td>
                     <td
                       style={{
@@ -259,7 +304,7 @@ function Table({
                         paddingLeft: "1rem",
                       }}
                     >
-                      {datum1?.State}
+                      {datum1?.state}
                     </td>
                     <td
                       style={{
@@ -267,7 +312,7 @@ function Table({
                         paddingLeft: "1rem",
                       }}
                     >
-                      {datum1?.Status === true ? (
+                      {datum1?.user?.status === true ? (
                         <StatusToggle type="active" />
                       ) : (
                         <StatusToggle type="in-active" />
@@ -281,25 +326,6 @@ function Table({
           </table>
 
           <Footer />
-
-          {/* <div className="foot-footer bg-white">
-            <p>Showing 1 to 5 of 100 entries</p>
-            <div className="sub-foot-footer">
-              <div className="previous">
-                <AiOutlineLeft />
-                Previous
-              </div>
-              <div className="n1">1</div>
-              <div className="n2">2</div>
-              <div className="n2">3</div>
-              <div className="n2">4</div>
-              <div className="n2">...</div>
-              <div className="n2">10</div>
-              <div className="next">
-                Next <AiOutlineRight />
-              </div>
-            </div>
-          </div> */}
         </div>
       )}
 
@@ -327,7 +353,7 @@ function Table({
               </tr>
             </thead>
             <tbody>
-              {AgentData?.map((datum1, index) => {
+              {agents?.map((datum1, index) => {
                 return (
                   <tr
                     key={index}
@@ -338,7 +364,13 @@ function Table({
                       cursor: "pointer",
                     }}
                     onClick={() => {
-                      navigate("/Agent-Management/Agents/each-agent");
+                      userAgentDetails1(datum1?._id);
+                      localStorage.setItem(
+                        "agentId",
+                        JSON.stringify(datum1?._id)
+                      );
+                      console.log(datum1?._id);
+                      navigate("/Agent-Management/each-agent");
                     }}
                   >
                     <td
@@ -347,7 +379,7 @@ function Table({
                         paddingLeft: "1rem",
                       }}
                     >
-                      {datum1?.Agent_name}
+                      {datum1?.fullname}
                     </td>
                     <td
                       style={{
@@ -355,7 +387,7 @@ function Table({
                         height: "40px",
                       }}
                     >
-                      {datum1?.Agent_ID}
+                      {datum1?._id}
                     </td>
                     <td
                       style={{
@@ -363,7 +395,7 @@ function Table({
                         height: "40px",
                       }}
                     >
-                      {datum1?.Phone_Number}
+                      {datum1?.phonenumber}
                     </td>
                     <td
                       style={{
@@ -371,7 +403,7 @@ function Table({
                         height: "40px",
                       }}
                     >
-                      {datum1?.Business_Name}
+                      {datum1?.business_name}
                     </td>
                     <td
                       style={{
@@ -379,7 +411,7 @@ function Table({
                         paddingLeft: "1rem",
                       }}
                     >
-                      {datum1?.Email_Address}
+                      {datum1?.email}
                     </td>
                     <td
                       style={{
@@ -387,7 +419,7 @@ function Table({
                         paddingLeft: "1rem",
                       }}
                     >
-                      {datum1?.State}
+                      {datum1?.state}
                     </td>
                     <td
                       style={{
@@ -395,20 +427,26 @@ function Table({
                         paddingLeft: "1rem",
                       }}
                     >
-                      {datum1?.Status === true ? (
+                      {datum1?.status === true ? (
                         <StatusToggle type="active" />
                       ) : (
                         <StatusToggle type="in-active" />
                       )}
                     </td>
-                    {/* </Link> */}
                   </tr>
                 );
               })}
             </tbody>
           </table>
 
-          <Footer />
+          <Footer
+            pignation={pignation}
+            setpignation={setpignation}
+            pageNumber={pignation}
+            onClickNext={() => {
+              setpignation(pignation + 1);
+            }}
+          />
         </div>
       )}
 
@@ -648,26 +686,7 @@ function Table({
             </tbody>
           </table>
 
-          {/* <Footer /> */}
-
-          {/* <div className="foot-footer bg-white">
-            <p>Showing 1 to 5 of 100 entries</p>
-            <div className="sub-foot-footer">
-              <div className="previous">
-                <AiOutlineLeft />
-                Previous
-              </div>
-              <div className="n1">1</div>
-              <div className="n2">2</div>
-              <div className="n2">3</div>
-              <div className="n2">4</div>
-              <div className="n2">...</div>
-              <div className="n2">10</div>
-              <div className="next">
-                Next <AiOutlineRight />
-              </div>
-            </div>
-          </div> */}
+          <Footer />
         </div>
       )}
 
@@ -736,337 +755,141 @@ function Table({
                         paddingLeft: "1rem",
                       }}
                     >
-                      {Provider?.Provider === "VIEW PROVIDER" ? (
-                        <div>
-                          <button
-                            style={{
-                              padding: ".3rem 0",
-                              fontWeight: "600",
-                              borderRadius: ".4rem",
-                              width: "50%",
-                              border: "none",
-                              background: "#dbe5ff",
-                              color: "#1b59f8",
-                            }}
-                            onClick={() => setIsOpen(true)}
-                          >
-                            VIEW PROVIDER
-                          </button>
-                          <Modal open={isOpen} type="ProviderData">
-                            <div
-                              className="overlay"
-                              // onClick={() => {
-                              //   setIsOpen(false);
-                              //   // setIsDropped(!isDropped);
-                              // }}
+                      <div>
+                        <button
+                          style={{
+                            padding: ".3rem 0",
+                            fontWeight: "600",
+                            borderRadius: ".4rem",
+                            width: "50%",
+                            border: "none",
+                            background: "#dbe5ff",
+                            color: "#1b59f8",
+                          }}
+                          onClick={() => setIsOpen(true)}
+                        >
+                          {Provider?.Provider}
+                        </button>
+                        <Modal open={isOpen} type="ProviderData">
+                          <StyledModalBackground>
+                            <StyledModalContent
+                              data-aos="slide-down"
+                              width="70%"
+                              padding="3rem"
                             >
-                              <div
-                                data-aos="slide-down"
-                                className="container bg-white mt-3"
-                                style={{
-                                  padding: "2rem 4rem",
-                                  borderRadius: ".4rem",
-                                }}
-                              >
-                                <h4 className="add-new-terminal-sub1 d-flex justify-content-between px-4">
-                                  <p>Add New Service</p>
+                              <h4 className="add-new-terminal-sub1 d-flex justify-content-between px-4">
+                                <p>Add New Service</p>
 
-                                  <button
-                                    onClick={() => setIsOpen(false)}
-                                    style={{
-                                      border: "none",
-                                      background: "white",
-                                    }}
-                                  >
-                                    X
-                                  </button>
-                                </h4>
+                                <button
+                                  onClick={() => setIsOpen(false)}
+                                  style={{
+                                    border: "none",
+                                    background: "white",
+                                  }}
+                                >
+                                  X
+                                </button>
+                              </h4>
 
-                                <div className="add-new-terminal-input ">
-                                  <div className="add-new-terminal ">
-                                    <div className="add-new-terminal-input1 ">
-                                      <label htmlFor="ServiceName">
-                                        Service Name
-                                      </label>
-                                      <input
-                                        type="text"
-                                        id="ServiceName"
-                                        placeholder="Enter Service Name"
-                                      />
-                                    </div>
-                                    <div className="add-new-terminal-input1 ">
-                                      <label htmlFor="ServiceID">
-                                        Service ID
-                                      </label>
-                                      <input
-                                        type="text"
-                                        id="ServiceID"
-                                        placeholder="Enter Service ID"
-                                      />
-                                    </div>
+                              <div className="add-new-terminal-input ">
+                                <div className="add-new-terminal mb-3">
+                                  <div className="add-new-terminal-input1 ">
+                                    <label
+                                      htmlFor="PrimaryProvider"
+                                      style={label}
+                                    >
+                                      Primary Provider{" "}
+                                      <span style={sup}>*</span>
+                                    </label>
+                                    <Selector
+                                      id="PrimaryProvider"
+                                      placeholder="Select your default provider"
+                                    />
                                   </div>
+                                  <div className="add-new-terminal-input1">
+                                    <label
+                                      style={label}
+                                      htmlFor="secondaryprovider"
+                                    >
+                                      Secondary Provider (optional)
+                                    </label>
 
-                                  <div className="add-new-terminal ">
-                                    <div className="add-new-terminal-input11 ">
-                                      <label htmlFor="ServicePrice">
-                                        Pricing
-                                      </label>
-                                      <div>
-                                        <input
-                                          type="text"
-                                          id="ServicePrice"
-                                          placeholder="Enter pricing for service"
-                                        />
-                                      </div>
-                                    </div>
+                                    <Selector
+                                      id="secondaryprovider"
+                                      placeholder="Select your secondary provider"
+                                    />
                                   </div>
+                                </div>
 
-                                  <div className="fs-3 fw-bold text-dark">
-                                    Select Provider
+                                <div className="add-new-terminal ">
+                                  <div className="add-new-terminal-input1 ">
+                                    <label style={label} htmlFor="ServiceName">
+                                      Service ID (For Primary Provider)
+                                      <span style={sup}>*</span>
+                                    </label>
+                                    <input
+                                      type="text"
+                                      id="ServiceName"
+                                      placeholder="Enter Service Name"
+                                    />
                                   </div>
-
-                                  <div className="add-new-terminal">
-                                    <div className="add-new-terminal-input1 ">
-                                      <label htmlFor="PrimaryProvider">
-                                        Primary Provider
-                                      </label>
-                                      <input
-                                        type="text"
-                                        id="PrimaryProvider"
-                                        placeholder="Select your default provider"
-                                      />
-                                    </div>
-                                    <div className="add-new-terminal-input1 ">
-                                      <label htmlFor="secondaryprovider">
-                                        secondary provider (optional)
-                                      </label>
-                                      <input
-                                        type="text"
-                                        id="secondaryprovider"
-                                        placeholder="Select your secondary provider"
-                                      />
-                                    </div>
+                                  <div className="add-new-terminal-input1 ">
+                                    <label style={label} htmlFor="ServiceID">
+                                      Service ID (For Secondary Provider)
+                                      <span style={sup}>*</span>
+                                    </label>
+                                    <input
+                                      type="text"
+                                      id="ServiceID"
+                                      placeholder="Enter Service ID"
+                                    />
                                   </div>
+                                </div>
 
-                                  <div className="add-new-terminal ">
-                                    <div className="add-new-terminal-input11  q">
-                                      <button
-                                        onClick={() => {
-                                          setIsOpen(false);
-                                          setIsOpenChild1(true);
-                                        }}
-                                      >
-                                        Submit
-                                      </button>
-                                    </div>
+                                <div className="add-new-terminal ">
+                                  <div className="add-new-terminal-input11  q">
+                                    <button
+                                      onClick={() => {
+                                        setIsOpen(false);
+                                        setIsOpenChild1(true);
+                                      }}
+                                    >
+                                      Submit
+                                    </button>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                          </Modal>
+                            </StyledModalContent>
+                          </StyledModalBackground>
+                        </Modal>
 
-                          <Modal open={isOpenChild1}>
-                            <div className="overlay">
-                              <div
-                                className="container bg-white mt-3"
-                                style={{
-                                  padding: "2rem 4rem",
-                                  borderRadius: ".4rem",
-                                }}
-                                data-aos="slide-down"
-                              >
-                                <h4 className="add-new-terminal-sub1 d-flex justify-content-between px-4">
-                                  <p>Add New Service</p>
-
-                                  <button
-                                    onClick={() => setIsOpenChild1(false)}
-                                    style={{
-                                      border: "none",
-                                      background: "white",
-                                    }}
-                                  >
-                                    X
-                                  </button>
-                                </h4>
-
-                                <div>
-                                  <div className="add-new-terminal ">
-                                    <div className="add-new-terminal-input11  q">
-                                      <button
-                                        onClick={() => setIsOpenChild1(false)}
-                                      >
-                                        Submit
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </Modal>
-                        </div>
-                      ) : (
-                        <div>
-                          <button
-                            style={{
-                              borderRadius: ".4rem",
-                              padding: ".3rem 0",
-                              fontWeight: "600",
-                              width: "50%",
-                              border: "none",
-                              background: "#ffe6ce",
-                              color: "#ffa756",
+                        <Modal open={isOpenChild1}>
+                          <StyledModalBackground
+                            onClick={() => {
+                              setIsOpenChild1(false);
                             }}
-                            onClick={() => setIsOpen1(true)}
                           >
-                            SELECT PROVIDER
-                          </button>
-
-                          <Modal open={isOpen1}>
-                            <div className="overlay">
-                              <div
-                                className="container bg-white mt-3"
-                                style={{
-                                  padding: "2rem 4rem",
-                                  borderRadius: ".4rem",
-                                }}
-                                data-aos="slide-down"
-                              >
-                                <h4 className="add-new-terminal-sub1 d-flex justify-content-between px-4">
-                                  <p>Add New Service</p>
-
-                                  <button
-                                    onClick={() => setIsOpen1(false)}
-                                    style={{
-                                      border: "none",
-                                      background: "white",
-                                    }}
-                                  >
-                                    X
-                                  </button>
-                                </h4>
-
-                                <div className="add-new-terminal-input ">
-                                  <div className="add-new-terminal ">
-                                    <div className="add-new-terminal-input1 ">
-                                      <label htmlFor="ServiceName">
-                                        Service Name
-                                      </label>
-                                      <input
-                                        type="text"
-                                        id="ServiceName"
-                                        placeholder="Enter Service Name"
-                                      />
-                                    </div>
-                                    <div className="add-new-terminal-input1 ">
-                                      <label htmlFor="ServiceID">
-                                        Service ID
-                                      </label>
-                                      <input
-                                        type="text"
-                                        id="ServiceID"
-                                        placeholder="Enter Service ID"
-                                      />
-                                    </div>
-                                  </div>
-
-                                  <div className="add-new-terminal ">
-                                    <div className="add-new-terminal-input11 ">
-                                      <label htmlFor="ServicePrice">
-                                        Pricing
-                                      </label>
-                                      <div>
-                                        <input
-                                          type="text"
-                                          id="ServicePrice"
-                                          placeholder="Enter pricing for service"
-                                        />
-                                      </div>
-                                    </div>
-                                  </div>
-
-                                  <div className="fs-3 fw-bold text-dark">
-                                    Select Provider
-                                  </div>
-
-                                  <div className="add-new-terminal">
-                                    <div className="add-new-terminal-input1 ">
-                                      <label htmlFor="PrimaryProvider">
-                                        Primary Provider
-                                      </label>
-                                      <input
-                                        type="text"
-                                        id="PrimaryProvider"
-                                        placeholder="Select your default provider"
-                                      />
-                                    </div>
-                                    <div className="add-new-terminal-input1 ">
-                                      <label htmlFor="secondaryprovider">
-                                        secondary provider (optional)
-                                      </label>
-                                      <input
-                                        type="text"
-                                        id="secondaryprovider"
-                                        placeholder="Select your secondary provider"
-                                      />
-                                    </div>
-                                  </div>
-
-                                  <div className="add-new-terminal ">
-                                    <div className="add-new-terminal-input11  q">
-                                      <button
-                                        onClick={() => {
-                                          setIsOpenChild(true);
-                                          setIsOpen1(false);
-                                        }}
-                                      >
-                                        Submit
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </Modal>
-                          <Modal open={isOpenChild}>
-                            <div className="overlay">
-                              <div
-                                className="container bg-white mt-3"
-                                style={{
-                                  padding: "2rem 4rem",
-                                  borderRadius: ".4rem",
-                                }}
-                                data-aos="slide-down"
-                              >
-                                <h4 className="add-new-terminal-sub1 d-flex justify-content-between px-4">
-                                  <p>Add New Service</p>
-
-                                  <button
-                                    onClick={() => setIsOpenChild(false)}
-                                    style={{
-                                      border: "none",
-                                      background: "white",
-                                    }}
-                                  >
-                                    X
-                                  </button>
-                                </h4>
-
+                            <StyledModalContent
+                              data-aos="zoom-up"
+                              width="30%"
+                              padding="1rem"
+                            >
+                              <div className="modal-content-n mb-3">
                                 <div>
-                                  <div className="add-new-terminal ">
-                                    <div className="add-new-terminal-input11  q">
-                                      <button
-                                        onClick={() => setIsOpenChild(false)}
-                                      >
-                                        Submit
-                                      </button>
-                                    </div>
-                                  </div>
+                                  <img src={FeaturedIcon} alt="" />
                                 </div>
                               </div>
-                            </div>
-                          </Modal>
-                        </div>
-                      )}
+
+                              <div className="modal-content-card-added text-dark">
+                                <h4>Card Added</h4>
+                                <p>
+                                  Your Card Details has been successfully Added.
+                                </p>
+                              </div>
+                            </StyledModalContent>
+                          </StyledModalBackground>
+                        </Modal>
+                      </div>
                     </td>
 
                     <td
@@ -1115,7 +938,7 @@ function Table({
               </tr>
             </thead>
             <tbody>
-              {RentalData?.map((RentalData, index) => {
+              {rental?.map((RentalData, index) => {
                 return (
                   <tr
                     key={index}
@@ -1131,7 +954,7 @@ function Table({
                         paddingLeft: "1rem",
                       }}
                     >
-                      {RentalData?.Assigned_Agent}
+                      {RentalData?.fullname}
                     </td>
                     <td
                       style={{
@@ -1139,7 +962,7 @@ function Table({
                         height: "40px",
                       }}
                     >
-                      {RentalData?.Terminal_ID}
+                      {RentalData?.email}
                     </td>
                     <td
                       style={{
@@ -1147,7 +970,7 @@ function Table({
                         height: "40px",
                       }}
                     >
-                      {RentalData?.Terminal_Location}
+                      {RentalData?.phonenumber}
                     </td>
 
                     <td
@@ -1156,7 +979,16 @@ function Table({
                         height: "40px",
                       }}
                     >
-                      {RentalData?.resp_code}
+                      {RentalData?.region}
+                    </td>
+
+                    <td
+                      style={{
+                        paddingLeft: "1rem",
+                        height: "40px",
+                      }}
+                    >
+                      {RentalData?.state}
                     </td>
 
                     <td
@@ -1220,16 +1052,11 @@ function Table({
                       </button>
 
                       <Modal open={createSection}>
-                        <div className="overlay">
-                          <div
-                            className="container bg-white text-dark"
-                            style={{
-                              padding: "1rem",
-                              borderRadius: ".4rem",
-                              width: "30%",
-                              marginTop: "10rem",
-                            }}
+                        <StyledModalBackground>
+                          <StyledModalContent
                             data-aos="slide-down"
+                            padding="1rem"
+                            width="26%"
                           >
                             <div className=" ">
                               <div className="d-flex justify-content-between">
@@ -1313,20 +1140,15 @@ function Table({
                                 Confirm
                               </button>
                             </div>
-                          </div>
-                        </div>
+                          </StyledModalContent>
+                        </StyledModalBackground>
                       </Modal>
                       <Modal open={cardAdded}>
-                        <div className="overlay">
-                          <div
-                            className="container bg-white text-dark"
-                            style={{
-                              padding: "1rem",
-                              borderRadius: ".4rem",
-                              width: "30%",
-                              marginTop: "10rem",
-                            }}
-                            data-aos="zoom-up"
+                        <StyledModalBackground>
+                          <StyledModalContent
+                            data-aos="slide-down"
+                            padding="1rem"
+                            width="27%"
                           >
                             <div className=" ">
                               <div className="d-flex justify-content-between">
@@ -1400,26 +1222,20 @@ function Table({
                                 Confirm
                               </button>
                             </div>
-                          </div>
-                        </div>
+                          </StyledModalContent>
+                        </StyledModalBackground>
                       </Modal>
 
                       <Modal open={cardAdded2}>
-                        <div
-                          className="overlay"
+                        <StyledModalBackground
                           onClick={() => {
                             setCardAdded2(false);
                           }}
                         >
-                          <div
-                            className="container bg-white text-dark"
-                            style={{
-                              padding: "1rem",
-                              borderRadius: ".4rem",
-                              width: "30%",
-                              marginTop: "10rem",
-                            }}
-                            data-aos="zoom-up"
+                          <StyledModalContent
+                            data-aos="slide-down"
+                            padding="1rem"
+                            width="27%"
                           >
                             <div className="modal-content-n mb-3">
                               <div>
@@ -1433,8 +1249,8 @@ function Table({
                                 Your Card Details has been successfully Added.
                               </p>
                             </div>
-                          </div>
-                        </div>
+                          </StyledModalContent>
+                        </StyledModalBackground>
                       </Modal>
                     </td>
 
@@ -1546,25 +1362,6 @@ function Table({
           </table>
 
           <Footer />
-
-          {/* <div className="foot-footer bg-white">
-            <p>Showing 1 to 5 of 100 entries</p>
-            <div className="sub-foot-footer">
-              <div className="previous">
-                <AiOutlineLeft />
-                Previous
-              </div>
-              <div className="n1">1</div>
-              <div className="n2">2</div>
-              <div className="n2">3</div>
-              <div className="n2">4</div>
-              <div className="n2">...</div>
-              <div className="n2">10</div>
-              <div className="next">
-                Next <AiOutlineRight />
-              </div>
-            </div>
-          </div> */}
         </div>
       )}
 
@@ -1670,21 +1467,11 @@ function Table({
                       </button>
 
                       <Modal open={isOpen}>
-                        <div
-                          className="overlay d-flex justify-content-center align-items-center flex-direction-column"
-                          // onClick={() => {
-                          //   setIsOpen(false);
-                          //   // setIsDropped(!isDropped);
-                          // }}
-                        >
-                          <div
-                            className="modal.shii bg-white w-50"
-                            style={{
-                              padding: "2rem 4rem",
-                              borderRadius: ".4rem",
-                              height: "fit-content",
-                            }}
+                        <StyledModalBackground>
+                          <StyledModalContent
                             data-aos="slide-down"
+                            padding="1rem"
+                            width="40%"
                           >
                             <h4 className="add-new-terminal-sub1  d-flex justify-content-between px-4">
                               <div className="text-center w-100">
@@ -1731,8 +1518,8 @@ function Table({
                                 </p>
                               </div>
                             </div>
-                          </div>
-                        </div>
+                          </StyledModalContent>
+                        </StyledModalBackground>
                       </Modal>
                     </td>
 
@@ -1806,3 +1593,15 @@ function Table({
 }
 
 export default Table;
+
+const sup = {
+  color: "red",
+  paddingLeft: ".3rem",
+  fontSize: "1rem",
+};
+const label = {
+  color: "rgba(0,0,0,0.7)",
+  fontSize: ".9rem",
+  fontWeight: "645",
+  paddingBottom: ".6rem",
+};

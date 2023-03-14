@@ -5,22 +5,24 @@ import SideNavbar from "./SideNavbar";
 import Aos from "aos";
 import "aos/dist/aos.css";
 import Modal from "./Modal";
-// import { Link } from "react-router-dom";
-import { FaSearch, FaTimes } from "react-icons/fa";
-import { TbSelector } from "react-icons/tb";
+import { FaSearch } from "react-icons/fa";
 
 //pictures
-// import ProfilePicture from "../picture/pics1.jpg";
 import FeaturedIcon from "../picture/Featured icon.png";
-import FeaturedIcon2 from "../picture/FeaturedIcon2.png";
 import Table from "../Table/Table";
 import StaffData from "../Table/StaffData";
 import { AiOutlinePlus } from "react-icons/ai";
 import Navbar from "../RE-USEABLE-COMPONENT/Navbar";
+import {
+  StyledModalBackground,
+  StyledModalContent,
+} from "../STYLED-COMPONENT/StyledModal";
+import ColumnSorting from "../RE-USEABLE-COMPONENT/ColumnSorting";
+import Label from "../RE-USEABLE-COMPONENT/Label";
+import CancelBtn from "../RE-USEABLE-COMPONENT/CancelBtn";
 
 const Staff = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [cardAdded, setCardAdded] = useState(false);
   const [cardAdded2, setCardAdded2] = useState(false);
 
   useEffect(() => {
@@ -28,10 +30,14 @@ const Staff = () => {
   }, []);
 
   const columns = [
-    { field: "AGENT NAME", icon: <TbSelector />, header: "AGENT NAME" },
+    { field: "AGENT NAME", icon: <ColumnSorting />, header: "AGENT NAME" },
     { field: "AGENT ID", header: "AGENT ID" },
-    { field: "PHONE NUMBER", icon: <TbSelector />, header: "PHONE NUMBER" },
-    { field: "EMAIL ADDRESS", icon: <TbSelector />, header: "EMAIL ADDRESS" },
+    { field: "PHONE NUMBER", icon: <ColumnSorting />, header: "PHONE NUMBER" },
+    {
+      field: "EMAIL ADDRESS",
+      icon: <ColumnSorting />,
+      header: "EMAIL ADDRESS",
+    },
     { field: "STATUS", header: "STATUS" },
   ];
   return (
@@ -125,16 +131,10 @@ const Staff = () => {
                 </button>
 
                 <Modal open={isOpen}>
-                  <div
-                    className="overlay"
-                    // onClick={() => {
-                    //   setIsOpen(false);
-                    //   // setIsDropped(!isDropped);
-                    // }}
-                  >
-                    <div
-                      className="container bg-white mt-5"
-                      style={{ padding: "3rem 4rem", borderRadius: ".4rem" }}
+                  <StyledModalBackground>
+                    <StyledModalContent
+                      padding="3rem"
+                      width="70%"
                       data-aos="slide-down"
                     >
                       <h4 className="add-new-terminal-sub1 d-flex justify-content-between px-4">
@@ -144,14 +144,18 @@ const Staff = () => {
                           onClick={() => setIsOpen(false)}
                           style={{ border: "none", background: "white" }}
                         >
-                          X
+                          <CancelBtn />
                         </button>
                       </h4>
 
                       <div className="add-new-terminal-input ">
                         <div className="add-new-terminal ">
                           <div className="add-new-terminal-input1 ">
-                            <label htmlFor="TerminalID">Terminal ID</label>
+                            <Label
+                              text="Terminal ID"
+                              type="require"
+                              htmlFor="TerminalID"
+                            />
                             <input
                               type="text"
                               id="TerminalID"
@@ -159,9 +163,11 @@ const Staff = () => {
                             />
                           </div>
                           <div className="add-new-terminal-input1 ">
-                            <label htmlFor="TerminalManufacturer">
-                              Terminal Manufacturer
-                            </label>
+                            <Label
+                              text="Terminal Manufacturer"
+                              type="require"
+                              htmlFor="TerminalManufacturer"
+                            />
                             <input
                               type="text"
                               id="TerminalManufacturer"
@@ -172,9 +178,11 @@ const Staff = () => {
 
                         <div className="add-new-terminal ">
                           <div className="add-new-terminal-input1 ">
-                            <label htmlFor="SerialNumber">
-                              Terminal Serial Number
-                            </label>
+                            <Label
+                              text="Terminal Serial Number"
+                              type="require"
+                              htmlFor="SerialNumber"
+                            />
                             <input
                               type="text"
                               id="SerialNumber"
@@ -182,12 +190,14 @@ const Staff = () => {
                             />
                           </div>
                           <div className="add-new-terminal-input1 ">
-                            <label htmlFor="TerminalManufacturer">
-                              Transaction Limit
-                            </label>
+                            <Label
+                              text="Transaction Limit"
+                              type="require"
+                              htmlFor="TransactionLimit"
+                            />
                             <input
                               type="text"
-                              id="TerminalManufacturer"
+                              id="TransactionLimit"
                               placeholder="Enter Terminal Manufacturer"
                             />
                           </div>
@@ -195,9 +205,11 @@ const Staff = () => {
 
                         <div className="add-new-terminal">
                           <div className="add-new-terminal-input1 ">
-                            <label htmlFor="TerminalLocation">
-                              Terminal Location
-                            </label>
+                            <Label
+                              text="Terminal Location"
+                              type="require"
+                              htmlFor="TerminalLocation"
+                            />
                             <input
                               type="text"
                               id="TerminalLocation"
@@ -205,7 +217,11 @@ const Staff = () => {
                             />
                           </div>
                           <div className="add-new-terminal-input1 ">
-                            <label htmlFor="TerminalState">State</label>
+                            <Label
+                              text="State"
+                              type="require"
+                              htmlFor="TerminalState"
+                            />
                             <input
                               type="text"
                               id="TerminalState"
@@ -216,18 +232,22 @@ const Staff = () => {
 
                         <div className="add-new-terminal ">
                           <div className="add-new-terminal-input1 ">
-                            <label htmlFor="FullName">Assign Agent</label>
+                            <Label
+                              text="Assign Agent"
+                              type="normal"
+                              htmlFor="AssignAgent"
+                            />
                             <input
                               type="text"
-                              id="FullName"
-                              placeholder="Select an existing Agent to terminal (optional"
+                              id="AssignAgent"
+                              placeholder="Select an existing Agent to terminal (optional)"
                             />
                           </div>
                           <div className="sub-modal-content-add-agent mt-4">
                             <button
                               onClick={() => {
                                 setIsOpen(false);
-                                setCardAdded(true);
+                                setCardAdded2(true);
                               }}
                             >
                               Submit
@@ -235,114 +255,20 @@ const Staff = () => {
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                </Modal>
-
-                <Modal open={cardAdded}>
-                  <div className="overlay">
-                    <div
-                      className="container bg-white text-dark"
-                      style={{
-                        padding: "1rem",
-                        borderRadius: ".4rem",
-                        width: "30%",
-                        marginTop: "10rem",
-                      }}
-                      data-aos="zoom-up"
-                    >
-                      <div className=" ">
-                        <div className="d-flex justify-content-between">
-                          <div /* style={{ width: "50%" }} */>
-                            <img
-                              style={{ width: "80%" }}
-                              src={FeaturedIcon2}
-                              alt=""
-                            />
-                          </div>
-                          <button
-                            style={{
-                              background: "transparent",
-                              border: "none",
-                            }}
-                            onClick={() => {
-                              setCardAdded(false);
-                            }}
-                          >
-                            <FaTimes />
-                          </button>
-                        </div>
-                      </div>
-
-                      <div className="modal-content-card-added pt-2 text-dark">
-                        <h5>Card Added</h5>
-                        <p style={{ fontSize: ".8rem" }}>
-                          Your Card Details has been successfully Added.
-                        </p>
-                      </div>
-
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                        }}
-                      >
-                        <button
-                          onClick={() => {
-                            setCardAdded(false);
-                          }}
-                          className=""
-                          style={{
-                            border: "1px solid #868fa0",
-                            background: "white",
-                            width: "45%",
-                            fontSize: ".8rem",
-                            borderRadius: ".4rem",
-                            padding: ".5rem 0",
-                          }}
-                        >
-                          Cancel
-                        </button>
-                        <button
-                          onClick={() => {
-                            setCardAdded(false);
-                            setCardAdded2(true);
-                          }}
-                          className=""
-                          style={{
-                            border: "none",
-                            background: "#1b59f8",
-                            color: "white",
-                            width: "45%",
-                            fontSize: ".8rem",
-                            borderRadius: ".4rem",
-                            padding: ".5rem 0",
-                          }}
-                        >
-                          Confirm
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+                    </StyledModalContent>
+                  </StyledModalBackground>
                 </Modal>
 
                 <Modal open={cardAdded2}>
-                  <div
-                    className="overlay"
+                  <StyledModalBackground
                     onClick={() => {
                       setCardAdded2(false);
                     }}
                   >
-                    <div
-                      className="container bg-white text-dark"
-                      style={{
-                        padding: "1rem",
-                        borderRadius: ".4rem",
-                        width: "30%",
-                        marginTop: "10rem",
-                      }}
+                    <StyledModalContent
                       data-aos="zoom-up"
+                      width="30%"
+                      padding="1rem"
                     >
                       <div className="modal-content-n mb-3">
                         <div>
@@ -354,8 +280,8 @@ const Staff = () => {
                         <h4>Card Added</h4>
                         <p>Your Card Details has been successfully Added.</p>
                       </div>
-                    </div>
-                  </div>
+                    </StyledModalContent>
+                  </StyledModalBackground>
                 </Modal>
               </div>
             </div>

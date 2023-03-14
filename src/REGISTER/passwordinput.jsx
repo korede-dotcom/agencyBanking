@@ -11,6 +11,9 @@ function PasswordInput({
   type,
   handlerInput,
   value,
+  name,
+  className,
+  readOnly,
 }) {
   const [passwordTypee, setPasswordTypee] = useState("password");
   const [iconTypee, setIconTypee] = useState(IoIosEye);
@@ -34,7 +37,11 @@ function PasswordInput({
           id={id}
           placeholder={placeholder}
           value={value}
+          name={name}
           onChange={handlerInput}
+          readOnly={readOnly}
+          className={className}
+          style={style}
         />
       )}
 
@@ -43,6 +50,7 @@ function PasswordInput({
           <input
             type={passwordTypee}
             id={id}
+            name={name}
             placeholder={placeholder}
             value={value}
             onChange={handlerInput}
@@ -57,3 +65,7 @@ function PasswordInput({
 }
 
 export default PasswordInput;
+
+const style = {
+  outline: "none",
+};

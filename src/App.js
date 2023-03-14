@@ -1,20 +1,15 @@
 import "./index.css"
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-// import NewService from "./components/AddNewService";
-import AddNewTerminal from "./components/AddNewTerminal";
 import AgentManagement from "./components/AgentManager";
 import Agents from "./components/Agents";
 import EachAgent from "./components/EachAgent";
 import Dashboard from "./components/MainPage";
 import MyAccount from "./components/Myaccount";
-import AddNewService from "./components/NewService";
 import Profile from "./components/Profile";
-import Provider from "./components/Provider";
 import RentalService from "./components/RentalService";
 import ServiceManagement from "./components/ServiceManagement";
 import TerminalManagement from "./components/TerminalManagement";
-import AllService from "./components/ViewAllService";
 import Login from "./REGISTER/Login";
 import SignIn from "./REGISTER/SignIn";
 import Reporting from "./components/Reporting";
@@ -29,6 +24,9 @@ import InternetCommission from "./CommissionComponent/InternetCommission";
 import CableTvCommission from "./CommissionComponent/CableTvCommission";
 import ElectricityCommission from "./CommissionComponent/ElectricityCommission";
 import OtherCommission from "./CommissionComponent/OtherCommission";
+import Transaction from "./TRACSACTION/Transaction";
+import Request from "./components/Request";
+import TerminalUnassigned from "./components/TerminalUnassigned";
 
 function App() {
 
@@ -51,7 +49,9 @@ function App() {
 
           <Route path="/agent-management" element={<AgentManagement />} />
 
-          <Route path="/terminal-management" element={<TerminalManagement />} />
+          <Route path="/terminal-management/assigned" element={<TerminalManagement />} />
+
+          <Route path='/terminal-management/unassigned' element={<TerminalUnassigned/>} />
 
           <Route path="/service-management" element={<ServiceManagement />} />
 
@@ -67,20 +67,14 @@ function App() {
             <Route path="Electricity" element={<ElectricityCommission/>}/>
             <Route path="others" element={<OtherCommission/>}/>
           </Route>
+          
+          <Route path="/TransactionLimit" element={<Transaction />} />
 
-          <Route path="/terminal-management/AddNewTerminal" element={<AddNewTerminal />} />
-
-          <Route path="/provider" element={<Provider />} />
+          <Route path="/request" element={<Request />} />
 
           <Route path="/agent-Management/agents" element={<Agents />} />
 
-          <Route path="/Agent-Management/Agents/each-agent" element={<EachAgent />} />
-
-          {/* <Route path="/Agent-Management/Agents/each-agent/new-service" element={<NewService />} /> */}
-
-          <Route path="/ViewAllService" element={<AllService />} />
-
-          <Route path="/service-management/AddNewService" element={<AddNewService />} />
+          <Route path="/Agent-Management/each-agent" element={<EachAgent />} />
 
           <Route path="/reporting" element={<Reporting />} />
 

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { BsToggle2On, BsToggle2Off } from "react-icons/bs";
+// import { BsToggle2On, BsToggle2Off } from "react-icons/bs";
+import ToggleOff from "./pictures/toggleOff.svg";
+import ToggleOn from "./pictures/toggleOn.svg";
 
 function ToggleBtn() {
   const [active, setActive] = useState(true);
@@ -15,7 +17,7 @@ function ToggleBtn() {
               Active
             </div>
             <div style={style1}>
-              <BsToggle2On />
+              <img src={ToggleOn} alt="" width="100%" />
             </div>
           </section>
         ) : (
@@ -24,7 +26,7 @@ function ToggleBtn() {
               Disable
             </div>
             <div style={style2}>
-              <BsToggle2Off />
+              <img src={ToggleOff} alt="" width="100%" />
             </div>
           </section>
         )}
@@ -36,8 +38,8 @@ function ToggleBtn() {
 export default ToggleBtn;
 
 const style1 = {
-  color: "#6c96ff",
-  fontSize: "1.8rem",
+  color: "#1b59f8",
+  width: "35px",
   display: "flex",
   background: "none",
   border: "none",
@@ -47,7 +49,7 @@ const style1 = {
 
 const style2 = {
   color: "#c4c4c4",
-  fontSize: "1.8rem",
+  width: "35px",
   display: "flex",
   background: "none",
   border: "none",
