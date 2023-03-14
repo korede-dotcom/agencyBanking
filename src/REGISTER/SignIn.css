@@ -13,15 +13,13 @@
 
 .signIn-section2{
     z-index: 1;
-    width: 40%;
-    padding: 2.3rem 3rem;
+    width: 45%;
+    padding: 2.3rem 3rem 5rem 3rem;
     background-color: #fff;
     border-radius: .5rem;
     box-shadow: 0px 0px 5px rgba(0, 0, 0,0.2);
 }
-/* .jh{
-    
-} */
+
 .sign-in-section{
     background-image: url(../PICTURES/SignUp_bg.png);
     height: 100vh;
@@ -42,7 +40,11 @@
 
 .signin-password-section{
     margin-top: 1rem;
-    
+}
+
+.signin-password-section label{
+    margin-bottom: .6rem;
+    font-size: 1.2rem;
 }
 
 .signin-password-input-div{
@@ -62,27 +64,27 @@
 }
 .signin-password-input-div input{
     width: 90%;
-    padding: .6rem ;
+    padding: 1rem .6rem ;
     border: none;
     outline: none;
     border-radius: .3rem;
 }
 input::placeholder{
     color: #ccc;
-    font-size: .7rem
+    font-size: .9rem
 }
 
 .signin-password-input-div1{
     width: 100%;
+    margin: .5rem 0;
 }
 
 .signin-password-input-div1 input{
     width: 100%;
-    padding:.6rem;
+    padding:1rem .6rem;
     border: 1px solid #ccc;
     outline: none;
     border-radius: .4rem;
-    margin-top: .4rem;
 }
 
 .signIp-content-section2 h2{
@@ -92,7 +94,8 @@ input::placeholder{
 .signIp-content-section2 p{
     margin: 0;
     padding: .5rem 0;
-    font-size:.8rem;
+    font-size:1rem;
+    font-weight: 600;
 }
 
 .signIn-checkbox-div1{
@@ -108,10 +111,11 @@ input::placeholder{
     border: none;
     outline: none;
     width: 100%;
-    padding: .7rem 0;
-    font-weight: 500;
+    padding: 1rem 0;
+    font-weight: 600;
     color: white;
     border-radius: .3rem;
+    margin-top: 1.3rem;
 }
 
 .already{

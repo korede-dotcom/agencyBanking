@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 // import { IoIosEyeOff, IoIosEye } from "react-icons/io";
 import "./SignIn.css";
 import { Link } from "react-router-dom";
@@ -6,24 +6,25 @@ import { Link } from "react-router-dom";
 import SignInFrame from "../PICTURES/Frame.png";
 import PasswordInput from "./passwordinput";
 function Login() {
-  // const [passwordType, setPasswordType] = useState("password");
-  // const [iconType, setIconType] = useState(IoIosEye);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [userDetails, setUserDetails] = useState("");
 
-  // const handlePasswordIcon = (e) => {
-  //   e.preventDefault();
-  //   // passwordType === "password"
-  //   //   ? (setPasswordType("text")
-  //   //   setIconType(IoIosEyeOff))
-  //   //   : setPasswordType("paasword");
-  //   //   setIconType(IoIosEye)
-  //   if (passwordType === "password") {
-  //     setPasswordType("text");
-  //     setIconType(IoIosEyeOff);
-  //   } else {
-  //     setPasswordType("password");
-  //     setIconType(IoIosEye);
-  //   }
-  // };
+  const handlerInput = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handlerInputpassword = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handlerSubmit = (e) => {
+    e.preventDefault();
+    setUserDetails(`Hello ${email}  ${password}`);
+    // console.log(email, password);
+  };
+
+  //  const [isLogin, setIsLogin] = useState("http://89.38.135.41:3100/access/login")
   return (
     <div>
       <div className="jh">
@@ -41,15 +42,17 @@ function Login() {
                 <p>Name of Company.Logo</p>
               </div>
 
-              <form action="">
+              <form action="" onSubmit={handlerSubmit}>
                 <div className="signin-password-section">
                   <label htmlFor="signInemail">Username or Email</label>
-                  <div class="signin-password-input-div1">
+                  <div className="signin-password-input-div1">
                     <PasswordInput
                       which="normalInput"
                       type="email"
                       placeholder="Enter Your Email Address"
                       id="signInemail"
+                      value={email}
+                      handlerInput={handlerInput}
                     />
                   </div>
                 </div>
@@ -62,6 +65,8 @@ function Login() {
                       which="hide&show"
                       placeholder="Enter Your Password"
                       id="signInPassword"
+                      value={password}
+                      handlerInput={handlerInputpassword}
                     />
                   </div>
                 </div>
@@ -83,7 +88,9 @@ function Login() {
                   </div>
                 </section>
 
-                <button className="sbtn">Login</button>
+                <button type="submit" className="sbtn">
+                  Login
+                </button>
               </form>
 
               {/* <NavLink to="/" style={{ textDecoration: "none" }}> */}

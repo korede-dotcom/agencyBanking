@@ -2,18 +2,19 @@ import React, { useState, useEffect } from "react";
 
 import "../index.css";
 import SideNavbar from "./SideNavbar";
-import { Link } from "react-router-dom";
-import { FaArrowDown, FaBell, FaSearch } from "react-icons/fa";
+// import { Link } from "react-router-dom";
+import { FaSearch } from "react-icons/fa";
 import { TbSelector } from "react-icons/tb";
 
 //pictures
-import ProfilePicture from "../picture/pics1.jpg";
+// import ProfilePicture from "../picture/pics1.jpg";
 import Table from "../Table/Table";
 import RentalData from "../Table/RentalData";
 
 import Aos from "aos";
 import "aos/dist/aos.css";
 import Modal from "./Modal";
+import Navbar from "../RE-USEABLE-COMPONENT/Navbar";
 
 const RentalService = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -56,7 +57,12 @@ const RentalService = () => {
       <SideNavbar />
 
       <section className="section1 ">
-        <nav className="top-nav navbar">
+        <Navbar
+          text="Rental Charges"
+          input="show"
+          placeholder="Search Terminal ID, Agent or Agent Managers"
+        />
+        {/* <nav className="top-nav navbar">
           <div className="left-top-nav ">
             <h4>Rental Charges</h4>
           </div>
@@ -101,7 +107,7 @@ const RentalService = () => {
               </div>
             </Link>
           </div>
-        </nav>
+        </nav> */}
         <div className="body--content">
           <div className="footer">
             <div className="nav-footer">

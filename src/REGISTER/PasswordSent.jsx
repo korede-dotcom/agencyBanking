@@ -1,16 +1,16 @@
-import React, { useState } from "react";
 import "./SignIn.css";
 import { Link } from "react-router-dom";
 
 import SignInFrame from "../PICTURES/Frame.png";
 import PasswordInput from "./passwordinput";
+import { useState } from "react";
 // import SignInBG1 from "../PICTURES/signinn.png";
 
-const SignIn = () => {
-  const [email, setEmail] = useState("");
+const PasswordSent = () => {
+  const [ConfirmPassword, setComfirmPassword] = useState("");
 
   const handlerInput = (e) => {
-    setEmail(e.target.value);
+    setComfirmPassword(e.target.value);
   };
 
   const handlerSubmit = (e) => {
@@ -36,31 +36,23 @@ const SignIn = () => {
 
               <form action="" onSubmit={handlerSubmit}>
                 <div className="signin-password-section">
-                  <label htmlFor="signInemail">Email</label>
-                  <div class="signin-password-input-div1">
-                    <PasswordInput
-                      which="normalInput"
-                      type="email"
-                      placeholder="Enter Your Email Address"
-                      id="signInemail"
-                      handlerInput={handlerInput}
-                    />
-                  </div>
+                  <label htmlFor="signInPassword">
+                    Enter Password sent to your email
+                  </label>
+                  <PasswordInput
+                    which="hide&show"
+                    placeholder="Enter Your Password"
+                    id="signInPassword"
+                    handlerInput={handlerInput}
+                  />
                 </div>
 
-                <Link to="/passwordSent">
+                <Link to="/ConfirmPassword">
                   <button type="submit" className="sbtn">
-                    Register
+                    Proceed
                   </button>
                 </Link>
               </form>
-
-              <div className="already">
-                <p>Already have an Account? </p>
-                <Link to="/Login" style={{ textDecoration: "none" }}>
-                  <h6>Login</h6>
-                </Link>
-              </div>
             </section>
           </div>
         </section>
@@ -69,4 +61,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default PasswordSent;

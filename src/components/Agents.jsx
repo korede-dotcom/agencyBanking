@@ -3,7 +3,7 @@ import SideNavbar from "./SideNavbar";
 import { Link } from "react-router-dom";
 // import Modal from "./Modal";
 // import { useState } from "react";
-import { FaArrowDown, FaBell, FaSearch, FaTimes } from "react-icons/fa";
+import { FaSearch, FaTimes } from "react-icons/fa";
 
 import React, { useEffect, useState } from "react";
 import Aos from "aos";
@@ -14,11 +14,12 @@ import { TbSelector } from "react-icons/tb";
 import Table from "../Table/Table";
 
 //pictures
-import ProfilePicture from "../picture/pics1.jpg";
+// import ProfilePicture from "../picture/pics1.jpg";
 import FeaturedIcon from "../picture/Featured icon.png";
 import FeaturedIcon2 from "../picture/FeaturedIcon2.png";
 import { AiOutlinePlus } from "react-icons/ai";
 import AgentData from "../Table/AgentData";
+import Navbar from "../RE-USEABLE-COMPONENT/Navbar";
 
 const Agents = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -44,7 +45,8 @@ const Agents = () => {
       <SideNavbar />
 
       <section className="section1 ">
-        <nav className="top-nav navbar">
+        <Navbar text="Agent Management" />
+        {/* <nav className="top-nav navbar">
           <div className="left-top-nav ">
             <h4>Agent Management</h4>
           </div>
@@ -77,7 +79,7 @@ const Agents = () => {
               </div>
             </Link>
           </div>
-        </nav>
+        </nav> */}
         <div className="body--content">
           <div className="footer">
             <div className="nav-footer">

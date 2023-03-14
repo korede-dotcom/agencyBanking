@@ -1,13 +1,14 @@
 import React from "react";
 import "../index.css";
 import SideNavbar from "./SideNavbar";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
-import { FaArrowDown, FaBell } from "react-icons/fa";
+// import { FaArrowDown, FaBell } from "react-icons/fa";
 
 //pictures
-import ProfilePicture from "../picture/pics1.jpg";
+// import ProfilePicture from "../picture/pics1.jpg";
 import Agent1 from "./Agent1";
+import Navbar from "../RE-USEABLE-COMPONENT/Navbar";
 
 const AgentManagement = () => {
   return (
@@ -15,7 +16,8 @@ const AgentManagement = () => {
       <SideNavbar />
 
       <section className="section1 ">
-        <nav className="top-nav navbar">
+        <Navbar text="Agent Management" />
+        {/* <nav className="top-nav navbar">
           <div className="left-top-nav ">
             <h4>Agent Management</h4>
           </div>
@@ -48,7 +50,7 @@ const AgentManagement = () => {
               </div>
             </Link>
           </div>
-        </nav>
+        </nav> */}
         <Agent1 />
       </section>
     </main>

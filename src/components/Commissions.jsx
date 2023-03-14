@@ -1,52 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import "../index.css";
 import SideNavbar from "./SideNavbar";
-// import { Link } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
-import { TbSelector } from "react-icons/tb";
 
-import Aos from "aos";
-import "aos/dist/aos.css";
-// import Modal from "./Modal";
 //pictures
 // import ProfilePicture from "../picture/pics1.jpg";
-import Table from "../Table/Table";
-import Disputess from "../Table/DisputeData";
+import CommissionList from "../CommissionComponent/commissionList";
 import Navbar from "../RE-USEABLE-COMPONENT/Navbar";
 
-const Disputes = () => {
-  // const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    Aos.init({ duration: 300 });
-  }, []);
-
-  const columns = [
-    { field: "AGENT NAME", icon: <TbSelector />, header: "AGENT NAME" },
-    { field: "AGENT ID", icon: <TbSelector />, header: "AGENT ID" },
-    { field: "PHONE NUMBER", icon: <TbSelector />, header: "PHONE NUMBER" },
-    {
-      field: "AGENT`S BUSINESS NAME",
-      icon: <TbSelector />,
-      header: "AGENT`S BUSINESS NAME",
-    },
-    {
-      field: "AGENT`S BUSINESS ADDRESS",
-      icon: <TbSelector />,
-      header: "AGENT`S BUSINESS ADDRESS",
-    },
-    {
-      field: "TRANSACTION DISPUTE CONTENT",
-      header: "TRANSACTION DISPUTE CONTENT",
-    },
-    { field: "ACTION", icon: <TbSelector />, header: "ACTION" },
-    {
-      field: "RESOLVED STATUS",
-      icon: <TbSelector />,
-      header: "RESOLVED STATUS",
-    },
-  ];
+const Commissions = () => {
   return (
     <main className="d-flex">
       <SideNavbar />
@@ -117,12 +81,9 @@ const Disputes = () => {
                 </div>
               </div>
             </div>
-            <div className="footer">
-              <Table
-                columns={columns}
-                Disputess={Disputess}
-                color="Disputess"
-              />
+            <div>
+              <CommissionList />
+              <Outlet />;
             </div>
           </div>
         </div>
@@ -131,4 +92,4 @@ const Disputes = () => {
   );
 };
 
-export default Disputes;
+export default Commissions;

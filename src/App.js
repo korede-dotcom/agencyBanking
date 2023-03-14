@@ -1,7 +1,7 @@
 import "./index.css"
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import NewService from "./components/AddNewService";
+// import NewService from "./components/AddNewService";
 import AddNewTerminal from "./components/AddNewTerminal";
 import AgentManagement from "./components/AgentManager";
 import Agents from "./components/Agents";
@@ -16,11 +16,19 @@ import ServiceManagement from "./components/ServiceManagement";
 import TerminalManagement from "./components/TerminalManagement";
 import AllService from "./components/ViewAllService";
 import Login from "./REGISTER/Login";
-import Register from "./REGISTER/Register";
 import SignIn from "./REGISTER/SignIn";
 import Reporting from "./components/Reporting";
 import Staff from "./components/Staff";
 import Disputes from "./components/Disputes";
+import Commissions from "./components/Commissions";
+import PasswordSent from "./REGISTER/PasswordSent";
+import ConfirmPassword from "./REGISTER/ConfirmPassword";
+import AirtimeCommission from "./CommissionComponent/AirtimeCommission";
+import DataCommision from "./CommissionComponent/DataCommision";
+import InternetCommission from "./CommissionComponent/InternetCommission";
+import CableTvCommission from "./CommissionComponent/CableTvCommission";
+import ElectricityCommission from "./CommissionComponent/ElectricityCommission";
+import OtherCommission from "./CommissionComponent/OtherCommission";
 
 function App() {
 
@@ -31,9 +39,11 @@ function App() {
         <Routes>
           <Route path="/" element={<SignIn />} />
 
+          <Route path="/passwordSent" element={<PasswordSent/>} />
+
           <Route path="/Login" element={<Login />} />
 
-          <Route path="/register" element={<Register />} />
+          <Route path="/ConfirmPassword" element={<ConfirmPassword />} />
 
           <Route path="/dashboard" element={<Dashboard />} />
 
@@ -49,6 +59,15 @@ function App() {
 
           <Route path="/profile" element={<Profile />} />
 
+          <Route path="/Commissions" element={<Commissions />} >
+            <Route path="airtime" element={<AirtimeCommission/>}/>
+            <Route path="data" element={<DataCommision/>}/>
+            <Route path="internet" element={<InternetCommission/>}/>
+            <Route path="CableTV" element={<CableTvCommission/>}/>
+            <Route path="Electricity" element={<ElectricityCommission/>}/>
+            <Route path="others" element={<OtherCommission/>}/>
+          </Route>
+
           <Route path="/terminal-management/AddNewTerminal" element={<AddNewTerminal />} />
 
           <Route path="/provider" element={<Provider />} />
@@ -57,7 +76,7 @@ function App() {
 
           <Route path="/Agent-Management/Agents/each-agent" element={<EachAgent />} />
 
-          <Route path="/Agent-Management/Agents/each-agent/new-service" element={<NewService />} />
+          {/* <Route path="/Agent-Management/Agents/each-agent/new-service" element={<NewService />} /> */}
 
           <Route path="/ViewAllService" element={<AllService />} />
 

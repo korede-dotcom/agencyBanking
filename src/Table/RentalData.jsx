@@ -5,7 +5,7 @@ const RentalData = [
     Terminal_Location: "OGBA, LAGOS STATE",
     resp_code: "10",
     Status: "SUCESSFUL",
-    Flag_Unflag: false,
+    Flag_Unflag: true,
     Exempt_agent: true,
     Grant_sucession: "Click to Set Sucession",
     Place_lien: true,

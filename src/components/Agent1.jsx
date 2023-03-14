@@ -1,28 +1,29 @@
-import React, { useEffect, useState } from "react";
-import Aos from "aos";
-import "aos/dist/aos.css";
-import Modal from "./Modal";
+import React, { useState } from "react";
+// import Aos from "aos";
+// import "aos/dist/aos.css";
+// import Modal from "./Modal";
 import { Link } from "react-router-dom";
 import "../index.css";
 
-import { FaSearch, FaTimes } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 import Table from "../Table/Table";
 import { AiOutlinePlus } from "react-icons/ai";
 import { TbSelector } from "react-icons/tb";
 
 //pictures
-import FeaturedIcon2 from "../picture/FeaturedIcon2.png";
-import FeaturedIcon from "../picture/Featured icon.png";
+// import FeaturedIcon2 from "../picture/FeaturedIcon2.png";
+// import FeaturedIcon from "../picture/Featured icon.png";
 import AgentManagerData from "../Table/AgentManagerData";
+import UseAbleModal1 from "../RE-USEABLE-COMPONENT/UseAbleModal1";
 
 function Agent1({ userAgentDetails }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [cardAdded, setCardAdded] = useState(false);
-  const [cardAdded2, setCardAdded2] = useState(false);
+  const [active, setActive] = useState(false);
+  // const [cardAdded, setCardAdded] = useState(false);
+  // const [cardAdded2, setCardAdded2] = useState(false);
 
-  useEffect(() => {
-    Aos.init({ duration: 300 });
-  }, []);
+  // useEffect(() => {
+  //   Aos.init({ duration: 300 });
+  // }, []);
 
   const columns = [
     { field: "Agent Name", icon: <TbSelector />, header: "Agent Name" },
@@ -70,7 +71,7 @@ function Agent1({ userAgentDetails }) {
 
               <button
                 className="main-account-aside3-btn1 text-center"
-                onClick={() => setIsOpen(true)}
+                onClick={() => setActive(true)}
               >
                 <span className="pe-2">
                   <AiOutlinePlus />
@@ -79,7 +80,8 @@ function Agent1({ userAgentDetails }) {
               </button>
             </div>
           </div>
-          <Modal open={isOpen}>
+          <UseAbleModal1 show={active} />
+          {/* <Modal open={isOpen}>
             <div className="overlay" onClick={() => {}}>
               <div
                 className="container bg-white mt-5 text-dark"
@@ -224,7 +226,7 @@ function Agent1({ userAgentDetails }) {
               >
                 <div className=" ">
                   <div className="d-flex justify-content-between">
-                    <div /* style={{ width: "50%" }} */>
+                    <div >
                       <img
                         style={{ width: "80%" }}
                         src={FeaturedIcon2}
@@ -327,8 +329,7 @@ function Agent1({ userAgentDetails }) {
                 </div>
               </div>
             </div>
-          </Modal>
-          {/* <EachAgent userAgentDetails={userAgentDetail} /> */}
+          </Modal> */}
 
           <div className="nav-footer2 d-flex align-items-center py-2 px-4 bg-white">
             <button>Agent Managers</button>

@@ -4,10 +4,10 @@ import "./modal.css";
 
 import React, { useState } from "react";
 import SideNavbar from "./SideNavbar";
-import { Link } from "react-router-dom";
-import { FaArrowRight, FaBell, FaSearch } from "react-icons/fa";
 
-import { AiOutlineDown, AiOutlineRight } from "react-icons/ai";
+import { FaArrowRight, FaSearch } from "react-icons/fa";
+
+import { AiOutlineRight } from "react-icons/ai";
 import { TbSelector } from "react-icons/tb";
 
 import {
@@ -17,7 +17,6 @@ import {
 } from "react-icons/ri";
 
 //pictures
-import ProfilePicture from "../picture/pics1.jpg";
 import RedChart from "../picture/Vector (1).png";
 import BlueChart from "../picture/Vector.png";
 import BlueTick from "../picture/blueTick.png";
@@ -42,6 +41,7 @@ import AreaChart1 from "../chart/AreaChart1";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import AreaChart2 from "../chart/AreaChart2";
 import AreaChart3 from "../chart/Areachart3";
+import Navbar from "../RE-USEABLE-COMPONENT/Navbar";
 // import "./table.css";
 
 const Dashboard = () => {
@@ -96,16 +96,20 @@ const Dashboard = () => {
   const secondSlice = currentPage * postPerPage;
   const firstSlice = secondSlice - postPerPage;
   const formattedData = DashBoardData.slice(firstSlice, secondSlice);
-  // const formattedData2 = DashBoardData.slice(firstSlice, secondSlice);
   const dataLength = DashBoardData.length;
   const datag = dataLength / postPerPage;
-  // console.log(datag);
+
   return (
     <main className="d-flex">
       <SideNavbar />
 
       <section className="section1 ">
-        <nav className="top-nav navbar">
+        <Navbar
+          text="Dashboard"
+          input="show"
+          placeholder="Search Terminal ID, Agent and Agent Managers"
+        />
+        {/* <nav className="top-nav navbar">
           <div className="left-top-nav ">
             <h4>Dashboard</h4>
           </div>
@@ -149,7 +153,7 @@ const Dashboard = () => {
               </div>
             </Link>
           </div>
-        </nav>
+        </nav> */}
 
         <div className="main-body container-fluid p-4">
           <div className="row sec1">

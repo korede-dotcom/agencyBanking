@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { FaToggleOff, FaToggleOn, FaTimes } from "react-icons/fa";
+import { FaTimes } from "react-icons/fa";
 import "./table.css";
 import Aos from "aos";
 import "aos/dist/aos.css";
@@ -11,6 +11,8 @@ import { useNavigate } from "react-router-dom";
 import FeaturedIcon2 from "../picture/FeaturedIcon2.png";
 import FeaturedIcon from "../picture/Featured icon.png";
 import Footer from "./Footer";
+import StatusToggle from "../RE-USEABLE-COMPONENT/StatusToggle";
+import TableSuccess from "../RE-USEABLE-COMPONENT/TableSuccess";
 
 function Table({
   data,
@@ -77,7 +79,7 @@ function Table({
                     key={index}
                     style={{
                       background: index % 2 === 0 ? "#fff" : "#fafafa",
-                      fontSize: "0.65rem",
+                      fontSize: "0.72rem",
                       fontWeight: "500",
                     }}
 
@@ -138,29 +140,9 @@ function Table({
                       }}
                     >
                       {datum?.Status === true ? (
-                        <button
-                          style={{
-                            color: "green",
-                            fontSize: "1.2rem",
-                            display: "flex",
-                            background: "none",
-                            border: "none",
-                          }}
-                        >
-                          <FaToggleOn />
-                        </button>
+                        <StatusToggle type="active" />
                       ) : (
-                        <button
-                          style={{
-                            color: "grey",
-                            fontSize: "1.2rem",
-                            display: "flex",
-                            background: "none",
-                            border: "none",
-                          }}
-                        >
-                          <FaToggleOff />
-                        </button>
+                        <StatusToggle type="in-active" />
                       )}
                     </td>
                   </tr>
@@ -222,7 +204,7 @@ function Table({
                     key={index}
                     style={{
                       background: index % 2 === 0 ? "#fff" : "#fafafa",
-                      fontSize: "0.65rem",
+                      fontSize: "0.72rem",
                       fontWeight: "500",
                       cursor: "pointer",
                     }}
@@ -286,29 +268,9 @@ function Table({
                       }}
                     >
                       {datum1?.Status === true ? (
-                        <button
-                          style={{
-                            color: "green",
-                            fontSize: "1.2rem",
-                            display: "flex",
-                            background: "none",
-                            border: "none",
-                          }}
-                        >
-                          <FaToggleOn />
-                        </button>
+                        <StatusToggle type="active" />
                       ) : (
-                        <button
-                          style={{
-                            color: "grey",
-                            fontSize: "1.2rem",
-                            display: "flex",
-                            background: "none",
-                            border: "none",
-                          }}
-                        >
-                          <FaToggleOff />
-                        </button>
+                        <StatusToggle type="in-active" />
                       )}
                     </td>
                     {/* </Link> */}
@@ -371,7 +333,7 @@ function Table({
                     key={index}
                     style={{
                       background: index % 2 === 0 ? "#fff" : "#fafafa",
-                      fontSize: "0.65rem",
+                      fontSize: "0.72rem",
                       fontWeight: "500",
                       cursor: "pointer",
                     }}
@@ -434,29 +396,9 @@ function Table({
                       }}
                     >
                       {datum1?.Status === true ? (
-                        <button
-                          style={{
-                            color: "green",
-                            fontSize: "1.2rem",
-                            display: "flex",
-                            background: "none",
-                            border: "none",
-                          }}
-                        >
-                          <FaToggleOn />
-                        </button>
+                        <StatusToggle type="active" />
                       ) : (
-                        <button
-                          style={{
-                            color: "grey",
-                            fontSize: "1.2rem",
-                            display: "flex",
-                            background: "none",
-                            border: "none",
-                          }}
-                        >
-                          <FaToggleOff />
-                        </button>
+                        <StatusToggle type="in-active" />
                       )}
                     </td>
                     {/* </Link> */}
@@ -467,25 +409,6 @@ function Table({
           </table>
 
           <Footer />
-
-          {/* <div className="foot-footer bg-white">
-            <p>Showing 1 to 5 of 100 entries</p>
-            <div className="sub-foot-footer">
-              <div className="previous">
-                <AiOutlineLeft />
-                Previous
-              </div>
-              <div className="n1">1</div>
-              <div className="n2">2</div>
-              <div className="n2">3</div>
-              <div className="n2">4</div>
-              <div className="n2">...</div>
-              <div className="n2">10</div>
-              <div className="next">
-                Next <AiOutlineRight />
-              </div>
-            </div>
-          </div> */}
         </div>
       )}
 
@@ -519,7 +442,7 @@ function Table({
                     key={index}
                     style={{
                       background: index % 2 === 0 ? "#fff" : "#fafafa",
-                      fontSize: "0.65rem",
+                      fontSize: "0.72rem",
                       fontWeight: "500",
                     }}
                   >
@@ -578,29 +501,9 @@ function Table({
                       }}
                     >
                       {Terminal?.Status === true ? (
-                        <button
-                          style={{
-                            color: "green",
-                            fontSize: "1.2rem",
-                            display: "flex",
-                            background: "none",
-                            border: "none",
-                          }}
-                        >
-                          <FaToggleOn />
-                        </button>
+                        <StatusToggle type="active" />
                       ) : (
-                        <button
-                          style={{
-                            color: "grey",
-                            fontSize: "1.2rem",
-                            display: "flex",
-                            background: "none",
-                            border: "none",
-                          }}
-                        >
-                          <FaToggleOff />
-                        </button>
+                        <StatusToggle type="in-active" />
                       )}
                     </td>
                   </tr>
@@ -608,27 +511,7 @@ function Table({
               })}
             </tbody>
           </table>
-
           <Footer />
-
-          {/* <div className="foot-footer bg-white">
-            <p>Showing 1 to 5 of 100 entries</p>
-            <div className="sub-foot-footer">
-              <div className="previous">
-                <AiOutlineLeft />
-                Previous
-              </div>
-              <div className="n1">1</div>
-              <div className="n2">2</div>
-              <div className="n2">3</div>
-              <div className="n2">4</div>
-              <div className="n2">...</div>
-              <div className="n2">10</div>
-              <div className="next">
-                Next <AiOutlineRight />
-              </div>
-            </div>
-          </div> */}
         </div>
       )}
 
@@ -662,7 +545,7 @@ function Table({
                     key={index}
                     style={{
                       background: index % 2 === 0 ? "#fff" : "#fafafa",
-                      fontSize: "0.65rem",
+                      fontSize: "0.72rem",
                       fontWeight: "500",
                     }}
                   >
@@ -741,35 +624,13 @@ function Table({
                       }}
                     >
                       {Dashboards?.Status === "SUCESSFUL" ? (
-                        <button
-                          style={{
-                            color: "#0e880e",
-                            // display: "flex",
-                            textAlign: "center",
-                            fontWeight: "600",
-                            background: "#e6fee6",
-                            border: "none",
-                            borderRadius: "3px",
-                            width: "100%",
-                          }}
-                        >
-                          SUCESSFUL
-                        </button>
+                        <TableSuccess type="active" text="SUCESSFUL" />
                       ) : (
-                        <button
-                          style={{
-                            color: "#ff5b64",
-                            // display: "flex",
-                            textAlign: "center",
-                            background: "#ffeced",
-                            border: "none",
-                            fontWeight: "600",
-                            width: "100%",
-                            borderRadius: "3px",
-                          }}
-                        >
-                          FAILED
-                        </button>
+                        <TableSuccess
+                          className="px-4"
+                          type="in-active"
+                          text="FAILED"
+                        />
                       )}
                     </td>
 
@@ -840,7 +701,7 @@ function Table({
                     key={index}
                     style={{
                       background: index % 2 === 0 ? "#fff" : "#fafafa",
-                      fontSize: "0.65rem",
+                      fontSize: "0.72rem",
                       fontWeight: "500",
                     }}
                   >
@@ -1215,29 +1076,9 @@ function Table({
                       }}
                     >
                       {Provider?.Status === true ? (
-                        <button
-                          style={{
-                            color: "green",
-                            fontSize: "1.2rem",
-                            display: "flex",
-                            background: "none",
-                            border: "none",
-                          }}
-                        >
-                          <FaToggleOn />
-                        </button>
+                        <StatusToggle type="active" />
                       ) : (
-                        <button
-                          style={{
-                            color: "grey",
-                            fontSize: "1.2rem",
-                            display: "flex",
-                            background: "none",
-                            border: "none",
-                          }}
-                        >
-                          <FaToggleOff />
-                        </button>
+                        <StatusToggle type="in-active" />
                       )}
                     </td>
                   </tr>
@@ -1247,25 +1088,6 @@ function Table({
           </table>
 
           <Footer />
-
-          {/* <div className="foot-footer bg-white">
-            <p>Showing 1 to 5 of 100 entries</p>
-            <div className="sub-foot-footer">
-              <div className="previous">
-                <AiOutlineLeft />
-                Previous
-              </div>
-              <div className="n1">1</div>
-              <div className="n2">2</div>
-              <div className="n2">3</div>
-              <div className="n2">4</div>
-              <div className="n2">...</div>
-              <div className="n2">10</div>
-              <div className="next">
-                Next <AiOutlineRight />
-              </div>
-            </div>
-          </div> */}
         </div>
       )}
 
@@ -1299,7 +1121,7 @@ function Table({
                     key={index}
                     style={{
                       background: index % 2 === 0 ? "#fff" : "#fafafa",
-                      fontSize: "0.65rem",
+                      fontSize: "0.72rem",
                       fontWeight: "500",
                     }}
                   >
@@ -1344,33 +1166,9 @@ function Table({
                       }}
                     >
                       {RentalData?.Status === "SUCESSFUL" ? (
-                        <button
-                          style={{
-                            color: "#0e880e",
-                            textAlign: "center",
-                            fontWeight: "600",
-                            background: "#e6fee6",
-                            border: "none",
-                            borderRadius: "3px",
-                            width: "100%",
-                          }}
-                        >
-                          SUCESSFUL
-                        </button>
+                        <TableSuccess type="active" text="ACTIVE" />
                       ) : (
-                        <button
-                          style={{
-                            color: "#ff5b64",
-                            textAlign: "center",
-                            background: "#ffeced",
-                            border: "none",
-                            fontWeight: "600",
-                            width: "100%",
-                            borderRadius: "3px",
-                          }}
-                        >
-                          FAILED
-                        </button>
+                        <TableSuccess type="in-active" text="INACTIVE" />
                       )}
                     </td>
 
@@ -1381,29 +1179,9 @@ function Table({
                       }}
                     >
                       {RentalData?.Flag_Unflag === true ? (
-                        <button
-                          style={{
-                            color: "green",
-                            fontSize: "1.2rem",
-                            display: "flex",
-                            background: "none",
-                            border: "none",
-                          }}
-                        >
-                          <FaToggleOn />
-                        </button>
+                        <StatusToggle type="active" />
                       ) : (
-                        <button
-                          style={{
-                            color: "grey",
-                            fontSize: "1.2rem",
-                            display: "flex",
-                            background: "none",
-                            border: "none",
-                          }}
-                        >
-                          <FaToggleOff />
-                        </button>
+                        <StatusToggle type="in-active" />
                       )}
                     </td>
 
@@ -1414,29 +1192,9 @@ function Table({
                       }}
                     >
                       {RentalData?.Exempt_agent === true ? (
-                        <button
-                          style={{
-                            color: "green",
-                            fontSize: "1.2rem",
-                            display: "flex",
-                            background: "none",
-                            border: "none",
-                          }}
-                        >
-                          <FaToggleOn />
-                        </button>
+                        <StatusToggle type="active" />
                       ) : (
-                        <button
-                          style={{
-                            color: "grey",
-                            fontSize: "1.2rem",
-                            display: "flex",
-                            background: "none",
-                            border: "none",
-                          }}
-                        >
-                          <FaToggleOff />
-                        </button>
+                        <StatusToggle type="in-active" />
                       )}
                     </td>
 
@@ -1687,29 +1445,9 @@ function Table({
                       }}
                     >
                       {RentalData?.Place_lien === true ? (
-                        <button
-                          style={{
-                            color: "green",
-                            fontSize: "1.2rem",
-                            display: "flex",
-                            background: "none",
-                            border: "none",
-                          }}
-                        >
-                          <FaToggleOn />
-                        </button>
+                        <StatusToggle type="active" />
                       ) : (
-                        <button
-                          style={{
-                            color: "grey",
-                            fontSize: "1.2rem",
-                            display: "flex",
-                            background: "none",
-                            border: "none",
-                          }}
-                        >
-                          <FaToggleOff />
-                        </button>
+                        <StatusToggle type="in-active" />
                       )}
                     </td>
                   </tr>
@@ -1719,25 +1457,6 @@ function Table({
           </table>
 
           <Footer />
-
-          {/* <div className="foot-footer bg-white">
-            <p>Showing 1 to 5 of 100 entries</p>
-            <div className="sub-foot-footer">
-              <div className="previous">
-                <AiOutlineLeft />
-                Previous
-              </div>
-              <div className="n1">1</div>
-              <div className="n2">2</div>
-              <div className="n2">3</div>
-              <div className="n2">4</div>
-              <div className="n2">...</div>
-              <div className="n2">10</div>
-              <div className="next">
-                Next <AiOutlineRight />
-              </div>
-            </div>
-          </div> */}
         </div>
       )}
 
@@ -1771,7 +1490,7 @@ function Table({
                     key={index}
                     style={{
                       background: index % 2 === 0 ? "#fff" : "#fafafa",
-                      fontSize: "0.65rem",
+                      fontSize: "0.72rem",
                       fontWeight: "500",
                     }}
                   >
@@ -1815,29 +1534,9 @@ function Table({
                       }}
                     >
                       {StaffData?.Status === true ? (
-                        <button
-                          style={{
-                            color: "green",
-                            fontSize: "1.2rem",
-                            display: "flex",
-                            background: "none",
-                            border: "none",
-                          }}
-                        >
-                          <FaToggleOn />
-                        </button>
+                        <StatusToggle type="active" />
                       ) : (
-                        <button
-                          style={{
-                            color: "grey",
-                            fontSize: "1.2rem",
-                            display: "flex",
-                            background: "none",
-                            border: "none",
-                          }}
-                        >
-                          <FaToggleOff />
-                        </button>
+                        <StatusToggle type="in-active" />
                       )}
                     </td>
                   </tr>
@@ -1899,7 +1598,7 @@ function Table({
                     key={index}
                     style={{
                       background: index % 2 === 0 ? "#fff" : "#fafafa",
-                      fontSize: "0.65rem",
+                      fontSize: "0.72rem",
                       fontWeight: "500",
                     }}
                   >

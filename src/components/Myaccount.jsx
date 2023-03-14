@@ -5,15 +5,15 @@ import "aos/dist/aos.css";
 import "../index.css";
 import "./modal.css";
 import SideNavbar from "./SideNavbar";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import Modal from "./Modal";
 
 import { TbSelector } from "react-icons/tb";
-import { FaArrowDown, FaBell, FaEye, FaSearch } from "react-icons/fa";
+import { FaEye } from "react-icons/fa";
 import { AiOutlineDown } from "react-icons/ai";
 
 //pictures
-import ProfilePicture from "../picture/pics1.jpg";
+// import ProfilePicture from "../picture/pics1.jpg";
 import Payment from "../picture/payment.png";
 import BlueChart from "../picture/Vector.png";
 import Table from "../Table/Table";
@@ -21,6 +21,7 @@ import data from "../Table/data";
 import Selector from "../Libary/Select";
 import MasterCard from "../picture/Mastercard-Logo 1.png";
 import FeaturedIcon from "../picture/Featured icon.png";
+import Navbar from "../RE-USEABLE-COMPONENT/Navbar";
 
 const MyAccount = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -61,7 +62,12 @@ const MyAccount = () => {
       <SideNavbar />
 
       <section className="section1 ">
-        <nav className="top-nav navbar">
+        <Navbar
+          text="My Account"
+          input="show"
+          placeholder="Search Terminal ID, Agent or Agent Managers"
+        />
+        {/* <nav className="top-nav navbar">
           <div className="left-top-nav ">
             <h4>My Account</h4>
           </div>
@@ -105,7 +111,7 @@ const MyAccount = () => {
               </div>
             </Link>
           </div>
-        </nav>
+        </nav> */}
         <div className="body--content">
           <section className="my-account-section">
             <div className="main-account">

@@ -6,6 +6,9 @@
     font-size: 1.1rem;
     display: flex;
 }
+.sub-sidenav-section1 aside{
+    padding-left: 1.5rem;
+}
 .sub-sidenav-section1{
     display: flex;
     margin-right: .5rem;
@@ -43,8 +46,6 @@
 .sub-logout h6{
     font-size:.9rem
 }
-
-/* nav a .active{
-    background-color: blue;
-} */
-
+.top-nav{
+    padding: 1rem 0;
+  }

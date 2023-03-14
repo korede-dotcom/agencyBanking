@@ -3,16 +3,17 @@
 import "../index.css";
 import "./reporting.css";
 import SideNavbar from "./SideNavbar";
-import { Link } from "react-router-dom";
-import { FaArrowDown, FaBell, FaSearch } from "react-icons/fa";
+// import { Link } from "react-router-dom";
+import { FaSearch } from "react-icons/fa";
 import { TbSelector } from "react-icons/tb";
 
 //pictures
-import ProfilePicture from "../picture/pics1.jpg";
+// import ProfilePicture from "../picture/pics1.jpg";
 import Table from "../Table/Table";
 import { MdFilterList } from "react-icons/md";
 import { HiOutlineDownload } from "react-icons/hi";
 import DashBoardData from "../Table/DashBoardData";
+import Navbar from "../RE-USEABLE-COMPONENT/Navbar";
 
 // import Aos from "aos";
 // import "aos/dist/aos.css";
@@ -51,7 +52,12 @@ const Reporting = () => {
       <SideNavbar />
 
       <section className="section1 ">
-        <nav className="top-nav navbar">
+        <Navbar
+          text="Reporting"
+          input="show"
+          placeholder="Search Terminal ID, Agent or Agent Managers"
+        />
+        {/* <nav className="top-nav navbar">
           <div className="left-top-nav ">
             <h4>Reporting</h4>
           </div>
@@ -96,7 +102,7 @@ const Reporting = () => {
               </div>
             </Link>
           </div>
-        </nav>
+        </nav> */}
         <div className="body--content">
           <div className="footer">
             <div className="nav-footer">

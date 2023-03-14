@@ -5,17 +5,18 @@ import SideNavbar from "./SideNavbar";
 import Aos from "aos";
 import "aos/dist/aos.css";
 import Modal from "./Modal";
-import { Link } from "react-router-dom";
-import { FaArrowDown, FaBell, FaSearch, FaTimes } from "react-icons/fa";
+// import { Link } from "react-router-dom";
+import { FaSearch, FaTimes } from "react-icons/fa";
 import { TbSelector } from "react-icons/tb";
 
 //pictures
-import ProfilePicture from "../picture/pics1.jpg";
+// import ProfilePicture from "../picture/pics1.jpg";
 import FeaturedIcon from "../picture/Featured icon.png";
 import FeaturedIcon2 from "../picture/FeaturedIcon2.png";
 import Table from "../Table/Table";
 import TerminalData from "../Table/terminalData";
 import { AiOutlinePlus } from "react-icons/ai";
+import Navbar from "../RE-USEABLE-COMPONENT/Navbar";
 
 const TerminalManagement = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -39,7 +40,12 @@ const TerminalManagement = () => {
       <SideNavbar />
 
       <section className="section1 ">
-        <nav className="top-nav navbar">
+        <Navbar
+          text="Terminal Management"
+          input="show"
+          placeholder="Search Terminal ID, Agent or Agent Managers"
+        />
+        {/* <nav className="top-nav navbar">
           <div className="left-top-nav ">
             <h4>Terminal Management</h4>
           </div>
@@ -84,7 +90,7 @@ const TerminalManagement = () => {
               </div>
             </Link>
           </div>
-        </nav>
+        </nav> */}
         <div className="body--content">
           <div className="footer">
             <div className="nav-footer">
@@ -125,14 +131,7 @@ const TerminalManagement = () => {
                 </button>
 
                 <Modal open={isOpen}>
-                  <div
-                    className="overlay"
-                    // onClick={() => {
-                    //   setIsOpen(false);
-                    //   // setIsDropped(!isDropped);
-                    // }}
-                    // data-aos="slide-down"
-                  >
+                  <div className="overlay">
                     <div
                       className="container bg-white mt-5 text-dark"
                       style={{ padding: "3rem 4rem", borderRadius: ".4rem" }}

@@ -1,7 +1,8 @@
 .eachagent-myservice{
     background-color: white;
     margin-bottom: 1rem;
-    border-radius: .7rem;
+    border-radius: .9rem;
+    box-shadow: 0px 0px 15px #e9ebf3;
 }
 
 .eachagent-myservice-header h5{
@@ -38,36 +39,37 @@
 .sub-eachagent-myservice-body div{
     font-size: .8rem;
     font-weight: 600;
+    margin-top: 1rem;
 }
 
-.sub-eachagent-myservice-body-addnew{
+.sub-eachagent-myservice-body-addneww-btn{
     border: #00a4e4 1px solid;
-    text-align: center;
     padding: 1rem;
     border-radius: .8rem;
     cursor: pointer;
     background-color: white;
 }
-.sub-eachagent-myservice-body-addnew p{
+.sub-eachagent-myservice-body-addneww-btn p{
     border: dashed 1px #00a4e4;
-    width: fit-content;
+    width: 70%;
+    padding: .5rem;
     margin: auto;
     font-size: 1.3rem;
-    padding: .3rem .8rem;
     border-radius: 50%;
     color: #00a4e4;
 }
 
-.sub-eachagent-myservice-body-addnew p:hover{
+.sub-eachagent-myservice-body-addneww-btn p:hover{
     transform: scale(1.07);
     cursor: pointer;
     background-color: #d3e9f1;
     color: #fff;
 }
 
-.sub-eachagent-myservice-body-addnew div{
+.sub-eachagent-myservice-body-addneww-btn div{
     font-size: .8rem;
     font-weight: 500;
+    margin-top: .8rem;
 }
 
 .eachagent-myservice-footer{

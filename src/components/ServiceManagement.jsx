@@ -2,18 +2,19 @@ import React, { useState, useEffect } from "react";
 
 import "../index.css";
 import SideNavbar from "./SideNavbar";
-import { Link } from "react-router-dom";
-import { FaArrowDown, FaBell, FaSearch } from "react-icons/fa";
+// import { Link } from "react-router-dom";
+import { FaSearch } from "react-icons/fa";
 import { TbSelector } from "react-icons/tb";
 
 import Aos from "aos";
 import "aos/dist/aos.css";
 import Modal from "./Modal";
 //pictures
-import ProfilePicture from "../picture/pics1.jpg";
+// import ProfilePicture from "../picture/pics1.jpg";
 import Table from "../Table/Table";
 import ProviderData from "../Table/ProviderData";
 import { AiOutlinePlus } from "react-icons/ai";
+import Navbar from "../RE-USEABLE-COMPONENT/Navbar";
 
 const ServiceManagement = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,7 +39,12 @@ const ServiceManagement = () => {
       <SideNavbar />
 
       <section className="section1 ">
-        <nav className="top-nav navbar">
+        <Navbar
+          text="Service Management"
+          input="show"
+          placeholder="Search Terminal ID, Agent or Agent Managers"
+        />
+        {/* <nav className="top-nav navbar">
           <div className="left-top-nav ">
             <h4>Service Management</h4>
           </div>
@@ -84,7 +90,7 @@ const ServiceManagement = () => {
               </div>
             </Link>
           </div>
-        </nav>
+        </nav> */}
         <div className="body--content">
           <div className="footer">
             <div className="nav-footer">

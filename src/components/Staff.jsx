@@ -5,17 +5,18 @@ import SideNavbar from "./SideNavbar";
 import Aos from "aos";
 import "aos/dist/aos.css";
 import Modal from "./Modal";
-import { Link } from "react-router-dom";
-import { FaArrowDown, FaBell, FaSearch, FaTimes } from "react-icons/fa";
+// import { Link } from "react-router-dom";
+import { FaSearch, FaTimes } from "react-icons/fa";
 import { TbSelector } from "react-icons/tb";
 
 //pictures
-import ProfilePicture from "../picture/pics1.jpg";
+// import ProfilePicture from "../picture/pics1.jpg";
 import FeaturedIcon from "../picture/Featured icon.png";
 import FeaturedIcon2 from "../picture/FeaturedIcon2.png";
 import Table from "../Table/Table";
 import StaffData from "../Table/StaffData";
 import { AiOutlinePlus } from "react-icons/ai";
+import Navbar from "../RE-USEABLE-COMPONENT/Navbar";
 
 const Staff = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,7 +39,8 @@ const Staff = () => {
       <SideNavbar />
 
       <section className="section1 ">
-        <nav className="top-nav navbar">
+        <Navbar text="Staffs" />
+        {/* <nav className="top-nav navbar">
           <div className="left-top-nav ">
             <h4>Staffs</h4>
           </div>
@@ -83,7 +85,7 @@ const Staff = () => {
               </div>
             </Link>
           </div>
-        </nav>
+        </nav> */}
         <div className="body--content">
           <div className="footer">
             <div className="nav-footer">
