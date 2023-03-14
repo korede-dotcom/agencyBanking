@@ -42,7 +42,9 @@ function Agent1({ userAgentDetails }) {
   const [isOpen, setIsOpen] = useState(false);
   const [cardAdded2, setCardAdded2] = useState(false);
   const [userId, setUserId] = useState("");
+  //eslint-disable-next-line
   const [manager, setManager] = useState("");
+  //eslint-disable-next-line
   const [uploadPicture, setUploadPicture] = useState({
     notUploaded: "Upload an Image",
     uploaded: "Image Uploaded",
@@ -112,6 +114,7 @@ function Agent1({ userAgentDetails }) {
     { field: "status", header: "Status" },
   ];
 
+  //eslint-disable-next-line
   const userAgentDetail = (id) => {
     return id;
   };
@@ -131,6 +134,7 @@ function Agent1({ userAgentDetails }) {
     formData.append("region", inputValue.region);
     formData.append("email", inputValue.email);
 
+  //eslint-disable-next-line
     const AddAgentManager = await axios
       .post(
         `${process.env.REACT_APP_HTTP_ROUTER}/user/onboard/agentmanager`,
@@ -168,6 +172,7 @@ function Agent1({ userAgentDetails }) {
     Aos.init({ duration: 500 });
     FetchState();
     FetchManagerid();
+  //eslint-disable-next-line
   }, [userId]);
 
   const handleOnChange = (e) => {

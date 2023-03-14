@@ -7,6 +7,7 @@ import { useState } from "react";
 // import SignInBG1 from "../PICTURES/signinn.png";
 
 const PasswordSent = () => {
+  //eslint-disable-next-line
   const [ConfirmPassword, setComfirmPassword] = useState("");
 
   const handlerInput = (e) => {

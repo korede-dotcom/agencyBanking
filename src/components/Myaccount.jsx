@@ -7,9 +7,11 @@ import axios from "axios";
 import "./modal.css";
 import SideNavbar from "./SideNavbar";
 import Modal from "./Modal";
+  //eslint-disable-next-line
 import { FaEye, FaTimes } from "react-icons/fa";
 // import { AiOutlineDown } from "react-icons/ai";
 import { ImUpload } from "react-icons/im";
+  //eslint-disable-next-line
 import { GiCheckMark } from "react-icons/gi";
 
 //pictures
@@ -41,6 +43,7 @@ const MyAccount = () => {
   const [cardAdded2, setCardAdded2] = useState(false);
   const [wallet, setWallet] = useState(0);
   const [total, setTotal] = useState(0);
+  //eslint-disable-next-line
   const [logo, setLogo] = useState(false);
 
   const [showBalance, setShowBalance] = useState(false);
@@ -103,6 +106,7 @@ const MyAccount = () => {
     Aos.init({ duration: 300 });
     fetchWalet();
     // fetchTotalAgent();
+  //eslint-disable-next-line
   }, []);
 
   return (

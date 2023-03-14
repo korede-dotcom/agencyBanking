@@ -22,6 +22,7 @@ import CancelBtn from "../RE-USEABLE-COMPONENT/CancelBtn";
 const Transaction = () => {
   const [ModalState, setModalState] = useState(false);
   const [readyonly, setReadyonly] = useState(true);
+  //eslint-disable-next-line
   const [setCommission, setSetCommission] = useState({
     setCommission: "Set New Limit",
     saveCommission: "Save New Limit",
@@ -116,6 +117,7 @@ const Transaction = () => {
         Authorization: `bearer ${userDetails?.data?.token}`,
       },
     };
+  //eslint-disable-next-line
     const UpdataAll1 = await axios
       .put(
         `${process.env.REACT_APP_HTTP_ROUTER}/settings/transactioncap`,
@@ -161,6 +163,7 @@ const Transaction = () => {
     Aos.init({ duration: 300 });
     fetchTransaction();
     submithandler1();
+  //eslint-disable-next-line
   }, []);
   // const [state, dispatch] = useReducer(reducer, ModalState);
   return (

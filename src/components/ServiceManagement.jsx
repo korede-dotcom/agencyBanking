@@ -39,8 +39,10 @@ const ServiceManagement = () => {
   const [keys, setkeys] = useState("");
   const [pname, setPname] = useState("");
   const [pid, setPid] = useState("");
+  //eslint-disable-next-line
   const [pstatus, setpstatus] = useState("primary");
   // const [keyname, setkeyname] = useState("clientId");
+  //eslint-disable-next-line
   const [providers, setProviders] = useState({
     provider_name: "",
     providerKey: {
@@ -51,6 +53,7 @@ const ServiceManagement = () => {
   console.log(pname);
   console.log(pid);
   console.log(providers);
+  //eslint-disable-next-line
   const [ClientId, setClientId] = useState(false);
 
   const columns = [
@@ -87,6 +90,7 @@ const ServiceManagement = () => {
   };
   console.log(ProviderId);
   const sortState = newProvider.map((d) => {
+  //eslint-disable-next-line
     const state = d.name;
     return {
       value: d.id,
@@ -106,6 +110,7 @@ const ServiceManagement = () => {
     e.preventDefault();
     setLoading(true);
 
+  //eslint-disable-next-line
     const AddNewAgent = await axios
       .post(
         `${process.env.REACT_APP_HTTP_ROUTER}/provider/select`,
@@ -140,6 +145,7 @@ const ServiceManagement = () => {
   useEffect(() => {
     Aos.init({ duration: 300 });
     fetchAgents();
+  //eslint-disable-next-line
   }, []);
   return (
     <main className="d-flex">

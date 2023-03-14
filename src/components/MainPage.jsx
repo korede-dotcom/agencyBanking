@@ -38,6 +38,7 @@ import { useEffect } from "react";
 import Table from "../Table/Table";
 import DashBoardData from "../Table/DashBoardData";
 import AreaChart1 from "../chart/AreaChart1";
+  //eslint-disable-next-line
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import AreaChart2 from "../chart/AreaChart2";
 import AreaChart3 from "../chart/Areachart3";
@@ -87,7 +88,9 @@ const Dashboard = () => {
     },
   ];
 
+  //eslint-disable-next-line
   const [currentPage, setCurrentPage] = useState(1);
+  //eslint-disable-next-line
   const [postPerPage, setPostPerPage] = useState(10);
   const [TotalTransaction, setTotalTransaction] = useState(0);
   const [TotalCommission, setTotalCommission] = useState(0);
@@ -97,6 +100,7 @@ const Dashboard = () => {
   const secondSlice = currentPage * postPerPage;
   const firstSlice = secondSlice - postPerPage;
   const formattedData = DashBoardData.slice(firstSlice, secondSlice);
+  //eslint-disable-next-line
   const dataLength = DashBoardData.length;
   // const datag = dataLength / postPerPage;
 
@@ -124,6 +128,7 @@ const Dashboard = () => {
   useEffect(() => {
     localStorage.setItem("timeFrame", timeFrames);
     fetchDashboard();
+  //eslint-disable-next-line
   }, []);
 
   return (

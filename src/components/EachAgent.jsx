@@ -39,16 +39,21 @@ const EachAgent = ({ userAgentDetails }) => {
   const [timeFrames2, setTimeFrames2] = useState(
     localStorage.getItem("timeFrames2") || "All"
   );
+  //eslint-disable-next-line
   const [DailyLimit, setDailyLimit] = useState(0);
+  //eslint-disable-next-line
   const [DailySending, setDailySending] = useState(0);
 
   const [daily, setDaily] = useState(false);
+  //eslint-disable-next-line
   const [CurrencySymbol, setCurrencySymbol] = useState();
   const handlePercentage = (e) => {
     // setTransaction(e.target.value);
   };
   const [readyonly, setReadyonly] = useState(true);
+  //eslint-disable-next-line
   const [allAgent, setAllAgent] = useState("");
+  //eslint-disable-next-line
   const [setCommission, setSetCommission] = useState({
     setCommission: "Set New Limit",
     saveCommission: "Save New Limit",
@@ -133,6 +138,7 @@ const EachAgent = ({ userAgentDetails }) => {
     localStorage.setItem("timeFrame2", timeFrames2);
     fetchManagers();
     fetchAgentss();
+  //eslint-disable-next-line
   }, []);
 
   const navigate = useNavigate();

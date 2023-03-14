@@ -19,6 +19,7 @@ import {
   StyledModalContent,
   StyledSubmit,
 } from "../STYLED-COMPONENT/StyledModal";
+  //eslint-disable-next-line
 import PasswordInput from "../REGISTER/passwordinput";
 import Label from "../RE-USEABLE-COMPONENT/Label";
 import CancelBtn from "../RE-USEABLE-COMPONENT/CancelBtn";

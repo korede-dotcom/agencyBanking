@@ -7,7 +7,10 @@ import { useState } from "react";
 // import SignInBG1 from "../PICTURES/signinn.png";
 
 const ConfirmPassword = () => {
+  //eslint-disable-next-line
   const [comfirmPassword1, setComfirmPassword1] = useState("");
+
+  //eslint-disable-next-line
   const [comfirmPassword2, setComfirmPassword2] = useState("");
 
   const handlerInputpassword1 = (e) => {

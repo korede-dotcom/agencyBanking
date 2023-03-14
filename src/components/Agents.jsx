@@ -31,6 +31,7 @@ const Agents = ({ agents, userAgentDetails1 }) => {
   const [cardAdded2, setCardAdded2] = useState(false);
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState("");
+  //eslint-disable-next-line
   const [agentd, setagentd] = useState("");
 
   const [agentInput, setAgentInput] = useState({
@@ -99,6 +100,7 @@ const Agents = ({ agents, userAgentDetails1 }) => {
     e.preventDefault();
     setLoading(true);
 
+  //eslint-disable-next-line
     const AddNewAgent = await axios
       .post(
         `${process.env.REACT_APP_HTTP_ROUTER}/user/onboard/agent`,
@@ -126,6 +128,7 @@ const Agents = ({ agents, userAgentDetails1 }) => {
   useEffect(() => {
     FetchAgentid();
     Aos.init({ duration: 300 });
+  //eslint-disable-next-line
   }, []);
 
   return (
